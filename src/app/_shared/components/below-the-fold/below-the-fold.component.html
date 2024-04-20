@@ -1,0 +1,57 @@
+<div class="below-the-fold">
+  <div class="map">
+    <ion-grid>
+      <ion-row>
+        <ion-col [sizeMd]="3" [sizeXs]="12">
+          <div class="map-title">Lederlight</div>
+          <hr>
+          <div class="map-item">
+            <a routerLink="/">Home</a>
+          </div>
+          <div class="map-item">
+            <a href="javascript:void(0)" (click)="toggleMode()">{{ visualMode === 'light' ? 'Dark Mode' : 'Light Mode'
+              }}</a>
+          </div>
+        </ion-col>
+
+        <ion-col [sizeMd]="3" [sizeXs]="12">
+          <div class="map-title">Cards</div>
+          <hr>
+          <div class="map-item">
+            <a routerLink="/advanced">Advanced Search</a>
+          </div>
+          <div class="map-item">
+            <a routerLink="/syntax">Syntax</a>
+          </div>
+          <div class="map-item">
+            <a routerLink="/sets">All Sets</a>
+          </div>
+        </ion-col>
+
+        <ion-col [sizeMd]="3" [sizeXs]="12">
+          <div class="map-title">Support</div>
+          <hr>
+          <div class="map-item">
+            <a target="_blank" href="https://github.com/LederCards">Ask a Question</a>
+          </div>
+        </ion-col>
+
+        <ion-col [sizeMd]="3" [sizeXs]="12">
+          <div class="map-title">More</div>
+          <hr>
+          <div class="map-item">
+            <a target="_blank" href="https://github.com/LederCards">GitHub</a>
+          </div>
+          <div class="map-item">
+            <a target="_blank" href="https://discord.com/servers/woodland-warriors-476234833572397056">Discord</a>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="legal">
+    The literal and graphical information presented on this site about Leder Games, including card images and symbols
+    is copyright Leder Games.
+  </div>
+</div>

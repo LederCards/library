@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ionic.ionic",
+    "angular.ng-template",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-typescript-next",
+    "eamodio.gitlens",
+    "formulahendry.auto-rename-tag"
+  ]
+}

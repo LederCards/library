@@ -1,0 +1,112 @@
+
+.page-container {
+  padding-top: 0;
+}
+
+.search-grid > ion-row:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.criteria {
+  display: flex;
+  align-items: center;
+
+  ion-icon {
+    margin-right: 0.5em;
+    font-size: 1.5rem;
+  }
+}
+
+.search {
+  ion-row, ion-col {
+    padding: 0;
+  }
+
+  ion-item {
+    --min-height: 16px;
+    --border-style: none;
+
+    width: 100%;
+  }
+
+  ion-checkbox {
+    --min-height: 16px;
+    --padding-start: 0;
+
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  ion-input, ion-select {
+    border: 1px solid #aaa;
+    border-radius: 2px;
+  }
+
+  .note {
+    margin-top: 5px;
+    font-size: 0.7rem;
+    font-style: italic;
+  }
+
+  .triggers {
+    flex-wrap: wrap;
+
+    ion-col {
+      flex-basis: 50%;
+
+      .label-custom-icon {
+        display: flex;
+        align-items: center;
+
+        app-cardicon {
+          margin-right: 0.5em;
+        }
+      }
+    }
+  }
+
+  .color-B {
+    --background-checked: #00587c;
+  }
+
+  .color-R {
+    --background-checked: #6a111b;
+  }
+
+  .color-G {
+    --background-checked: #21613d;
+  }
+
+  .color-Y {
+    --background-checked: #7d700c;
+  }
+
+  .color-white {
+    --background-checked: #fff;
+    --checkmark-color: #000;
+  }
+
+  .color-black {
+    --background-checked: #000;
+    --checkmark-color: #fff;
+  }
+}
+
+.actions {
+  padding-top: 0.5em;
+}
+
+// The "pointer: fine" media feature tests whether
+// the user has a pointing device (Desktop)
+@media (pointer: fine) {
+    .actions {
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        background-color: var(--ion-background-color);
+    }
+}

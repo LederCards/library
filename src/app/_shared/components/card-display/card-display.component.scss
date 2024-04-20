@@ -1,0 +1,106 @@
+
+:host {
+  --size-grid-small: 100px;
+  --size-grid-large: 135px;
+
+  --size-small-small: 200px;
+  --size-small-large: 270px;
+
+  --size-normal-small: 250px;
+  --size-normal-large: 320px;
+
+  --size-large-small: 350px;
+  --size-large-large: 470px;
+
+  --card-width: var(--size-normal-small);
+  --card-height: var(--size-normal-large);
+}
+
+.card-image-container {
+  width: var(--card-width);
+  display: flex;
+  justify-content: center;
+
+  .card-image {
+
+    width: var(--card-width);
+    height: var(--card-height);
+
+    &.grid {
+      --card-width: var(--size-grid-small);
+      --card-height: var(--size-grid-large);
+    }
+
+    &.small {
+      --card-width: var(--size-small-small);
+      --card-height: var(--size-small-large);
+    }
+
+    &.large {
+      --card-width: var(--size-large-small);
+      --card-height: var(--size-large-large);
+    }
+
+    &.climax {
+      --card-width: var(--size-normal-large);
+      --card-height: var(--size-normal-small);
+
+      &.grid {
+        --card-width: var(--size-grid-large);
+        --card-height: var(--size-grid-small);
+      }
+
+      &.small {
+        --card-width: var(--size-small-large);
+        --card-height: var(--size-small-small);
+      }
+
+      &.large {
+        --card-width: var(--size-large-large);
+        --card-height: var(--size-large-small);
+      }
+    }
+  }
+}
+
+.card-text-container {
+
+  .card-info {
+
+    &.color-B {
+      --color-bar-color-start: #0099d9;
+      --color-bar-color-end: #00587c;
+    }
+
+    &.color-R {
+      --color-bar-color-start: #e63028;
+      --color-bar-color-end: #6a111b;
+    }
+
+    &.color-G {
+      --color-bar-color-start: #3db554;
+      --color-bar-color-end: #21613d;
+    }
+
+    &.color-Y {
+      --color-bar-color-start: #faed00;
+      --color-bar-color-end: #7d700c;
+    }
+
+    .ability, .flavortext {
+      font-size: 0.75em;
+    }
+
+    .color-bar {
+      z-index: 0;
+      min-height: 22px;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      background: linear-gradient(to right, var(--color-bar-color-start), var(--color-bar-color-end));
+    }
+  }
+}

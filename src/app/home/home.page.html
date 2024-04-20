@@ -1,0 +1,35 @@
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <ion-grid class="search-container">
+      <ion-row class="search-text">
+        <ion-col>
+          <strong>Lederlight</strong> is your go-to cardpanion for <strong>Leder Games</strong>.
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="search-bar-container">
+          <ion-img class="search-icon" src="assets/favicon/android-chrome-192x192.png"></ion-img>
+          <ion-input placeholder="Search all of Leder Games..." class="search themed" [(ngModel)]="searchQuery"
+            (keydown.enter)="search(searchQuery)"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="search-actions">
+        <ion-col>
+          <ion-button fill="outline" expand="block" color="light" routerLink="/advanced">Advanced Search</ion-button>
+        </ion-col>
+
+        <ion-col>
+          <ion-button fill="outline" expand="block" color="light" routerLink="/syntax">Syntax</ion-button>
+        </ion-col>
+
+        <ion-col>
+          <ion-button fill="outline" expand="block" color="light" routerLink="/sets">All Products</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <app-below-the-fold></app-below-the-fold>
+</ion-content>

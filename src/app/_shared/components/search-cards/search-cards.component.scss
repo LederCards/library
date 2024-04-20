@@ -1,0 +1,129 @@
+
+.card-container {
+  margin-top: 1em;
+  margin-bottom: 1em;
+
+  .card {
+    cursor: pointer;
+  }
+}
+
+.info {
+  border-top: 1px solid var(--ion-color-secondary);
+  border-bottom: 1px solid var(--ion-color-secondary);
+}
+
+.page-container {
+  border-bottom: 1px solid var(--ion-color-secondary);
+}
+
+.switches, .info {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  padding-left: 2em;
+  padding-right: 2em;
+
+  ion-row {
+    width: 100%;
+
+    ion-col {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+
+      .text-display {
+        min-width: 80px;
+      }
+    }
+  }
+}
+
+ion-select {
+  margin-left: 10px;
+  width: 120px !important;
+}
+
+.pagination {
+  justify-content: flex-end;
+
+  ion-button {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5em;
+
+    .symbol {
+      font-size: 2rem;
+      margin-bottom: 6px;
+
+      &.left {
+        margin-right: 0.25em;
+      }
+
+      &.right {
+        margin-left: 0.25em;
+      }
+    }
+  }
+}
+
+.no-results {
+  width: 100%;
+  height: 70vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+.table-container {
+  margin-top: 2em;
+}
+
+.cell {
+  padding-left: 10px;
+  border-left: 6px solid var(--cell-border, transparent);
+
+  &.color-B {
+    --cell-border: #00587c;
+  }
+
+  &.color-R {
+    --cell-border: #6a111b;
+  }
+
+  &.color-G {
+    --cell-border: #21613d;
+  }
+
+  &.color-Y {
+    --cell-border: #7d700c;
+  }
+}
+
+.trigger-icons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &.character {
+    app-cardicon {
+      margin-left: 5px;
+    }
+  }
+
+  &.climax {
+    app-cardicon:not(:first-child) {
+      margin-left: 5px;
+    }
+  }
+}
+
+.ability:not(:last-child) {
+  margin-bottom: 1em;
+}

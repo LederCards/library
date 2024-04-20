@@ -1,0 +1,42 @@
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+
+*~
+*.sw[mnpcod]
+.tmp
+*.tmp
+*.tmp.*
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+UserInterfaceState.xcuserstate
+$RECYCLE.BIN/
+
+*.log
+log.txt
+npm-debug.log*
+
+/.angular
+/.idea
+/.ionic
+/.sass-cache
+/.sourcemaps
+/.versions
+/.vscode/*
+!/.vscode/extensions.json
+/coverage
+/dist
+/node_modules
+/platforms
+/plugins
+/www
+
+cards/
+src/assets/cards*.json
+src/assets/expansions.json
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json

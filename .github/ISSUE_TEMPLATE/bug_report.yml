@@ -1,0 +1,67 @@
+name: Bug Report
+description: File a bug report for unexpected or broken behavior
+title: "[Bug] -"
+labels: [bug]
+body:
+- type: checkboxes
+  attributes:
+    label: Prerequisites
+    description: Please answer the following questions for yourself before submitting an issue.
+    options:
+    - label: I have searched the issue tracker to check if the issue has already been reported.
+      required: true
+
+- type: textarea
+  attributes:
+    label: Describe the bug
+    description: A clear and concise description of what the bug is.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Expected behavior
+    description: A clear and concise description of what you expected to happen.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Current behavior
+    description: A clear and concise description of what actually happened.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: To Reproduce
+    description: |
+      Steps to reproduce the behaviour:
+        - When on x page
+        - Given x button is pressed
+        - Then error x should be present
+  validations:
+    required: true
+
+- type: dropdown
+  attributes:
+    label: Platform
+    options:
+        - Desktop
+        - Web Browser - Chrome
+        - Web Browser - Firefox
+        - Web Browser - Safari
+        - Web Browser - Edge
+        - Other
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Additional Context
+    description: |
+      Links? References? Screenshots? Anything that will give us more context about the issue you are encountering
+
+      Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+  validations:
+    required: false

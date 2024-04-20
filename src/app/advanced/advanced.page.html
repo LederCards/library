@@ -1,0 +1,387 @@
+<ion-header>
+  <app-topbar (enter)="search($event)"></app-topbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-container">
+    <ion-grid class="search-grid" *ngIf="searchQuery">
+
+      <!-- card name -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="person-outline" color="primary"></ion-icon>
+          <span>Card Name</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-input (ionChange)="saveQuery()"
+                     [(ngModel)]="searchQuery.name"
+                     placeholder="Search any card name"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <!-- attribute -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="color-filter-outline" color="primary"></ion-icon>
+          <span>Attributes</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ng-select
+            [items]="allAttributes"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [searchable]="true"
+            placeholder="Select attributes"
+            (change)="saveQuery()"
+            [(ngModel)]="searchQuery.attribute">
+          </ng-select>
+        </ion-col>
+      </ion-row>
+
+      <!-- color -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="color-palette-outline" color="primary"></ion-icon>
+          <span>Color</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-checkbox slot="start" class="color-B" [(ngModel)]="searchQuery.color.b" (ionChange)="saveQuery()"></ion-checkbox>
+                <ion-label>Blue</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-checkbox slot="start" class="color-G" [(ngModel)]="searchQuery.color.g" (ionChange)="saveQuery()"></ion-checkbox>
+                <ion-label>Green</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-checkbox slot="start" class="color-R" [(ngModel)]="searchQuery.color.r" (ionChange)="saveQuery()"></ion-checkbox>
+                <ion-label>Red</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-checkbox slot="start" class="color-Y" [(ngModel)]="searchQuery.color.y" (ionChange)="saveQuery()"></ion-checkbox>
+                <ion-label>Yellow</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <!-- cost -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="prism-outline" color="primary"></ion-icon>
+          <span>Cost</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-row>
+            <ion-col size="6">
+              <ion-select
+                interface="popover"
+                [(ngModel)]="searchQuery.cost.operator"
+                (ionChange)="saveQuery()"
+              >
+                <ion-select-option *ngFor="let operator of allOperators" [value]="operator.value">
+                  {{ operator.label }}
+                </ion-select-option>
+              </ion-select>
+            </ion-col>
+
+            <ion-col size="2"></ion-col>
+
+            <ion-col size="4">
+              <ion-input (ionChange)="saveQuery()"
+                         placeholder="Cost"
+                         [(ngModel)]="searchQuery.cost.value"></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="note">
+            <ion-col>
+              If left unspecified, will not be included in search query.
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <!-- expansion -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="library-outline" color="primary"></ion-icon>
+          <span>Expansion</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ng-select
+            [items]="allExpansions"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [searchable]="true"
+            placeholder="Select expansions"
+            (change)="saveQuery()"
+            [(ngModel)]="searchQuery.expansion">
+          </ng-select>
+        </ion-col>
+      </ion-row>
+
+      <!-- level -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="fitness-outline" color="primary"></ion-icon>
+          <span>Level</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-row>
+            <ion-col size="6">
+              <ion-select
+                interface="popover"
+                [(ngModel)]="searchQuery.level.operator"
+                (ionChange)="saveQuery()"
+              >
+                <ion-select-option *ngFor="let operator of allOperators" [value]="operator.value">
+                  {{ operator.label }}
+                </ion-select-option>
+              </ion-select>
+            </ion-col>
+
+            <ion-col size="2"></ion-col>
+
+            <ion-col size="4">
+              <ion-input (ionChange)="saveQuery()"
+                         placeholder="Level"
+                         [(ngModel)]="searchQuery.level.value"></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="note">
+            <ion-col>
+              If left unspecified, will not be included in search query.
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <!-- power -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="barbell-outline" color="primary"></ion-icon>
+          <span>Power</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-row>
+            <ion-col size="6">
+              <ion-select
+                interface="popover"
+                [(ngModel)]="searchQuery.power.operator"
+                (ionChange)="saveQuery()"
+              >
+                <ion-select-option *ngFor="let operator of allOperators" [value]="operator.value">
+                  {{ operator.label }}
+                </ion-select-option>
+              </ion-select>
+            </ion-col>
+
+            <ion-col size="2"></ion-col>
+
+            <ion-col size="4">
+              <ion-input (ionChange)="saveQuery()"
+                         placeholder="Power"
+                         [(ngModel)]="searchQuery.power.value"></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="note">
+            <ion-col>
+              If left unspecified, will not be included in search query.
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <!-- rarity -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="aperture-outline" color="primary"></ion-icon>
+          <span>Rarity</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ng-select
+            [items]="allRarities"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [searchable]="true"
+            placeholder="Select rarities"
+            (change)="saveQuery()"
+            [(ngModel)]="searchQuery.rarity">
+          </ng-select>
+        </ion-col>
+      </ion-row>
+
+      <!-- side -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="star-half-outline" color="primary"></ion-icon>
+          <span>Side</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-checkbox slot="start" class="color-white" [(ngModel)]="searchQuery.side.w" (ionChange)="saveQuery()"></ion-checkbox>
+                <ion-label>Weiß</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-checkbox slot="start" class="color-black" [(ngModel)]="searchQuery.side.s" (ionChange)="saveQuery()"></ion-checkbox>
+                <ion-label>Schwarz</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <!-- soul -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="dice-outline" color="primary"></ion-icon>
+          <span>Soul</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-row>
+            <ion-col size="6">
+              <ion-select
+                interface="popover"
+                [(ngModel)]="searchQuery.soul.operator"
+                (ionChange)="saveQuery()"
+              >
+                <ion-select-option *ngFor="let operator of allOperators" [value]="operator.value">
+                  {{ operator.label }}
+                </ion-select-option>
+              </ion-select>
+            </ion-col>
+
+            <ion-col size="2"></ion-col>
+
+            <ion-col size="4">
+              <ion-input (ionChange)="saveQuery()"
+                         placeholder="Soul"
+                         [(ngModel)]="searchQuery.soul.value"></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="note">
+            <ion-col>
+              If left unspecified, will not be included in search query.
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <!-- tags -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="pricetag-outline" color="primary"></ion-icon>
+          <span>Tags</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ng-select
+            [items]="allTags"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [searchable]="true"
+            placeholder="Select tags"
+            (change)="saveQuery()"
+            [(ngModel)]="searchQuery.tags">
+          </ng-select>
+        </ion-col>
+      </ion-row>
+
+      <!-- trigger -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="gift-outline" color="primary"></ion-icon>
+          <span>Trigger</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-row class="triggers">
+            <ion-col [sizeXs]="6" *ngFor="let trigger of allTriggers">
+              <ion-item>
+                <ion-checkbox slot="start"
+                              [(ngModel)]="searchQuery.trigger[trigger]"
+                              (ionChange)="saveQuery()"></ion-checkbox>
+                <ion-label>
+                  <div class="label-custom-icon">
+                    <app-cardicon [type]="trigger" [size]="16"></app-cardicon>
+                    {{ trigger }}
+                  </div>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <!-- type -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+          <ion-icon name="extension-puzzle-outline" color="primary"></ion-icon>
+          <span>Type</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-checkbox slot="start" [(ngModel)]="searchQuery.type.character" (ionChange)="saveQuery()"></ion-checkbox>
+                <ion-label>Character</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-checkbox slot="start" [(ngModel)]="searchQuery.type.climax" (ionChange)="saveQuery()"></ion-checkbox>
+                <ion-label>Climax</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-checkbox slot="start" [(ngModel)]="searchQuery.type.event" (ionChange)="saveQuery()"></ion-checkbox>
+                <ion-label>Event</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <!-- search! -->
+      <ion-row class="actions">
+        <ion-col class="criteria" [sizeXs]="2" [sizeMd]="2" [offsetMd]="2"></ion-col>
+        <ion-col class="search" [sizeXs]="10" [sizeMd]="6">
+          <ion-button (click)="querySearch()" color="primary" [disabled]="!getSearchQuery()">Search</ion-button>
+          <ion-button (click)="reset()" color="warning" fill="outline">Reset</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </div>
+
+  <app-below-the-fold></app-below-the-fold>
+</ion-content>

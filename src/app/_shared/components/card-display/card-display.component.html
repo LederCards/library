@@ -1,0 +1,18 @@
+<div class="card-image-container" *ngIf="display === 'images'">
+  <ion-img [src]="card.image" class="card-image" [ngClass]="[size]"></ion-img>
+</div>
+
+<div class="card-text-container" *ngIf="display === 'text'">
+  <ion-card class="card-info"=>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label text-wrap>
+            <div>{{ card.name }}</div>
+            <p>{{ card.text }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</div>

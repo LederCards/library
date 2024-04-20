@@ -1,0 +1,40 @@
+
+
+.below-the-fold {
+  width: 100vw;
+  min-height: 30vh;
+
+  background-color: #19181f;
+
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  padding-left: 25%;
+  padding-right: 25%;
+
+  color: #999;
+
+  .map {
+    min-height: 15vh;
+
+    .map-title {
+      font-variant: small-caps;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #999;
+    }
+
+    .map-item {
+      margin-bottom: 5px;
+      --ion-color-primary: #999;
+
+      a:link, a:hover, a:visited, a:active {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .legal {
+    color: #444;
+    font-size: 0.75em;
+  }
+}

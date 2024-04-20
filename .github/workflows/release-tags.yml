@@ -1,0 +1,63 @@
+name: Release New Tags
+
+on:
+  push:
+    tags:
+      - 'v*' # Any pushed tag
+
+jobs:
+  build:
+    name: Create Release
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        # os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [windows-latest]
+        node-version: [18]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - run: npm install
+
+    - run: npm run test
+
+    - run: npm run build
+
+    - uses: little-core-labs/get-git-tag@v3.0.1
+      id: loadTagName
+
+    - uses: pCYSl5EDgo/cat@master
+      id: loadChangelog
+      with:
+        path: CHANGELOG-current.md
+
+    - name: Create Release
+      id: createRelease
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: ${{ steps.loadChangelog.outputs.text }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Server Binary
+      id: uploadReleaseAsset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.createRelease.outputs.upload_url }}
+        asset_path: ./release/Tsavorite.exe
+        asset_name: Tsavorite.exe
+        asset_content_type: application/vnd.microsoft.portable-executable

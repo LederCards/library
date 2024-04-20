@@ -1,0 +1,54 @@
+<ion-header>
+  <app-topbar (enter)="search($event)"></app-topbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-container">
+
+    <ion-grid class="reference-top">
+      <ion-row>
+        <ion-col size="12" class="ion-text-center">
+          <h1>Limelight Search Reference</h1>
+          <h5>Limelight includes a large set of keywords and filters you can use to filter Weiß Schwarz cards.</h5>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col [sizeXs]="12" [sizeMd]="4" *ngFor="let operator of allOperators">
+          <ion-button shape="round" expand="full" fill="outline" (click)="navigateTo(operator.id)">
+            <ion-icon [name]="operator.icon" slot="start"></ion-icon>
+            {{ operator.name }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid class="reference-list">
+      <ion-row class="reference-row" *ngFor="let operator of allOperators" [style.--accent-color]="operator.color">
+        <ion-col [sizeXs]="12" [sizeMd]="6">
+          <h3 class="operator-title" [id]="operator.id">
+            <ion-icon [name]="operator.icon" [style.color]="operator.color"></ion-icon>
+            <span class="text">{{ operator.name }}</span>
+          </h3>
+
+          <p [innerHTML]="formatText(operator.help)"></p>
+        </ion-col>
+
+        <ion-col>
+          <ion-row *ngFor="let example of operator.examples">
+            <ion-col size="12">
+              <ion-card class="example">
+                <ion-card-content>
+                  <h4 class="example-syntax" [innerHTML]="formatText(example.example)"></h4>
+                  <p class="example-text" [innerHTML]="formatText(example.explanation)"></p>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <app-below-the-fold></app-below-the-fold>
+</ion-content>

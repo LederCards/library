@@ -1,0 +1,172 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+/* ngx-datatable */
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.css';
+@import '~@swimlane/ngx-datatable/themes/dark.css';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+/* ng-select */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+/* swiper */
+@import '~swiper/swiper-bundle.css';
+@import '~@ionic/angular/css/ionic-swiper.css';
+
+@import 'colors';
+
+
+body {
+  --border-width: 2px;
+  --border-radius: 4px;
+
+  --ion-font-family: Montserrat, Roboto, Helvetica Neue, sans-serif;
+}
+
+.page-container {
+  padding-left: 1em;
+  padding-right: 1em;
+  min-height: 70vh;
+}
+
+.vertical-center {
+  display: flex;
+  align-items: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+ion-searchbar.themed, ion-input.themed, ion-select.themed {
+  --background: #3f2f5c !important;
+  --color: #fff !important;
+}
+
+ion-select.themed {
+  --padding-end: 5px;
+}
+
+ion-input.themed, ion-select.themed {
+  border: var(--border-width) solid var(--ion-color-secondary);
+  border-radius: var(--border-radius);
+}
+
+code {
+  padding-left: 5px;
+  padding-right: 5px;
+  background: #F6F6F6;
+  color: var(--accent-color, #246782);
+}
+
+@media screen and (min-width: 768px) {
+  ion-alert {
+    &.sc-ion-alert-md-h {
+      --max-width: 600px;
+      --min-width: 600px;
+    }
+  }
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.ngx-datatable {
+  .datatable-body-cell {
+    display: flex !important;
+    align-items: center;
+
+    .datatable-body-cell-label {
+      width: 100%;
+    }
+  }
+
+  .datatable-row-detail {
+    white-space: normal !important;
+  }
+
+  .datatable-checkbox {
+    margin-top: -7px;
+  }
+}
+
+.swiper {
+  --swiper-theme-color: var(--ion-color-primary);
+  --swiper-navigation-color: var(--ion-color-primary);
+
+  .swiper-button-next, .swiper-button-prev {
+    background-color: rgba(255, 255, 255, .15);
+    backdrop-filter: blur(5px);
+    padding: 1.5em;
+    outline: 2px solid #fff;
+    border: 4px solid var(--ion-color-primary);
+    border-radius: 50%;
+
+    &:after {
+      font-weight: bold;
+    }
+  }
+
+  .swiper-slide-zoomed {
+    z-index: 100;
+  }
+}
+
+ng-select {
+  .ng-select-container {
+    background: var(--ion-background-color) !important;
+    color: var(--ion-text-color) !important;
+    border-color: #aaa;
+    min-height: 40px;
+
+    input {
+      color: var(--ion-text-color) !important;
+    }
+
+    .ng-placeholder {
+      top: 8px !important;
+    }
+
+    .ng-value {
+      font-size: 1em !important;
+      background: var(--ion-color-tertiary) !important;
+      color: var(--ion-color-tertiary-contrast) !important;
+    }
+  }
+
+  .ng-dropdown-panel .ng-option {
+    background: var(--ion-background-color) !important;
+    color: var(--ion-text-color) !important;
+
+    &.ng-option-marked {
+      background: var(--ion-color-medium) !important;
+      color: var(--ion-color-medium-contrast) !important;
+    }
+  }
+}

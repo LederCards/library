@@ -1,0 +1,20 @@
+<ion-header>
+  <app-topbar [query]="query" (type)="search($event)"></app-topbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <app-search-cards *ngIf="!isDeckSearch"
+                      [query]="query"
+                      [queryDisplay]="queryDisplay"
+                      [querySort]="querySort"
+                      [querySortBy]="querySortBy"
+                      [page]="page"></app-search-cards>
+
+    <app-search-decks *ngIf="isDeckSearch"
+                      [query]="query"
+                      [page]="page"></app-search-decks>
+  </div>
+
+  <app-below-the-fold></app-below-the-fold>
+</ion-content>

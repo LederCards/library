@@ -1,0 +1,47 @@
+name: Feature request
+description: Suggest an idea for this project
+title: "[Feature] - "
+labels: [enhancement]
+body:
+- type: checkboxes
+  attributes:
+    label: Prerequisites
+    description: Please answer the following questions for yourself before submitting an issue.
+    options:
+    - label: I have searched the issue tracker to check if the issue has already been reported.
+      required: true
+
+- type: textarea
+  attributes:
+    label: Describe the feature and its requirements
+    description: A clear and concise description of the feature and its requirements. Include all technical notes and finer details, not just an overview.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Is your feature request related to an existing issue? Please describe.
+    description: A clear and concise description of why it related to these issues.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Is there anything stopping this feature being completed?
+    description: A list of any potential blockers for this feature with linked issues.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Describe alternatives you've considered or encountered
+    description: A clear and concise description of any alternative solutions or features you've considered.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Additional context
+    description: Add any other context or screenshots about the feature request here.
+  validations:
+    required: false

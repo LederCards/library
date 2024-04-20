@@ -1,0 +1,80 @@
+<ion-toolbar color="primary">
+  <ion-grid>
+    <ion-row>
+      <ion-col size-xs="10" size-sm="10" size-md="4" size-lg="6">
+        <a class="home-icon" routerLink="/">
+          <ion-img src="assets/favicon/android-chrome-192x192.png"></ion-img>
+        </a>
+
+        <ion-title *ngIf="title">
+          {{ title }}
+        </ion-title>
+
+        <ion-searchbar #search *ngIf="showSearch" class="themed" [debounce]="1000" (ionChange)="type.emit(search.value)"
+          (keyup.enter)="enter.emit(search.value)" [(ngModel)]="query"
+          placeholder="Search all of Leder Games..."></ion-searchbar>
+      </ion-col>
+
+      <ion-col size-xs="2" size-sm="2" size-md="8" size-lg="6">
+        <div class="ion-hide-md-up popover">
+          <ion-button fill="clear" color="light" (click)="popover.present($event)">
+            <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+          </ion-button>
+
+          <ion-popover reference="event" [dismissOnSelect]="true" #popover>
+            <ng-template>
+              <ion-content class="ion-padding">
+                <ion-list>
+                  <div #buttonsMobile>
+                    <ng-content select="[slot='buttons-mobile']"></ng-content>
+                  </div>
+
+                  <ng-container *ngIf="!buttonsMobile.hasChildNodes()">
+                    <ion-item [routerLink]="['/advanced']" detail="false">
+                      <ion-icon slot="start" name="funnel-outline"></ion-icon>
+                      Advanced
+                    </ion-item>
+
+                    <ion-item [routerLink]="['/syntax']" detail="false">
+                      <ion-icon slot="start" name="help-circle-outline"></ion-icon>
+                      Syntax
+                    </ion-item>
+
+                    <ion-item [routerLink]="['/sets']" detail="false">
+                      <ion-icon slot="start" name="file-tray-full-outline"></ion-icon>
+                      Products
+                    </ion-item>
+                  </ng-container>
+
+                </ion-list>
+              </ion-content>
+            </ng-template>
+          </ion-popover>
+        </div>
+
+        <div class="ion-hide-md-down buttons">
+          <div #buttonsDesktop>
+            <ng-content select="[slot='buttons-desktop']"></ng-content>
+          </div>
+
+          <ng-container *ngIf="!buttonsDesktop.hasChildNodes()">
+            <ion-button fill="clear" color="light" [routerLink]="['/advanced']">
+              <ion-icon slot="start" name="funnel-outline"></ion-icon>
+              Advanced
+            </ion-button>
+
+            <ion-button fill="clear" color="light" [routerLink]="['/syntax']">
+              <ion-icon slot="start" name="help-circle-outline"></ion-icon>
+              Syntax
+            </ion-button>
+
+            <ion-button fill="clear" color="light" [routerLink]="['/sets']">
+              <ion-icon slot="start" name="file-tray-full-outline"></ion-icon>
+              Products
+            </ion-button>
+          </ng-container>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-toolbar>

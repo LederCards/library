@@ -1,0 +1,35 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/assets/favicon/manifest.json",
+          "/*.css",
+          "/*.js"
+        ],
+        "urls": [
+          "https://fonts.googleapis.com/css2?family=Montserrat&amp;display=swap",
+          "https://data.limelight.cards/cards.min.json",
+          "https://data.limelight.cards/expansions.json"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+        ]
+      }
+    }
+  ]
+}

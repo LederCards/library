@@ -1,0 +1,56 @@
+
+
+.md {
+  .home-icon {
+    z-index: 10;
+    position: absolute;
+    top: 13px;
+    left: 18px;
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+  }
+
+  ion-title {
+    position: absolute;
+    margin-left: 35px;
+    margin-top: 10px;
+  }
+}
+
+.ios {
+  ion-searchbar {
+    padding-top: 1.5em;
+  }
+
+  ion-title {
+    position: absolute;
+    margin-left: -25px;
+    margin-top: 2px;
+    text-align: left;
+  }
+
+  .home-icon {
+    z-index: 10;
+    position: absolute;
+    top: 26px;
+    left: 24px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+  }
+}
+
+.popover {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+ion-button {
+  --ion-color-light: #f4f5f8;
+}
