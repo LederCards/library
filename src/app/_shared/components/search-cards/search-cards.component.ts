@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectionType, DatatableComponent } from '@swimlane/ngx-datatable';
+import { DatatableComponent, SelectionType } from '@siemens/ngx-datatable';
 import { sortBy } from 'lodash';
 
 import { ICard } from '../../../../../interfaces';
@@ -13,13 +13,12 @@ import { CardsService } from '../../../cards.service';
   styleUrls: ['./search-cards.component.scss'],
 })
 export class SearchCardsComponent implements OnChanges {
-
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   @Input() query = '';
-  @Input() queryDisplay: 'images'|'text'|'checklist' = 'images';
+  @Input() queryDisplay: 'images' | 'text' | 'checklist' = 'images';
   @Input() querySort: keyof ICard = 'name';
-  @Input() querySortBy: 'asc'|'desc' = 'asc';
+  @Input() querySortBy: 'asc' | 'desc' = 'asc';
   @Input() page = 0;
 
   public queryDesc = '';
@@ -41,26 +40,26 @@ export class SearchCardsComponent implements OnChanges {
     private router: Router,
     private route: ActivatedRoute,
     private cardsService: CardsService
-  ) { }
+  ) {}
 
   ngOnChanges(changes: any) {
-    if(changes.query) {
+    if (changes.query) {
       this.query = changes.query.currentValue;
     }
 
-    if(changes.queryDisplay) {
+    if (changes.queryDisplay) {
       this.queryDisplay = changes.queryDisplay.currentValue;
     }
 
-    if(changes.querySort) {
+    if (changes.querySort) {
       this.querySort = changes.querySort.currentValue;
     }
 
-    if(changes.querySortBy) {
+    if (changes.querySortBy) {
       this.querySortBy = changes.querySortBy.currentValue;
     }
 
-    if(changes.page) {
+    if (changes.page) {
       this.page = changes.page.currentValue;
     }
 
@@ -80,7 +79,7 @@ export class SearchCardsComponent implements OnChanges {
     this.displayTotal = 0;
     this.displayMaximum = 0;
 
-    if(!this.query) {
+    if (!this.query) {
       this.queriedCards = [];
       this.visibleCards = [];
       this.updateParams();
@@ -92,49 +91,60 @@ export class SearchCardsComponent implements OnChanges {
     this.queriedCards = this.cardsService.searchCards(this.query);
     this.doExtraSorting();
 
-    if(changePage) {
+    if (changePage) {
       this.changePage(0);
     }
   }
 
   updateParams() {
-    if(!this.query) {
+    if (!this.query) {
       return;
     }
 
-    this.router.navigate([], { relativeTo: this.route, queryParams: {
-      q: this.query,
-      d: this.queryDisplay,
-      s: this.querySort,
-      b: this.querySortBy,
-      p: this.page
-    }, queryParamsHandling: 'merge' });
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        q: this.query,
+        d: this.queryDisplay,
+        s: this.querySort,
+        b: this.querySortBy,
+        p: this.page,
+      },
+      queryParamsHandling: 'merge',
+    });
   }
 
   doExtraSorting() {
     this.queriedCards = sortBy(this.queriedCards, this.querySort);
-    if(this.querySortBy === 'desc') {
+    if (this.querySortBy === 'desc') {
       this.queriedCards = this.queriedCards.reverse();
     }
   }
 
   changePage(newPage: number) {
     this.page = newPage;
-    this.totalPages = Math.ceil(this.queriedCards.length / this.cardsPerPage) - 1;
+    this.totalPages =
+      Math.ceil(this.queriedCards.length / this.cardsPerPage) - 1;
 
-    if(this.page > this.totalPages) {
+    if (this.page > this.totalPages) {
       this.page = this.totalPages;
     }
 
-    if(this.page < 0) {
+    if (this.page < 0) {
       this.page = 0;
     }
 
-    this.visibleCards = this.queriedCards.slice(this.page * this.cardsPerPage, (this.page + 1) * this.cardsPerPage);
+    this.visibleCards = this.queriedCards.slice(
+      this.page * this.cardsPerPage,
+      (this.page + 1) * this.cardsPerPage
+    );
 
     this.displayCurrent = this.page * this.cardsPerPage + 1;
     this.displayTotal = this.queriedCards.length;
-    this.displayMaximum = Math.min(this.displayTotal, (this.page + 1) * this.cardsPerPage);
+    this.displayMaximum = Math.min(
+      this.displayTotal,
+      (this.page + 1) * this.cardsPerPage
+    );
 
     this.updateParams();
   }
@@ -146,5 +156,4 @@ export class SearchCardsComponent implements OnChanges {
   public getDetailHeight(): any {
     return '100%';
   }
-
 }

@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxDatatableModule } from '@siemens/ngx-datatable';
 
 import { SearchPageRoutingModule } from './search-routing.module';
 
-import { SearchPage } from './search.page';
 import { SharedModule } from '../_shared/shared.module';
+import { SearchPage } from './search.page';
 
 @NgModule({
   imports: [
@@ -17,8 +17,8 @@ import { SharedModule } from '../_shared/shared.module';
     IonicModule,
     NgxDatatableModule,
     SharedModule,
-    SearchPageRoutingModule
+    SearchPageRoutingModule,
   ],
-  declarations: [SearchPage]
+  declarations: [SearchPage],
 })
 export class SearchPageModule {}

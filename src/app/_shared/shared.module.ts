@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxDatatableModule } from '@siemens/ngx-datatable';
 import { LuxonModule } from 'luxon-angular';
 import { BelowTheFoldComponent } from './components/below-the-fold/below-the-fold.component';
 import { CardDisplayComponent } from './components/card-display/card-display.component';
@@ -11,6 +11,7 @@ import { TopbarComponent } from './components/topbar/topbar.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CardIconComponent } from './components/cardicon/cardicon.component';
+import { OmnisearchComponent } from './components/omnisearch/omnisearch.component';
 import { SearchCardsComponent } from './components/search-cards/search-cards.component';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { SearchCardsComponent } from './components/search-cards/search-cards.com
     BelowTheFoldComponent,
     TopbarComponent,
     SearchCardsComponent,
+    OmnisearchComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { SearchCardsComponent } from './components/search-cards/search-cards.com
     BelowTheFoldComponent,
     TopbarComponent,
     SearchCardsComponent,
+    OmnisearchComponent,
   ],
 })
 export class SharedModule {}

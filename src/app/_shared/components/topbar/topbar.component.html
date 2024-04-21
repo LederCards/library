@@ -10,9 +10,8 @@
           {{ title }}
         </ion-title>
 
-        <ion-searchbar #search *ngIf="showSearch" class="themed" [debounce]="1000" (ionChange)="type.emit(search.value)"
-          (keyup.enter)="enter.emit(search.value)" [(ngModel)]="query"
-          placeholder="Search all of Leder Games..."></ion-searchbar>
+        <app-omnisearch *ngIf="showSearch" (type)="type.emit($event)" (enter)="enter.emit($event)"
+          [initialQuery]="query"></app-omnisearch>
       </ion-col>
 
       <ion-col size-xs="2" size-sm="2" size-md="8" size-lg="6">

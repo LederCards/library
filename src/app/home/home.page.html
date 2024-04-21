@@ -10,8 +10,7 @@
       <ion-row>
         <ion-col class="search-bar-container">
           <ion-img class="search-icon" src="assets/favicon/android-chrome-192x192.png"></ion-img>
-          <ion-input placeholder="Search all of Leder Games..." class="search themed" [(ngModel)]="searchQuery"
-            (keydown.enter)="search(searchQuery)"></ion-input>
+          <app-omnisearch (enter)="search($event)" [big]="true"></app-omnisearch>
         </ion-col>
       </ion-row>
 

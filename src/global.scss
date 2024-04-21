@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -25,21 +25,14 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-/* ngx-datatable */
-@import '~@swimlane/ngx-datatable/index.css';
-@import '~@swimlane/ngx-datatable/themes/material.css';
-@import '~@swimlane/ngx-datatable/themes/dark.css';
-@import '~@swimlane/ngx-datatable/assets/icons.css';
-
 /* ng-select */
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
 /* swiper */
-@import '~swiper/swiper-bundle.css';
-@import '~@ionic/angular/css/ionic-swiper.css';
+@import "~swiper/swiper-bundle.css";
+@import "~@ionic/angular/css/ionic-swiper.css";
 
-@import 'colors';
-
+@import "colors";
 
 body {
   --border-width: 2px;
@@ -63,7 +56,9 @@ body {
   display: none !important;
 }
 
-ion-searchbar.themed, ion-input.themed, ion-select.themed {
+ion-searchbar.themed,
+ion-input.themed,
+ion-select.themed {
   --background: #3f2f5c !important;
   --color: #fff !important;
 }
@@ -72,15 +67,21 @@ ion-select.themed {
   --padding-end: 5px;
 }
 
-ion-input.themed, ion-select.themed {
+ion-input.themed,
+ion-searchbar.themed,
+ion-select.themed {
   border: var(--border-width) solid var(--ion-color-secondary);
   border-radius: var(--border-radius);
+}
+
+ion-select {
+  --padding-start: 8px;
 }
 
 code {
   padding-left: 5px;
   padding-right: 5px;
-  background: #F6F6F6;
+  background: #f6f6f6;
   color: var(--accent-color, #246782);
 }
 
@@ -120,8 +121,9 @@ code {
   --swiper-theme-color: var(--ion-color-primary);
   --swiper-navigation-color: var(--ion-color-primary);
 
-  .swiper-button-next, .swiper-button-prev {
-    background-color: rgba(255, 255, 255, .15);
+  .swiper-button-next,
+  .swiper-button-prev {
+    background-color: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(5px);
     padding: 1.5em;
     outline: 2px solid #fff;

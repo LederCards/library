@@ -4,16 +4,8 @@
 
 <ion-content>
   <div class="container">
-    <app-search-cards *ngIf="!isDeckSearch"
-                      [query]="query"
-                      [queryDisplay]="queryDisplay"
-                      [querySort]="querySort"
-                      [querySortBy]="querySortBy"
-                      [page]="page"></app-search-cards>
-
-    <app-search-decks *ngIf="isDeckSearch"
-                      [query]="query"
-                      [page]="page"></app-search-decks>
+    <app-search-cards *ngIf="!isDeckSearch" [query]="query" [queryDisplay]="queryDisplay" [querySort]="querySort"
+      [querySortBy]="querySortBy" [page]="page"></app-search-cards>
   </div>
 
   <app-below-the-fold></app-below-the-fold>
