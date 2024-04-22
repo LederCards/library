@@ -10,7 +10,7 @@
     "build": "ng build --configuration production",
     "build:netlify": "npm run build",
     "fetch:cards": "ts-node scripts/fetch-cards",
-    "test": "npm run lint && npm run fetch:cards && npm run jest",
+    "test": "npm run lint && npm run jest",
     "jest": "jest",
     "jest:watch": "jest --watch",
     "lint": "ng lint"

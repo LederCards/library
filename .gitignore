@@ -40,3 +40,4 @@ src/assets/expansions.json
 .firebase
 *-debug.log
 .runtimeconfig.json
+.nx
