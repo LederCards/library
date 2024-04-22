@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-cardicon',
@@ -6,8 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./cardicon.component.scss'],
 })
 export class CardIconComponent {
-  @Input() size = 24;
-  @Input() type = null;
+  public size = input<number>(24);
+  public type = input.required<string>();
 
   constructor() {}
 }

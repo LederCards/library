@@ -1,3 +1,4 @@
+@if(card) {
 <div class="card-image-container" *ngIf="display === 'images'">
   <ion-img [src]="card.image" class="card-image" [ngClass]="[size]"></ion-img>
 </div>
@@ -16,3 +17,4 @@
     </ion-card-content>
   </ion-card>
 </div>
+}

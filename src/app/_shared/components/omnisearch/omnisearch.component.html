@@ -1,3 +1,3 @@
 <ion-searchbar #search class="search themed" [ngClass]="[big() ? 'big' : '']" [debounce]="1000"
-  (ionChange)="type.emit(search.value)" searchIcon="''" (keyup.enter)="enter.emit(search.value)" [(ngModel)]="query"
-  placeholder="Search all of Leder Games..."></ion-searchbar>
+  (ionChange)="type.emit(searchFieldValue)" searchIcon="''" (keyup.enter)="enter.emit(searchFieldValue)"
+  [(ngModel)]="query" placeholder="Search all of Leder Games..."></ion-searchbar>

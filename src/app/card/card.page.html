@@ -4,6 +4,7 @@
 
 <ion-content>
   <div class="page-container">
+    @if(cardData) {
     <ion-grid>
       <ion-row>
         <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="4" [offsetLg]="2">
@@ -37,13 +38,12 @@
                   </ion-label>
                 </ion-item>
               </ion-list>
-
-              <div class="color-bar"></div>
             </ion-card-content>
           </ion-card>
         </ion-col>
       </ion-row>
     </ion-grid>
+    }
   </div>
 
   <app-below-the-fold></app-below-the-fold>
