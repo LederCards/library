@@ -10,21 +10,6 @@ import { CardsService } from '../cards.service';
 })
 export class CardPage implements OnInit {
   public cardData: ICard = undefined;
-  public soulArray = [];
-
-  public similarCards: Array<{ card: ICard; score: number }> = [];
-
-  public deckStats: any = { decks: [] };
-
-  // this is going to be a mess
-  public encodedCardName = '';
-  public encoreDecksId = '';
-
-  public tcgplayerPrice = 0;
-
-  public hotcCode = '';
-
-  public json = '';
 
   constructor(
     private router: Router,
@@ -40,22 +25,13 @@ export class CardPage implements OnInit {
       this.router.navigate(['/']);
       return;
     }
-
-    this.loadCardExtraData();
-    this.getCardsLikeThisCard();
   }
 
   search(query: string) {
     this.router.navigate(['/search'], { queryParams: { q: query } });
   }
 
-  private async loadCardExtraData() {}
-
   searchTag(tag: string) {
     this.search(`tag:"${tag}"`);
-  }
-
-  private getCardsLikeThisCard() {
-    this.similarCards = this.cardsService.getCardsLikeCard(this.cardData, 4);
   }
 }

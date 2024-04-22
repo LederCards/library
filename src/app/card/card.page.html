@@ -12,65 +12,20 @@
         </ion-col>
 
         <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="4">
-          <ion-card class="card-info" [ngClass]="['color-' + cardData.color]">
+          <ion-card class="card-info">
             <ion-card-header>
               <ion-card-title>{{ cardData.name }}</ion-card-title>
               <ion-card-subtitle>
-                {{ cardData.id }} &middot; {{ cardData.rarity }} &middot; {{ cardData.expansion }}
+                {{ cardData.id }}
               </ion-card-subtitle>
             </ion-card-header>
 
             <ion-card-content>
               <ion-list>
-                <ion-item *ngIf="cardsService.getQuantityOwned(cardData.id) > 0">
-                  <ion-chip>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-label>You have {{ cardsService.getQuantityOwned(cardData.id) }} of this card!</ion-label>
-                  </ion-chip>
-                </ion-item>
-
-                <ion-item *ngIf="cardData.type === 'Character'">
-                  <ion-label text-wrap>
-                    <h2>Character &middot; <em>{{ cardData.attributes.join(', ') }}</em></h2>
-                    <h3 class="vertical-center">
-                      {{ cardData.level }}/{{ cardData.cost }}
-                      &middot;
-                      {{ cardData.power }} Power
-                      &middot;
-                      <app-cardicon *ngFor="let soul of soulArray" [type]="soul" [size]="16"></app-cardicon>
-                    </h3>
-                  </ion-label>
-                </ion-item>
-
-                <ion-item *ngIf="cardData.type === 'Event'">
-                  <ion-label text-wrap>
-                    <h2>Event</h2>
-                    <h3>{{ cardData.level }}/{{ cardData.cost }}</h3>
-                  </ion-label>
-                </ion-item>
-
-                <ion-item *ngIf="cardData.type === 'Climax'">
-                  <ion-label text-wrap>
-                    <h2>Climax</h2>
-                    <h3 class="vertical-center">
-                      <app-cardicon *ngFor="let icon of cardData.trigger" [type]="icon" [size]="16"></app-cardicon>
-                    </h3>
-                  </ion-label>
-                </ion-item>
-
-                <ion-item *ngIf="cardData.ability.length > 0">
-                  <ion-label text-wrap>
-                    <h2>Abilities</h2>
-                    <div class="ability" *ngFor="let ability of cardData.ability">
-                      {{ ability }}
-                    </div>
-                  </ion-label>
-                </ion-item>
-
-                <ion-item *ngIf="cardData.flavorText">
+                <ion-item *ngIf="cardData.text">
                   <ion-label text-wrap>
                     <div class="flavortext">
-                      <em>{{ cardData.flavorText }}</em>
+                      <em>{{ cardData.text }}</em>
                     </div>
                   </ion-label>
                 </ion-item>
@@ -86,90 +41,6 @@
               <div class="color-bar"></div>
             </ion-card-content>
           </ion-card>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="like-this ion-hide-lg-down">
-        <ion-col [sizeLg]="12" class="ion-text-center">
-          <div class="title">Cards Like This</div>
-        </ion-col>
-
-        <ion-col [sizeLg]="1"></ion-col>
-
-        <ion-col *ngFor="let cardInfo of similarCards">
-          <a [routerLink]="['/card', cardInfo.card.id]">
-            <app-card-display class="card" [cardCode]="cardInfo.card.id" [size]="'normal'"
-              [display]="'images'"></app-card-display>
-          </a>
-        </ion-col>
-
-        <ion-col [sizeLg]="1"></ion-col>
-      </ion-row>
-
-      <ion-row class="like-this ion-hide-lg-down" *ngIf="deckStats.decks.length > 0">
-        <ion-col [sizeLg]="12" class="ion-text-center">
-          <div class="title">Decks With This Card</div>
-          <div class="subtitle">
-            <strong>{{ deckStats.decksWithCount / (deckStats.decksWithCount + deckStats.decksWithoutCount) * 100 |
-              number }}%</strong> of {{ cardData.expansion }} decks use this card!
-          </div>
-        </ion-col>
-
-        <ion-col [sizeLg]="1"></ion-col>
-
-        <ion-col class="like-deck" *ngFor="let deckInfo of deckStats.decks">
-          <a [routerLink]="['/deck/view', deckInfo.id]">
-            <app-deck-display [deck]="deckInfo"></app-deck-display>
-          </a>
-        </ion-col>
-
-        <ion-col [sizeLg]="1"></ion-col>
-      </ion-row>
-
-      <ion-row class="tools">
-        <ion-col [sizeXs]="12" [sizeMd]="4" class="ion-text-center">
-          <div class="title">About This Card</div>
-
-          <ion-button fill="outline" color="secondary" expand="block" target="_blank"
-            [href]="'https://www.heartofthecards.com/code/cardlist.html?card=WS_' + hotcCode">
-            Heart of the Cards
-          </ion-button>
-
-          <ion-button fill="outline" color="secondary" expand="block" target="_blank"
-            [href]="'https://en.ws-tcg.com/cardlist/list/?cardno=' + hotcCode">
-            Weiß Cards
-          </ion-button>
-
-          <ion-button fill="outline" color="secondary" expand="block" target="_blank"
-            [href]="'https://encoredecks.com/?cards=' + encoreDecksId" *ngIf="encoreDecksId">
-            Encore Decks with this card
-          </ion-button>
-        </ion-col>
-
-        <ion-col [sizeXs]="12" [sizeMd]="4" class="ion-text-center">
-          <div class="title">Buy This Card</div>
-
-          <ion-button fill="outline" color="secondary" expand="block" target="_blank"
-            [href]="cardsService.tcgPlayerLink(cardData)">
-            TCGPlayer <span class="price" *ngIf="tcgplayerPrice">({{ tcgplayerPrice | currency }})</span>
-          </ion-button>
-
-          <ion-button fill="outline" color="secondary" expand="block" target="_blank"
-            [href]="'https://www.cardmarket.com/en/WeissSchwarz/Products/Search?searchString=' + encodedCardName">
-            Cardmarket
-          </ion-button>
-        </ion-col>
-
-        <ion-col [sizeXs]="12" [sizeMd]="4" class="ion-text-center">
-          <div class="title">Card Data</div>
-
-          <ion-button fill="outline" color="secondary" expand="block" target="_blank" [href]="cardData.image" download>
-            Download Image
-          </ion-button>
-
-          <ion-button fill="outline" color="secondary" expand="block" ngxClipboard [cbContent]="json">
-            Copy JSON
-          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

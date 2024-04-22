@@ -68,29 +68,4 @@ export class CardsService {
       (x) => x.toString().toLowerCase()
     ) as string[];
   }
-
-  public getCardsLikeCard(
-    card: ICard,
-    numLike = -1
-  ): Array<{ card: ICard; score: number }> {
-    return [];
-  }
-
-  public addCardsToCollection(cards: Record<string, number>) {
-    Object.keys(cards || {}).forEach((cardId) => {
-      if (!this.collection[cardId]) {
-        this.collection[cardId] = 0;
-      }
-
-      this.collection[cardId] += cards[cardId];
-    });
-  }
-
-  public removeCardFromCollection(cardCode: string): void {
-    delete this.collection[cardCode];
-  }
-
-  public getQuantityOwned(cardCode: string): number {
-    return this.collection[cardCode] ?? 0;
-  }
 }
