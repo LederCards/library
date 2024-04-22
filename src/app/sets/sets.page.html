@@ -6,79 +6,36 @@
   <div class="page-container">
 
     <ion-grid>
-      <ion-row>
-        <ion-col [offsetXs]="0" [sizeXs]="12" [offsetSm]="2" [sizeSm]="8" [offsetMd]="2" [sizeMd]="8">
-          <ion-button [fill]="sort === 'name' ? 'outline' : 'clear'" (click)="sort = 'name'">
-            <ion-icon slot="start" icon="text-outline"></ion-icon>
-            Name
-          </ion-button>
-
-          <ion-button [fill]="sort === 'year' ? 'outline' : 'clear'" (click)="sort = 'year'">
-            <ion-icon slot="start" icon="time-outline"></ion-icon>
-            Year
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <ion-grid *ngIf="sort === 'year'">
-      <ion-row>
-        <ion-col [offsetXs]="0" [sizeXs]="12" [offsetSm]="2" [sizeSm]="8" [offsetMd]="2" [sizeMd]="8">
-          <ion-card *ngFor="let year of allYears">
-            <ion-card-header>
-              <ion-card-title>{{ year }} Releases</ion-card-title>
-            </ion-card-header>
-
-            <ion-card-content>
-              <ion-list>
-                <ion-item *ngFor="let setName of getSetsByYear(year)">
-                  <ion-label text-wrap>
-                    <ion-row>
-                      <ion-col class="set-name">
-                        <a [routerLink]="['/search']" [queryParams]="{ q: formatSetNameForSearch(setName) }">
-                          {{ setName }}
-                        </a>
-                      </ion-col>
-                    </ion-row>
-                  </ion-label>
-                </ion-item>
-              </ion-list>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <ion-grid *ngIf="sort === 'name'">
+      @for(product of allProducts; track product.id) {
       <ion-row>
         <ion-col [offsetXs]="0" [sizeXs]="12" [offsetSm]="2" [sizeSm]="8" [offsetMd]="2" [sizeMd]="8">
           <ion-card>
             <ion-card-header>
-              <ion-card-title>All Products By Name</ion-card-title>
+              <ion-card-title>{{ product.name }}</ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
               <ion-list>
-                <ion-item *ngFor="let setName of allNames">
+                @for(subproduct of product.subproducts; track subproduct.id) {
+                <ion-item>
                   <ion-label text-wrap>
                     <ion-row>
                       <ion-col class="set-name">
-                        <a [routerLink]="['/search']" [queryParams]="{ q: formatSetNameForSearch(setName) }">
-                          {{ setName }}
+                        <a [routerLink]="['/search']"
+                          [queryParams]="{ q: formatSetNameForSearch(product.id, subproduct.id) }">
+                          {{ subproduct.name }}
                         </a>
-                      </ion-col>
-
-                      <ion-col [sizeMd]="2" class="set-release">
-                        {{ getSetReleaseDates(setName).join(', ') }}
                       </ion-col>
                     </ion-row>
                   </ion-label>
                 </ion-item>
+                }
               </ion-list>
             </ion-card-content>
           </ion-card>
         </ion-col>
       </ion-row>
+      }
     </ion-grid>
 
   </div>

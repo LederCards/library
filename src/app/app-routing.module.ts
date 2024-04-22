@@ -29,7 +29,7 @@ const routes: Routes = [
       import('./syntax/syntax.module').then((m) => m.SyntaxPageModule),
   },
   {
-    path: 'sets',
+    path: 'products',
     loadChildren: () =>
       import('./sets/sets.module').then((m) => m.SetsPageModule),
   },

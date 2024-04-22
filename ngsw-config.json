@@ -15,7 +15,8 @@
         ],
         "urls": [
           "https://fonts.googleapis.com/css2?family=Montserrat&amp;display=swap",
-          "https://ledercards.netlify.app/cards.min.json"
+          "https://ledercards.netlify.app/cards.min.json",
+          "https://ledercards.netlify.app/meta.json"
         ]
       }
     },

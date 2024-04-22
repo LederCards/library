@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { sortBy } from 'lodash';
+import { IProduct } from '../../../interfaces';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-sets',
@@ -8,41 +11,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./sets.page.scss'],
 })
 export class SetsPage implements OnInit {
-  private allExpansions: Record<string, any> = {};
+  private router = inject(Router);
+  private http = inject(HttpClient);
 
-  public sort: 'year' | 'name' = 'name';
-  public allYears: number[] = [];
-  public allNames: string[] = [];
-
-  get expansions() {
-    return this.allExpansions;
-  }
-
-  constructor(private router: Router, private http: HttpClient) {}
+  public allProducts: IProduct[] = [];
 
   async ngOnInit() {
-    /*
-    this.http.get('https://data.limelight.cards/expansions.json').subscribe(sets => {
-      this.allExpansions = sets;
-
-      this.allYears = sortBy([...new Set(Object.values(this.allExpansions).map((expansion: any) => expansion.release).flat())]).reverse();
-      this.allNames = sortBy(Object.keys(this.allExpansions), set => set.toLowerCase());
-    });
-    */
+    this.http
+      .get(`${environment.baseUrl}/meta.json`)
+      .subscribe((products: IProduct[]) => {
+        this.allProducts = sortBy(products, (p) => p.name);
+      });
   }
 
-  getSetReleaseDates(set: string): number[] {
-    return this.allExpansions[set].release;
-  }
-
-  getSetsByYear(year: number): string[] {
-    return Object.keys(this.allExpansions).filter((set) =>
-      this.allExpansions[set].release.includes(year)
-    );
-  }
-
-  formatSetNameForSearch(setName: string): string {
-    return `expansion:"${setName}"`;
+  formatSetNameForSearch(productId: string, subproductId: string): string {
+    return `game:"${productId}" expansion:"${subproductId}"`;
   }
 
   search(query: string) {

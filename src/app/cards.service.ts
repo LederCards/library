@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { decompress } from 'compress-json';
-import { sample, sortBy, sum } from 'lodash';
+import { sample, sortBy } from 'lodash';
 
-import { ICard, IDeck } from '../../interfaces';
+import { ICard } from '../../interfaces';
 import { parseQuery } from '../../search/search';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +22,7 @@ export class CardsService {
   }
 
   public async init() {
-    const cardData = await fetch(
-      'https://ledercards.netlify.app/cards.min.json'
-    );
+    const cardData = await fetch(`${environment.baseUrl}/cards.min.json`);
     const realData = await cardData.json();
 
     const allCards = decompress(realData);
@@ -93,13 +92,5 @@ export class CardsService {
 
   public getQuantityOwned(cardCode: string): number {
     return this.collection[cardCode] ?? 0;
-  }
-
-  public numCardsInDeck(deck: IDeck): number {
-    return sum(Object.values(deck.cards));
-  }
-
-  public getCardStatsForDeck(deck: IDeck): Record<string, number> {
-    return {};
   }
 }
