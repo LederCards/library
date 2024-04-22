@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { sortBy } from 'lodash';
-import { IProduct } from '../../../interfaces';
+import { type IProduct } from '../../../interfaces';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -19,8 +19,8 @@ export class SetsPage implements OnInit {
   async ngOnInit() {
     this.http
       .get(`${environment.baseUrl}/meta.json`)
-      .subscribe((products: IProduct[]) => {
-        this.allProducts = sortBy(products, (p) => p.name);
+      .subscribe((products: unknown) => {
+        this.allProducts = sortBy(products as IProduct[], (p) => p.name);
       });
   }
 

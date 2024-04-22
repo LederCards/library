@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Component, inject, type OnInit } from '@angular/core';
+import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { marked } from 'marked';
 
-import { ICardHelp } from '../../../interfaces';
+import { type ICardHelp } from '../../../interfaces';
 
-import { abilityDescription, attributeDescription, cardDescription,
-  colorDescription, costDescription, expansionDescription, flavorDescription, inDescription, levelDescription,
-  nameDescription, powerDescription, rarityDescription, releaseDescription,
-  setDescription, sideDescription, soulDescription, tagDescription, triggerDescription,
-  typeDescription
+import {
+  cardDescription,
+  inDescription,
+  nameDescription,
+  tagDescription,
 } from '../../../search/operators';
 
 @Component({
@@ -19,26 +19,18 @@ import { abilityDescription, attributeDescription, cardDescription,
   styleUrls: ['./syntax.page.scss'],
 })
 export class SyntaxPage implements OnInit {
+  private router = inject(Router);
+  private domSanitizer = inject(DomSanitizer);
 
   public allOperators: ICardHelp[] = [
-    abilityDescription,
-    attributeDescription, cardDescription, colorDescription,
-    costDescription, expansionDescription, flavorDescription,
-    levelDescription,
+    cardDescription,
     inDescription,
-    nameDescription, powerDescription, rarityDescription,
-    releaseDescription, setDescription, sideDescription,
-    soulDescription, tagDescription, triggerDescription,
-    typeDescription
+    nameDescription,
+    tagDescription,
   ];
 
-  constructor(
-    private router: Router,
-    private domSanitizer: DomSanitizer
-  ) { }
-
   ngOnInit() {
-    if(document.location.hash) {
+    if (document.location.hash) {
       setTimeout(() => {
         this.navigateTo(document.location.hash.replace('#', ''));
       }, 500);
@@ -54,11 +46,10 @@ export class SyntaxPage implements OnInit {
   }
 
   navigateTo(id: string) {
-    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
     setTimeout(() => {
       document.location.hash = id;
     }, 0);
   }
-
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { LocalStorage } from 'ngx-webstorage';
 
 @Component({
@@ -7,13 +7,12 @@ import { LocalStorage } from 'ngx-webstorage';
   styleUrls: ['./below-the-fold.component.scss'],
 })
 export class BelowTheFoldComponent implements OnInit {
-
   @LocalStorage() visualMode = '';
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    if(!this.visualMode) {
+    if (!this.visualMode) {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
       this.visualMode = prefersDark.matches ? 'dark' : 'light';
     }
@@ -28,8 +27,9 @@ export class BelowTheFoldComponent implements OnInit {
 
   ensureThemeSet() {
     const body = document.querySelector('body');
+    if (!body) return;
+
     body.classList.remove('dark', 'light');
     body.classList.add(this.visualMode);
   }
-
 }

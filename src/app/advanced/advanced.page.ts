@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorage } from 'ngx-webstorage';
 
@@ -28,6 +28,9 @@ const defaultQuery = () => ({
   styleUrls: ['./advanced.page.scss'],
 })
 export class AdvancedPage implements OnInit {
+  private router = inject(Router);
+  private cardsService = inject(CardsService);
+
   public allOperators = [
     { value: '=', label: 'Equal To' },
     { value: '!=', label: 'Not Equal To' },
@@ -37,16 +40,11 @@ export class AdvancedPage implements OnInit {
     { value: '<=', label: 'Less Than Or Equal To' },
   ];
 
-  public allAttributes = [];
-  public allExpansions = [];
-  public allRarities = [];
-  public allTriggers = [];
-  public allTags = [];
+  public allTags: string[] = [];
 
   @LocalStorage()
-  public searchQuery;
-
-  constructor(private router: Router, private cardsService: CardsService) {}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public searchQuery: any;
 
   ngOnInit() {
     if (!this.searchQuery) {
@@ -57,11 +55,10 @@ export class AdvancedPage implements OnInit {
     this.searchQuery = Object.assign({}, defaultQuery(), this.searchQuery);
 
     this.allTags = this.cardsService.getAllUniqueAttributes('tags');
-
-    this.allTriggers.forEach((t) => (this.searchQuery.trigger[t] = false));
   }
 
   saveQuery() {
+    // eslint-disable-next-line no-self-assign
     this.searchQuery = this.searchQuery;
   }
 
@@ -95,7 +92,9 @@ export class AdvancedPage implements OnInit {
     }
 
     if (this.searchQuery.expansion.length > 0) {
-      const exactExpansions = this.searchQuery.expansion.map((e) => `=${e}`);
+      const exactExpansions = this.searchQuery.expansion.map(
+        (e: string) => `=${e}`
+      );
       queryAttributes.push(`expansion:"${exactExpansions.join(',')}"`);
     }
 

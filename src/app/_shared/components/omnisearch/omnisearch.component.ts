@@ -1,11 +1,11 @@
-import { Component, effect, input, OnInit, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-omnisearch',
   templateUrl: './omnisearch.component.html',
   styleUrls: ['./omnisearch.component.scss'],
 })
-export class OmnisearchComponent implements OnInit {
+export class OmnisearchComponent {
   public query = '';
 
   public big = input<boolean>(false);
@@ -18,6 +18,4 @@ export class OmnisearchComponent implements OnInit {
       this.query = this.initialQuery();
     });
   }
-
-  ngOnInit() {}
 }

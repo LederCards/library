@@ -1,8 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatatableComponent } from '@siemens/ngx-datatable';
 
-import { ICard } from '../../../interfaces';
+import { type ICard } from '../../../interfaces';
 
 @Component({
   selector: 'app-search',
@@ -10,7 +10,9 @@ import { ICard } from '../../../interfaces';
   styleUrls: ['./search.page.scss'],
 })
 export class SearchPage {
-  @ViewChild(DatatableComponent) table: DatatableComponent;
+  private route = inject(ActivatedRoute);
+
+  @ViewChild(DatatableComponent) table!: DatatableComponent;
 
   public query = '';
 
@@ -22,8 +24,6 @@ export class SearchPage {
   public get isDeckSearch() {
     return this.query.includes('is:deck');
   }
-
-  constructor(private route: ActivatedRoute) {}
 
   ionViewDidEnter() {
     this.query = this.route.snapshot.queryParamMap.get('q') || '';

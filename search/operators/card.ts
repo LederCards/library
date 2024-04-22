@@ -1,7 +1,10 @@
-import { ICardHelp } from '../../interfaces';
+import { type ICardHelp } from '../../interfaces';
 import { partialWithOptionalExactTextOperator } from './_helpers';
 
-export const card = partialWithOptionalExactTextOperator(['card', 'id', 'code'], 'code');
+export const card = partialWithOptionalExactTextOperator(
+  ['card', 'id', 'code'],
+  'id'
+);
 
 export const cardDescription: ICardHelp = {
   name: 'Code / ID',
@@ -29,6 +32,6 @@ This operator is special, you may also search without using the operator.
     {
       example: '`-id:5HY/W83`',
       explanation: 'Exclude the cards matching 5HY/W83.',
-    }
-  ]
+    },
+  ],
 };

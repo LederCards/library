@@ -1,4 +1,4 @@
-import { ICardHelp } from '../../interfaces';
+import { type ICardHelp } from '../../interfaces';
 import { arraySearchOperator } from './_helpers';
 
 export const tag = arraySearchOperator(['tag'], 'tags');
@@ -28,6 +28,6 @@ Almost every card will have a tag. You can find a list of valid tags by using th
     {
       example: '`tag:none`',
       explanation: 'Cards with no tags.',
-    }
-  ]
+    },
+  ],
 };

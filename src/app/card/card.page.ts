@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ICard } from '../../../interfaces';
+import { type ICard } from '../../../interfaces';
 import { CardsService } from '../cards.service';
 
 @Component({
@@ -9,17 +9,15 @@ import { CardsService } from '../cards.service';
   styleUrls: ['./card.page.scss'],
 })
 export class CardPage implements OnInit {
-  public cardData: ICard = undefined;
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private cardsService = inject(CardsService);
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    public cardsService: CardsService
-  ) {}
+  public cardData: ICard | undefined = undefined;
 
   ngOnInit() {
     const cardId = this.route.snapshot.paramMap.get('id');
-    this.cardData = this.cardsService.getCardById(cardId);
+    this.cardData = this.cardsService.getCardById(cardId ?? '');
 
     if (!this.cardData) {
       this.router.navigate(['/']);

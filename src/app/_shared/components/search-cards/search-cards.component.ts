@@ -1,9 +1,16 @@
-import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  Component,
+  inject,
+  Input,
+  type OnChanges,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatatableComponent, SelectionType } from '@siemens/ngx-datatable';
 import { sortBy } from 'lodash';
 
-import { ICard } from '../../../../../interfaces';
+import { type ICard } from '../../../../../interfaces';
 import { queryToText } from '../../../../../search/search';
 import { CardsService } from '../../../cards.service';
 
@@ -13,7 +20,11 @@ import { CardsService } from '../../../cards.service';
   styleUrls: ['./search-cards.component.scss'],
 })
 export class SearchCardsComponent implements OnChanges {
-  @ViewChild(DatatableComponent) table: DatatableComponent;
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private cardsService = inject(CardsService);
+
+  @ViewChild(DatatableComponent) table!: DatatableComponent;
 
   @Input() query = '';
   @Input() queryDisplay: 'images' | 'text' | 'checklist' = 'images';
@@ -32,15 +43,9 @@ export class SearchCardsComponent implements OnChanges {
   public displayTotal = 0;
   public displayMaximum = 0;
 
-  public selected = [];
-  public expanded = {};
+  public selected: any[] = [];
+  public expanded: any = {};
   public checkboxSelectionType: SelectionType = SelectionType.checkbox;
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private cardsService: CardsService
-  ) {}
 
   ngOnChanges(changes: any) {
     if (changes.query) {
@@ -149,7 +154,7 @@ export class SearchCardsComponent implements OnChanges {
     this.updateParams();
   }
 
-  select({ selected }) {
+  select({ selected }: any) {
     this.selected = [...selected];
   }
 

@@ -1,4 +1,4 @@
-import { ICard } from '../../interfaces';
+import { type ICard } from '../../interfaces';
 
 export function bare(cards: ICard[], query: string, extraData = {}): ICard[] {
   const sQueries = query.toLowerCase().split(' ');

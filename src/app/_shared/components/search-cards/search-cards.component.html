@@ -72,7 +72,8 @@
           [canAutoResize]="false">
           <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
             <a class="cursor" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
-              (click)="table.rowDetail.toggleExpandRow(row)">
+              (click)="table.rowDetail.toggleExpandRow(row)" (keypress)="table.rowDetail.toggleExpandRow(row)"
+              tabindex="0">
             </a>
           </ng-template>
         </ngx-datatable-column>

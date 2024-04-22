@@ -1,11 +1,12 @@
 import type * as parser from 'search-query-parser';
-import { ICard, ICardHelp } from '../../interfaces';
+import { type ICard, type ICardHelp } from '../../interfaces';
 
 // this operator lets you check if something is in your collection, or not in your collection
 export function inOperator(aliases: string[]) {
   return (
     cards: ICard[],
     results: parser.SearchParserResult,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     extraData: any = {}
   ) => {
     // if we have no cards, short-circuit because we can't filter it anymore
@@ -15,7 +16,7 @@ export function inOperator(aliases: string[]) {
 
     // if this operator isn't present at all, we skip it
     const shouldFilterThisOperator = aliases.some(
-      (alias) => results[alias] || results.exclude[alias]
+      (alias) => results[alias] || results.exclude?.[alias]
     );
     if (!shouldFilterThisOperator) {
       return cards;
@@ -27,7 +28,7 @@ export function inOperator(aliases: string[]) {
     return aliases
       .map((alias) => {
         // collection filtering
-        if (results.exclude[alias] === 'collection') {
+        if (results.exclude?.[alias] === 'collection') {
           return cards.filter((c) => !collection[c.id]);
         }
 

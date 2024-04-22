@@ -1,4 +1,4 @@
-import { ICardHelp } from '../../interfaces';
+import { type ICardHelp } from '../../interfaces';
 import { partialWithOptionalExactTextOperator } from './_helpers';
 
 export const name = partialWithOptionalExactTextOperator(['name', 'n'], 'name');
@@ -35,6 +35,6 @@ If a name has spaces in its name, you must use quotation marks around the name.
     {
       example: '`-name:"Futaro Uesugi"`',
       explanation: 'Cards without "Futaro Uesugi" in their name.',
-    }
-  ]
+    },
+  ],
 };

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { decompress } from 'compress-json';
-import { sample, sortBy } from 'lodash';
+import { sortBy } from 'lodash';
 
-import { ICard } from '../../interfaces';
+import { type ICard } from '../../interfaces';
 import { parseQuery } from '../../search/search';
 import { environment } from '../environments/environment';
 
@@ -11,7 +11,7 @@ import { environment } from '../environments/environment';
   providedIn: 'root',
 })
 export class CardsService {
-  private cards: ICard[];
+  private cards: ICard[] = [];
   private cardsByName: Record<string, ICard> = {};
   private cardsByCode: Record<string, ICard> = {};
 
@@ -38,11 +38,6 @@ export class CardsService {
     });
   }
 
-  // external links
-  public tcgPlayerLink(card: ICard) {
-    return '';
-  }
-
   // card utilities
   public getCardByCodeOrName(codeOrName: string): ICard | undefined {
     return (
@@ -58,14 +53,10 @@ export class CardsService {
     return this.cards.find((c) => c.id === id);
   }
 
-  public getRandomCard(): ICard {
-    return sample(this.cards);
-  }
-
   public getAllUniqueAttributes(attribute: keyof ICard): string[] {
     return sortBy(
       Array.from(new Set(this.cards.map((c) => c[attribute]).flat())),
-      (x) => x.toString().toLowerCase()
+      (x) => x?.toString().toLowerCase()
     ) as string[];
   }
 }

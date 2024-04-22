@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ICard } from '../../../../../interfaces';
-import { CardsService } from '../../../cards.service';
+import { Component, Input, type OnInit } from '@angular/core';
+import { type ICard } from '../../../../../interfaces';
+import { type CardsService } from '../../../cards.service';
 
 @Component({
   selector: 'app-card-display',
@@ -9,10 +9,10 @@ import { CardsService } from '../../../cards.service';
 })
 export class CardDisplayComponent implements OnInit {
   @Input() size: 'grid' | 'small' | 'normal' | 'large' = 'normal';
-  @Input() cardCode: string;
+  @Input() cardCode!: string;
   @Input() display: 'images' | 'text' = 'images';
 
-  public card: ICard;
+  public card: ICard | undefined;
   public soulArray = [];
 
   constructor(private cardsService: CardsService) {}
