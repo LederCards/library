@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { type Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,13 +7,11 @@ import { type Router } from '@angular/router';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  private router = inject(Router);
 
   public searchQuery = '';
-
-  constructor(private router: Router) {}
 
   search(query: string) {
     this.router.navigate(['/search'], { queryParams: { q: query } });
   }
-
 }
