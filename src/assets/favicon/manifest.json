@@ -1,23 +1,23 @@
 {
-    "name": "Limelight",
-    "short_name": "Limelight",
-    "theme_color": "#7ac546",
-    "background_color": "#7ac546",
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "/",
-    "icons": [
-        {
-            "src": "android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable any"
-        },
-        {
-            "src": "android-chrome-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable any"
-        }
-    ]
+  "name": "Lederlight",
+  "short_name": "Lederlight",
+  "theme_color": "#e1192d",
+  "background_color": "#e1192d",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
 }

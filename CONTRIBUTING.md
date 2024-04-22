@@ -1,12 +1,8 @@
-# Contributing to Limelight
+# Contributing to Lederlight
 
 ## Code Contributions
 
-Send me a pull request, but please make sure you grab from the issue list or let me (Seiyria#3457) know first.
-
-Want to add some tags? Check [this file](https://github.com/LimeLightCards/cards/blob/main/scripts/helpers/card-classifier.ts) for the current tags / classifier functionality and extend it.
-
-Want to update the set list? Check [this file](https://github.com/LimeLightCards/setdata/blob/main/expansions.json) and propose changes to it.
+Send me a pull request, but please make sure you grab from the issue list or let me (@seiyria) know first.
 
 ## Non-Code Contributions
 
