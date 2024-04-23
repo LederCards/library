@@ -21,20 +21,20 @@ If a name has spaces in its name, you must use quotation marks around the name.
 
   examples: [
     {
-      example: '`Nino Nakano`',
-      explanation: 'Cards with "Nino Nakano" in their name.',
+      example: '`Alchemist`',
+      explanation: 'Cards with "Alchemist" in their name.',
     },
     {
-      example: '`name:nakano`',
-      explanation: 'Cards that have "Nakano" in their name.',
+      example: '`name:alchemist`',
+      explanation: 'Cards that have "alchemist" in their name.',
     },
     {
-      example: '`name:"=Nino Nakano"`',
-      explanation: 'Cards that are called exactly "Nino Nakano".',
+      example: '`name:"=Alchemist"`',
+      explanation: 'Cards that are called exactly "Alchemist".',
     },
     {
-      example: '`-name:"Futaro Uesugi"`',
-      explanation: 'Cards without "Futaro Uesugi" in their name.',
+      example: '`-name:"Alchemist"`',
+      explanation: 'Cards without "Alchemist" in their name.',
     },
   ],
 };

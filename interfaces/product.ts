@@ -6,6 +6,7 @@ export interface IProductFilter {
 export interface IProductDefinition {
   id: string;
   name: string;
+  desc: string;
 }
 
 export interface IProduct extends IProductDefinition {

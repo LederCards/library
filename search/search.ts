@@ -4,16 +4,17 @@ import * as parser from 'search-query-parser';
 
 import { type ICard } from '../interfaces';
 
-import { bare, card, inC, name, tag } from './operators';
+import { bare, card, name, product, subproduct, tag } from './operators';
 
 const allKeywords = [
   ['id'], // exact text
-  ['in'], // special operator
   ['name', 'n'], // loose text
+  ['product', 'game'], // exact text
+  ['subproduct', 'expansion'], // exact text
   ['tag'], // array search
 ];
 
-const operators = [inC, card, name, tag];
+const operators = [card, name, product, subproduct, tag];
 
 export function properOperatorsInsteadOfAliases(
   result: parser.SearchParserResult
@@ -49,18 +50,6 @@ const allQueryFormatters = [
     },
   },
   {
-    key: 'expansion',
-    includes: 'has',
-    excludes: 'does not have',
-    formatter: (result: Record<string, any>) => {
-      const value = result['expansion'];
-      const expansions: string[] = isString(value)
-        ? [value]
-        : (value as unknown as string[]);
-      return `${expansions.map((x) => `"${x}"`).join(' or ')}`;
-    },
-  },
-  {
     key: 'name',
     includes: 'contains',
     excludes: 'does not contain',
@@ -70,11 +59,20 @@ const allQueryFormatters = [
     },
   },
   {
-    key: 'set',
+    key: 'product',
     includes: 'is',
     excludes: 'is not',
     formatter: (result: Record<string, any>) => {
-      const value = result['set'];
+      const value = result['product'];
+      return `${value}`;
+    },
+  },
+  {
+    key: 'subproduct',
+    includes: 'is',
+    excludes: 'is not',
+    formatter: (result: Record<string, any>) => {
+      const value = result['subproduct'];
       return `${value}`;
     },
   },
@@ -104,7 +102,7 @@ export function queryToText(query: string): string {
       .split(' ')
       .map((x) => `"${x}"`)
       .join(' or ');
-    return `cards with ${queries} in the name, abilities, expansion, or code`;
+    return `cards with ${queries} in the name or card id`;
   }
 
   const result = properOperatorsInsteadOfAliases(firstResult);

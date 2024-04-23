@@ -18,12 +18,12 @@ Almost every card will have a tag. You can find a list of valid tags by using th
 
   examples: [
     {
-      example: '`tag:"Army"`',
-      explanation: 'Cards that have the Army tag.',
+      example: '`tag:"Power"`',
+      explanation: 'Cards that have the Power tag.',
     },
     {
-      example: '`tag:"Army,Clock Cleanset"`',
-      explanation: 'Cards that have the Army and Clock Cleanse triggers.',
+      example: '`tag:"Power,Arcane"`',
+      explanation: 'Cards that have the Power and Arcane triggers.',
     },
     {
       example: '`tag:none`',

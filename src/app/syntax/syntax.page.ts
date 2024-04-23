@@ -8,8 +8,9 @@ import { type ICardHelp } from '../../../interfaces';
 
 import {
   cardDescription,
-  inDescription,
   nameDescription,
+  productDescription,
+  subproductDescription,
   tagDescription,
 } from '../../../search/operators';
 
@@ -24,8 +25,9 @@ export class SyntaxPage implements OnInit {
 
   public allOperators: ICardHelp[] = [
     cardDescription,
-    inDescription,
     nameDescription,
+    productDescription,
+    subproductDescription,
     tagDescription,
   ];
 
