@@ -121,7 +121,7 @@ export class AdvancedPage implements OnInit {
 
     if (this.searchQuery.subproducts?.length > 0) {
       const exactExpansions = this.searchQuery.subproducts.map(
-        (e: { value: string }) => `=${e.value}`
+        (e: { value: string }) => `${e.value}`
       );
       queryAttributes.push(`subproduct:"${exactExpansions.join(',')}"`);
     }
