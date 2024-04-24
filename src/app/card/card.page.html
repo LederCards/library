@@ -26,7 +26,7 @@
                 <ion-item>
                   <ion-label text-wrap>
                     <div>
-                      <p>{{ cardData.text }}</p>
+                      <app-card-text [text]="cardData.text"></app-card-text>
                     </div>
 
                     @if(template) {

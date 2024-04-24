@@ -10,6 +10,7 @@ import { CardDisplayComponent } from './components/card-display/card-display.com
 import { TopbarComponent } from './components/topbar/topbar.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CardTextComponent } from './components/card-text/card-text.component';
 import { CardIconComponent } from './components/cardicon/cardicon.component';
 import { OmnisearchComponent } from './components/omnisearch/omnisearch.component';
 import { SearchCardsComponent } from './components/search-cards/search-cards.component';
@@ -22,6 +23,7 @@ import { SearchCardsComponent } from './components/search-cards/search-cards.com
     TopbarComponent,
     SearchCardsComponent,
     OmnisearchComponent,
+    CardTextComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,7 @@ import { SearchCardsComponent } from './components/search-cards/search-cards.com
     TopbarComponent,
     SearchCardsComponent,
     OmnisearchComponent,
+    CardTextComponent,
   ],
 })
 export class SharedModule {}

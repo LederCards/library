@@ -39,7 +39,7 @@
     "lodash": "^4.17.21",
     "luxon": "^3.1.0",
     "luxon-angular": "^5.2.0",
-    "marked": "^4.2.1",
+    "marked": "^4.3.0",
     "md5": "^2.3.0",
     "ngx-clipboard": "^15.1.0",
     "ngx-webstorage": "^13.0.1",

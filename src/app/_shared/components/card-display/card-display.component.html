@@ -13,7 +13,8 @@
         <ion-item>
           <ion-label text-wrap>
             <div>{{ card.name }}</div>
-            <p>{{ card.text }}</p>
+
+            <app-card-text [text]="card.text"></app-card-text>
           </ion-label>
         </ion-item>
       </ion-list>
