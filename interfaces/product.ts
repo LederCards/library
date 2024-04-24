@@ -12,4 +12,5 @@ export interface IProductDefinition {
 export interface IProduct extends IProductDefinition {
   filters: IProductFilter[];
   subproducts: IProductDefinition[];
+  cardTemplate: string;
 }

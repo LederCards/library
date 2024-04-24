@@ -8,6 +8,7 @@ import { environment } from '../environments/environment';
 })
 export class MetaService {
   private allProducts: IProduct[] = [];
+  private templatesByProductId: Record<string, string> = {};
 
   public get products() {
     return this.allProducts;
@@ -18,5 +19,17 @@ export class MetaService {
     const realData = await metaData.json();
 
     this.allProducts = realData;
+
+    this.loadTemplates();
+  }
+
+  private loadTemplates() {
+    this.allProducts.forEach((product) => {
+      this.templatesByProductId[product.id] = product.cardTemplate;
+    });
+  }
+
+  public getTemplateByProductId(productId: string): string {
+    return this.templatesByProductId[productId];
   }
 }

@@ -23,18 +23,26 @@
 
             <ion-card-content>
               <ion-list>
-                <ion-item *ngIf="cardData.text">
+                @if(cardData.text) {
+                <ion-item>
                   <ion-label text-wrap>
-                    <div class="flavortext">
-                      <em>{{ cardData.text }}</em>
+                    <div>
+                      <p>{{ cardData.text }}</p>
                     </div>
+
+                    @if(template) {
+                    <br>
+                    <div [innerHTML]="template"></div>
+                    }
                   </ion-label>
                 </ion-item>
+                }
 
                 <ion-item>
                   <ion-label text-wrap>
-                    <ion-chip *ngFor="let tag of cardData.tags" color="primary" (click)="searchTag(tag)">{{ tag
-                      }}</ion-chip>
+                    @for(tag of cardData.tags; track tag) {
+                    <ion-chip color="primary" (click)="searchTag(tag)">{{ tag }}</ion-chip>
+                    }
                   </ion-label>
                 </ion-item>
               </ion-list>

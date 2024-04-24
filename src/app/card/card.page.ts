@@ -2,6 +2,9 @@ import { Component, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { type ICard } from '../../../interfaces';
 import { CardsService } from '../cards.service';
+import { MetaService } from '../meta.service';
+
+import Handlebars from 'handlebars';
 
 @Component({
   selector: 'app-card',
@@ -12,8 +15,10 @@ export class CardPage implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private cardsService = inject(CardsService);
+  private metaService = inject(MetaService);
 
   public cardData: ICard | undefined = undefined;
+  public template = '';
 
   ngOnInit() {
     const cardId = this.route.snapshot.paramMap.get('id');
@@ -23,6 +28,12 @@ export class CardPage implements OnInit {
       this.router.navigate(['/']);
       return;
     }
+
+    const template = this.metaService.getTemplateByProductId(
+      this.cardData.product
+    );
+    const compiledTemplate = Handlebars.compile(template);
+    this.template = compiledTemplate(this.cardData);
   }
 
   search(query: string) {

@@ -34,6 +34,7 @@
     "@siemens/ngx-datatable": "^22.2.0",
     "compress-json": "^2.1.2",
     "csv-parse": "^5.3.2",
+    "handlebars": "^4.7.8",
     "ionicons": "^6.0.3",
     "lodash": "^4.17.21",
     "luxon": "^3.1.0",
