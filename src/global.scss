@@ -74,8 +74,13 @@ ion-select.themed {
   border-radius: var(--border-radius);
 }
 
-ion-select {
-  --padding-start: 8px;
+ion-select,
+ion-input {
+  --padding-start: 8px !important;
+}
+
+ion-input {
+  --color: #ccc !important;
 }
 
 code {
@@ -144,22 +149,31 @@ ng-select {
   .ng-select-container {
     background: var(--ion-background-color) !important;
     color: var(--ion-text-color) !important;
-    border-color: #aaa;
-    min-height: 40px;
+    border-color: #aaa !important;
+    min-height: 44px !important;
+    height: 44px !important;
 
     input {
       color: var(--ion-text-color) !important;
     }
 
     .ng-placeholder {
-      top: 8px !important;
+      top: 12px !important;
     }
+  }
 
-    .ng-value {
-      font-size: 1em !important;
-      background: var(--ion-color-tertiary) !important;
-      color: var(--ion-color-tertiary-contrast) !important;
-    }
+  &:not(.ng-select-single) .ng-value {
+    font-size: 1em !important;
+    background: var(--ion-color-tertiary) !important;
+    color: var(--ion-color-tertiary-contrast) !important;
+  }
+
+  &.ng-select-single .ng-input {
+    top: 12px !important;
+  }
+
+  &.ng-select-multiple .ng-value-label {
+    padding: 4px 8px !important;
   }
 
   .ng-dropdown-panel .ng-option {

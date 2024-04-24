@@ -19,57 +19,43 @@
         </ion-col>
       </ion-row>
 
-      <!-- attribute
+      <!-- product -->
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
-          <ion-icon name="color-filter-outline" color="primary"></ion-icon>
-          <span>Attributes</span>
+          <ion-icon name="game-controller-outline" color="primary"></ion-icon>
+          <span>Product</span>
         </ion-col>
 
         <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
-          <ng-select
-            [items]="allAttributes"
-            [multiple]="true"
-            [closeOnSelect]="false"
-            [searchable]="true"
-            placeholder="Select attributes"
-            (change)="saveQuery()"
-            [(ngModel)]="searchQuery.attribute">
+          <ng-select [items]="allProducts" [closeOnSelect]="true" [searchable]="true" placeholder="Select product"
+            (change)="changeProduct(); saveQuery()" [(ngModel)]="searchQuery.product">
           </ng-select>
         </ion-col>
       </ion-row>
-       -->
 
-      <!-- expansion
+      <!-- subproducts -->
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
-          <ion-icon name="library-outline" color="primary"></ion-icon>
-          <span>Expansion</span>
+          <ion-icon name="hardware-chip-outline" color="primary"></ion-icon>
+          <span>Subproducts</span>
         </ion-col>
 
         <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
-          <ng-select
-            [items]="allExpansions"
-            [multiple]="true"
-            [closeOnSelect]="false"
-            [searchable]="true"
-            placeholder="Select expansions"
-            (change)="saveQuery()"
-            [(ngModel)]="searchQuery.expansion">
+          <ng-select [items]="visibleSubproducts" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
+            placeholder="Select subproducts" (change)="saveQuery()" [(ngModel)]="searchQuery.subproducts">
           </ng-select>
         </ion-col>
       </ion-row>
-       -->
 
       <!-- tags -->
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
-          <ion-icon name="pricetag-outline" color="primary"></ion-icon>
+          <ion-icon name="pricetags-outline" color="primary"></ion-icon>
           <span>Tags</span>
         </ion-col>
 
         <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
-          <ng-select [items]="allTags" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
+          <ng-select [items]="visibleTags" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
             placeholder="Select tags" (change)="saveQuery()" [(ngModel)]="searchQuery.tags">
           </ng-select>
         </ion-col>

@@ -2,25 +2,22 @@ import { Component, inject, type OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorage } from 'ngx-webstorage';
 
-import { isNumber } from 'lodash';
-
+import { sortBy, uniqBy } from 'lodash';
 import { CardsService } from '../cards.service';
+import { MetaService } from '../meta.service';
 
 const defaultQuery = () => ({
   name: '',
-  attribute: '',
-  color: { b: false, g: false, r: false, y: false },
-  cost: { operator: '=', value: undefined },
-  expansion: [],
-  level: { operator: '=', value: undefined },
-  power: { operator: '=', value: undefined },
-  rarity: [],
-  side: { w: false, s: false },
-  soul: { operator: '=', value: undefined },
+  product: undefined,
+  subproduct: [],
   tags: [],
-  trigger: {},
-  type: { character: false, event: false, climax: false },
 });
+
+interface DropdownForProductItem {
+  product: string;
+  value: string;
+  label: string;
+}
 
 @Component({
   selector: 'app-advanced',
@@ -30,6 +27,7 @@ const defaultQuery = () => ({
 export class AdvancedPage implements OnInit {
   private router = inject(Router);
   private cardsService = inject(CardsService);
+  private metaService = inject(MetaService);
 
   public allOperators = [
     { value: '=', label: 'Equal To' },
@@ -41,6 +39,11 @@ export class AdvancedPage implements OnInit {
   ];
 
   public allTags: string[] = [];
+  public allProducts: DropdownForProductItem[] = [];
+  public allSubproducts: DropdownForProductItem[] = [];
+
+  public visibleSubproducts: DropdownForProductItem[] = [];
+  public visibleTags: string[] = [];
 
   @LocalStorage()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,11 +58,54 @@ export class AdvancedPage implements OnInit {
     this.searchQuery = Object.assign({}, defaultQuery(), this.searchQuery);
 
     this.allTags = this.cardsService.getAllUniqueAttributes('tags');
+    this.allProducts = uniqBy(
+      this.metaService.products.map((p) => ({
+        product: p.id,
+        label: p.name,
+        value: p.id,
+      })),
+      (p) => p.value
+    );
+
+    this.allSubproducts = sortBy(
+      this.metaService.products
+        .map((p) =>
+          p.subproducts.map((s) => ({
+            product: p.id,
+            label: s.name,
+            value: s.id,
+          }))
+        )
+        .flat(),
+      (p) => p.label
+    );
+
+    this.visibleSubproducts = this.allSubproducts;
+    this.visibleTags = this.allTags;
+
+    this.setSubproductsBasedOnProduct();
   }
 
   saveQuery() {
     // eslint-disable-next-line no-self-assign
     this.searchQuery = this.searchQuery;
+  }
+
+  changeProduct() {
+    this.searchQuery.subproducts = [];
+    this.searchQuery.tags = [];
+
+    this.setSubproductsBasedOnProduct();
+  }
+
+  setSubproductsBasedOnProduct() {
+    if (!this.searchQuery.product) {
+      this.visibleSubproducts = this.allSubproducts;
+    } else {
+      this.visibleSubproducts = this.allSubproducts.filter(
+        (sp) => sp.product === this.searchQuery.product.value
+      );
+    }
   }
 
   getSearchQuery() {
@@ -69,89 +115,19 @@ export class AdvancedPage implements OnInit {
       queryAttributes.push(`name:"${this.searchQuery.name}"`);
     }
 
-    if (this.searchQuery.attribute.length > 0) {
-      queryAttributes.push(
-        `attribute:"${this.searchQuery.attribute.join(',')}"`
+    if (this.searchQuery.product?.value) {
+      queryAttributes.push(`product:"${this.searchQuery.product.value}"`);
+    }
+
+    if (this.searchQuery.subproducts?.length > 0) {
+      const exactExpansions = this.searchQuery.subproducts.map(
+        (e: { value: string }) => `=${e.value}`
       );
-    }
-
-    const colors = Object.keys(this.searchQuery.color).filter(
-      (c) => this.searchQuery.color[c]
-    );
-    if (colors.length > 0) {
-      queryAttributes.push(`color:${colors.join(',')}`);
-    }
-
-    if (
-      isNumber(+this.searchQuery.cost.value) &&
-      !isNaN(+this.searchQuery.cost.value)
-    ) {
-      queryAttributes.push(
-        `cost:${this.searchQuery.cost.operator}${this.searchQuery.cost.value}`
-      );
-    }
-
-    if (this.searchQuery.expansion.length > 0) {
-      const exactExpansions = this.searchQuery.expansion.map(
-        (e: string) => `=${e}`
-      );
-      queryAttributes.push(`expansion:"${exactExpansions.join(',')}"`);
-    }
-
-    if (
-      isNumber(+this.searchQuery.level.value) &&
-      !isNaN(+this.searchQuery.level.value)
-    ) {
-      queryAttributes.push(
-        `level:${this.searchQuery.level.operator}${this.searchQuery.level.value}`
-      );
-    }
-
-    if (
-      isNumber(+this.searchQuery.power.value) &&
-      !isNaN(+this.searchQuery.power.value)
-    ) {
-      queryAttributes.push(
-        `power:${this.searchQuery.power.operator}${this.searchQuery.power.value}`
-      );
-    }
-
-    if (this.searchQuery.rarity.length > 0) {
-      queryAttributes.push(`rarity:"${this.searchQuery.rarity.join(',')}"`);
-    }
-
-    const sides = Object.keys(this.searchQuery.side).filter(
-      (s) => this.searchQuery.side[s]
-    );
-    if (sides.length > 0) {
-      queryAttributes.push(`side:${sides.join(',')}`);
-    }
-
-    if (
-      isNumber(+this.searchQuery.soul.value) &&
-      !isNaN(+this.searchQuery.soul.value)
-    ) {
-      queryAttributes.push(
-        `soul:${this.searchQuery.soul.operator}${this.searchQuery.soul.value}`
-      );
+      queryAttributes.push(`subproduct:"${exactExpansions.join(',')}"`);
     }
 
     if (this.searchQuery.tags.length > 0) {
       queryAttributes.push(`tag:"${this.searchQuery.tags.join(',')}"`);
-    }
-
-    const triggers = Object.keys(this.searchQuery.trigger).filter(
-      (t) => this.searchQuery.trigger[t]
-    );
-    if (triggers.length > 0) {
-      queryAttributes.push(`trigger:"${triggers.join(',')}"`);
-    }
-
-    const types = Object.keys(this.searchQuery.type).filter(
-      (t) => this.searchQuery.type[t]
-    );
-    if (types.length > 0) {
-      queryAttributes.push(`type:${types.join(',')}`);
     }
 
     const query = queryAttributes.join(' ');
