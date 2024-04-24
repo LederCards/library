@@ -16,7 +16,7 @@ export class SearchPage {
 
   public query = '';
 
-  public queryDisplay: 'images' | 'text' | 'checklist' = 'images';
+  public queryDisplay: 'images' | 'text' = 'images';
   public querySort: keyof ICard = 'name';
   public querySortBy: 'asc' | 'desc' = 'asc';
   public page = 0;

@@ -6,14 +6,15 @@
           <ion-img src="assets/favicon/android-chrome-192x192.png"></ion-img>
         </a>
 
-        @if(title) {
+        @if(title(); as titleText) {
         <ion-title>
-          {{ title }}
+          {{ titleText }}
         </ion-title>
         }
 
-        @if(showSearch) {
-        <app-omnisearch (type)="type.emit($event)" (enter)="enter.emit($event)" [initialQuery]="query"></app-omnisearch>
+        @if(showSearch()) {
+        <app-omnisearch (type)="type.emit($event)" (enter)="enter.emit($event)"
+          [initialQuery]="query()"></app-omnisearch>
         }
       </ion-col>
 

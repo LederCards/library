@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Component,
-  inject,
-  Input,
-  type OnChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, effect, inject, input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatatableComponent, SelectionType } from '@siemens/ngx-datatable';
 import { sortBy } from 'lodash';
@@ -14,23 +8,33 @@ import { type ICard } from '../../../../../interfaces';
 import { queryToText } from '../../../../../search/search';
 import { CardsService } from '../../../cards.service';
 
+type QueryDisplay = 'images' | 'text';
+type QuerySort = keyof ICard;
+type QuerySortBy = 'asc' | 'desc';
+
 @Component({
   selector: 'app-search-cards',
   templateUrl: './search-cards.component.html',
   styleUrls: ['./search-cards.component.scss'],
 })
-export class SearchCardsComponent implements OnChanges {
+export class SearchCardsComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private cardsService = inject(CardsService);
 
   @ViewChild(DatatableComponent) table!: DatatableComponent;
 
-  @Input() query = '';
-  @Input() queryDisplay: 'images' | 'text' | 'checklist' = 'images';
-  @Input() querySort: keyof ICard = 'name';
-  @Input() querySortBy: 'asc' | 'desc' = 'asc';
-  @Input() page = 0;
+  private queryValue = '';
+  public queryDisplayValue: QueryDisplay = 'images';
+  public querySortValue: QuerySort = 'name';
+  public querySortByValue: QuerySortBy = 'asc';
+  public pageValue = 0;
+
+  public query = input<string>('');
+  public queryDisplay = input<QueryDisplay>('images');
+  public querySort = input<QuerySort>('name');
+  public querySortBy = input<QuerySortBy>('asc');
+  public page = input<number>(0);
 
   public queryDesc = '';
 
@@ -47,38 +51,26 @@ export class SearchCardsComponent implements OnChanges {
   public expanded: any = {};
   public checkboxSelectionType: SelectionType = SelectionType.checkbox;
 
-  ngOnChanges(changes: any) {
-    if (changes.query) {
-      this.query = changes.query.currentValue;
-    }
+  constructor() {
+    effect(() => {
+      this.queryValue = this.query();
+      this.queryDisplayValue = this.queryDisplay();
+      this.querySortValue = this.querySort();
+      this.querySortByValue = this.querySortBy();
+      this.pageValue = this.page();
 
-    if (changes.queryDisplay) {
-      this.queryDisplay = changes.queryDisplay.currentValue;
-    }
-
-    if (changes.querySort) {
-      this.querySort = changes.querySort.currentValue;
-    }
-
-    if (changes.querySortBy) {
-      this.querySortBy = changes.querySortBy.currentValue;
-    }
-
-    if (changes.page) {
-      this.page = changes.page.currentValue;
-    }
-
-    this.search(this.query, false);
-    this.changePage(this.page);
+      this.search(this.queryValue, false);
+      this.changePage(this.pageValue);
+    });
   }
 
   redoCurrentSearch() {
-    this.search(this.query);
+    this.search(this.queryValue);
   }
 
   search(query: string, changePage = true) {
-    this.query = query;
-    this.page = 0;
+    this.queryValue = query;
+    this.pageValue = 0;
     this.totalPages = 0;
     this.displayCurrent = 0;
     this.displayTotal = 0;
@@ -91,9 +83,9 @@ export class SearchCardsComponent implements OnChanges {
       return;
     }
 
-    this.queryDesc = queryToText(this.query);
+    this.queryDesc = queryToText(this.queryValue);
 
-    this.queriedCards = this.cardsService.searchCards(this.query);
+    this.queriedCards = this.cardsService.searchCards(this.queryValue);
     this.doExtraSorting();
 
     if (changePage) {
@@ -102,53 +94,53 @@ export class SearchCardsComponent implements OnChanges {
   }
 
   updateParams() {
-    if (!this.query) {
+    if (!this.queryValue) {
       return;
     }
 
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        q: this.query,
-        d: this.queryDisplay,
-        s: this.querySort,
-        b: this.querySortBy,
-        p: this.page,
+        q: this.queryValue,
+        d: this.queryDisplayValue,
+        s: this.querySortValue,
+        b: this.querySortByValue,
+        p: this.pageValue,
       },
       queryParamsHandling: 'merge',
     });
   }
 
   doExtraSorting() {
-    this.queriedCards = sortBy(this.queriedCards, this.querySort);
-    if (this.querySortBy === 'desc') {
+    this.queriedCards = sortBy(this.queriedCards, this.querySortValue);
+    if (this.querySortByValue === 'desc') {
       this.queriedCards = this.queriedCards.reverse();
     }
   }
 
   changePage(newPage: number) {
-    this.page = newPage;
+    this.pageValue = newPage;
     this.totalPages =
       Math.ceil(this.queriedCards.length / this.cardsPerPage) - 1;
 
-    if (this.page > this.totalPages) {
-      this.page = this.totalPages;
+    if (this.pageValue > this.totalPages) {
+      this.pageValue = this.totalPages;
     }
 
-    if (this.page < 0) {
-      this.page = 0;
+    if (this.pageValue < 0) {
+      this.pageValue = 0;
     }
 
     this.visibleCards = this.queriedCards.slice(
-      this.page * this.cardsPerPage,
-      (this.page + 1) * this.cardsPerPage
+      this.pageValue * this.cardsPerPage,
+      (this.pageValue + 1) * this.cardsPerPage
     );
 
-    this.displayCurrent = this.page * this.cardsPerPage + 1;
+    this.displayCurrent = this.pageValue * this.cardsPerPage + 1;
     this.displayTotal = this.queriedCards.length;
     this.displayMaximum = Math.min(
       this.displayTotal,
-      (this.page + 1) * this.cardsPerPage
+      (this.pageValue + 1) * this.cardsPerPage
     );
 
     this.updateParams();

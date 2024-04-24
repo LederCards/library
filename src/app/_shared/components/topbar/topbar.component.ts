@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-topbar',
@@ -6,9 +6,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./topbar.component.scss'],
 })
 export class TopbarComponent {
-  @Input() query = '';
-  @Input() showSearch = true;
-  @Input() title = '';
-  @Output() type = new EventEmitter<string>();
-  @Output() enter = new EventEmitter<string>();
+  public title = input<string>('');
+  public showSearch = input<boolean>(true);
+  public query = input<string>('');
+
+  public type = output<string>();
+  public enter = output<string>();
 }
