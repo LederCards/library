@@ -12,7 +12,7 @@ export const subproductDescription: ICardHelp = {
 
   icon: 'hardware-chip-outline',
 
-  color: '#ffa500',
+  color: '#a16800',
 
   help: `
 You can find cards that are associated with a certain subproduct/expansion by using the \`subproduct:\` operator.
