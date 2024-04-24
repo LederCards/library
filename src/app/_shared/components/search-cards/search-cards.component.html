@@ -1,139 +1,40 @@
-<div class="no-results ion-text-center" *ngIf="displayTotal === 0">
+@if(displayTotal === 0) {
+<div class="no-results ion-text-center">
   <h2>No results found</h2>
   <p>For help using the search tool, check the <a target="_blank" [routerLink]="['/syntax']">help guide</a>.</p>
 </div>
+}
 
-<ng-container *ngIf="displayTotal > 0">
+@if(displayTotal > 0) {
+<ng-container>
   <ng-container *ngTemplateOutlet="cardSwitches"></ng-container>
 
   <ion-grid class="info">
     <ion-row>
       <ion-col>
-        <span *ngIf="queryDisplay !== 'checklist'">{{ displayCurrent | number }} - {{ displayMaximum | number }}
+        <span>{{ displayCurrent | number }} - {{ displayMaximum | number }}
           of&nbsp;</span> {{ displayTotal | number }} {{ queryDesc }}
       </ion-col>
     </ion-row>
   </ion-grid>
 
   <div class="page-container">
-    <ion-grid class="cards" *ngIf="queryDisplay !== 'checklist'">
+    <ion-grid class="cards">
       <ion-row>
-        <ion-col class="card-container" [sizeMd]="3" [sizeSm]="6" [sizeXs]="12" *ngFor="let card of visibleCards">
+        @for(card of visibleCards; track card.id) {
+        <ion-col class="card-container" [sizeMd]="3" [sizeSm]="6" [sizeXs]="12">
           <a [routerLink]="['/card', card.id]">
             <app-card-display class="card" [cardCode]="card.id" [display]="queryDisplay"></app-card-display>
           </a>
         </ion-col>
+        }
       </ion-row>
     </ion-grid>
 
-    <div class="table-container" [class.hidden]="queryDisplay !== 'checklist'">
-
-      <!-- mobile table -->
-      <ngx-datatable class="striped dark ion-hide-md-up" [selected]="selected" [selectionType]="checkboxSelectionType"
-        [selectAllRowsOnPage]="false" (select)="select($event)" [columnMode]="'flex'" [headerHeight]="50"
-        [footerHeight]="50" [rowHeight]="75" [limit]="10" [sorts]="[{ prop: 'name', dir: 'asc' }]"
-        [rows]="queriedCards">
-
-        <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-          [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Name" [flexGrow]="3">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div class="cell" [ngClass]="['color-' + row.color]">
-              <a [routerLink]="['/card', row.id]">{{ row.name }}</a>
-              <br>
-              {{ row.id }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-      </ngx-datatable>
-
-      <!-- desktop table -->
-      <ngx-datatable #table class="striped dark ion-hide-md-down" [selected]="selected"
-        [selectionType]="checkboxSelectionType" [selectAllRowsOnPage]="false" (select)="select($event)"
-        [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="75" [limit]="10"
-        [sorts]="[{ prop: 'name', dir: 'asc' }]" [rows]="queriedCards">
-
-        <ngx-datatable-row-detail [rowHeight]="getDetailHeight()">
-          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-            <div class="ability" *ngFor="let ability of row.ability">
-              {{ ability }}
-            </div>
-          </ng-template>
-        </ngx-datatable-row-detail>
-
-        <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-          [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
-        </ngx-datatable-column>
-
-        <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
-          [canAutoResize]="false">
-          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-            <a class="cursor" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
-              (click)="table.rowDetail.toggleExpandRow(row)" (keypress)="table.rowDetail.toggleExpandRow(row)"
-              tabindex="0">
-            </a>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Name" [flexGrow]="3">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div class="cell" [ngClass]="['color-' + row.color]">
-              <a [routerLink]="['/card', row.id]">{{ row.name }}</a>
-              <br>
-              {{ row.id }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Rarity" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.rarity }}
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Expansion" [flexGrow]="2">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.expansion }}
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Type" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.type }}
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Stats" [flexGrow]="2" [sortable]="false">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div *ngIf="row.type === 'Character'">
-              <div class="trigger-icons character">
-                {{ row.level }}/{{ row.cost }} <app-cardicon *ngFor="let icon of row.trigger" [type]="icon"
-                  [size]="16"></app-cardicon>
-              </div>
-              <div>
-                {{ row.power }} Power
-              </div>
-            </div>
-
-            <div *ngIf="row.type === 'Climax'" class="trigger-icons climax">
-              <app-cardicon *ngFor="let icon of row.trigger" [type]="icon" [size]="24"></app-cardicon>
-            </div>
-
-            <div *ngIf="row.type === 'Event'">
-              {{ row.level }}/{{ row.cost }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-      </ngx-datatable>
-    </div>
+    <ng-container *ngTemplateOutlet="cardSwitches"></ng-container>
   </div>
-
-  <ng-container *ngTemplateOutlet="cardSwitches"></ng-container>
 </ng-container>
+}
 
 <ng-template #cardSwitches>
   <ion-grid class="switches">
@@ -147,7 +48,7 @@
         </ion-select>
       </ion-col>
 
-      <ion-col [sizeXs]="12" [sizeMd]="4" *ngIf="queryDisplay !== 'checklist'">
+      <ion-col [sizeXs]="12" [sizeMd]="4">
         <div class="text-display">Sorted by</div>
         <ion-select class="themed" [(ngModel)]="querySort" interface="popover" placeholder="Sort Prop"
           (ionChange)="redoCurrentSearch()">
@@ -163,8 +64,7 @@
         </ion-select>
       </ion-col>
 
-      <ion-col [sizeXs]="12" [sizeMd]="6" class="pagination ion-justify-content-center"
-        *ngIf="queryDisplay !== 'checklist'">
+      <ion-col [sizeXs]="12" [sizeMd]="6" class="pagination ion-justify-content-center">
         <ion-button fill="outline" color="secondary" [disabled]="page <= 0" (click)="changePage(0)">
           <span class="symbol">&laquo;</span>
         </ion-button>

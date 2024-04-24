@@ -4,7 +4,8 @@
 
 <ion-content>
   <div class="page-container">
-    <ion-grid class="search-grid" *ngIf="searchQuery">
+    @if(searchQuery) {
+    <ion-grid class="search-grid">
 
       <!-- card name -->
       <ion-row>
@@ -71,6 +72,7 @@
       </ion-row>
 
     </ion-grid>
+    }
   </div>
 
   <app-below-the-fold></app-below-the-fold>

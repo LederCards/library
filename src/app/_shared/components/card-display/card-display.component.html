@@ -1,9 +1,12 @@
 @if(card) {
-<div class="card-image-container" *ngIf="display === 'images'">
+@if(display === 'images') {
+<div class="card-image-container">
   <ion-img [src]="card.image" class="card-image" [ngClass]="[size]"></ion-img>
 </div>
+}
 
-<div class="card-text-container" *ngIf="display === 'text'">
+@if(display === 'text') {
+<div class="card-text-container">
   <ion-card class="card-info">
     <ion-card-content>
       <ion-list>
@@ -17,4 +20,5 @@
     </ion-card-content>
   </ion-card>
 </div>
+}
 }

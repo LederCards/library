@@ -14,17 +14,20 @@
       </ion-row>
 
       <ion-row>
-        <ion-col [sizeXs]="12" [sizeMd]="4" *ngFor="let operator of allOperators">
+        @for(operator of allOperators; track $index) {
+        <ion-col [sizeXs]="12" [sizeMd]="4">
           <ion-button shape="round" expand="full" fill="outline" (click)="navigateTo(operator.id)">
             <ion-icon [name]="operator.icon" slot="start"></ion-icon>
             {{ operator.name }}
           </ion-button>
         </ion-col>
+        }
       </ion-row>
     </ion-grid>
 
     <ion-grid class="reference-list">
-      <ion-row class="reference-row" *ngFor="let operator of allOperators" [style.--accent-color]="operator.color">
+      @for(operator of allOperators; track $index) {
+      <ion-row class="reference-row" [style.--accent-color]="operator.color">
         <ion-col [sizeXs]="12" [sizeMd]="6">
           <h3 class="operator-title" [id]="operator.id">
             <ion-icon [name]="operator.icon" [style.color]="operator.color"></ion-icon>
@@ -35,7 +38,8 @@
         </ion-col>
 
         <ion-col>
-          <ion-row *ngFor="let example of operator.examples">
+          @for(example of operator.examples; track $index) {
+          <ion-row>
             <ion-col size="12">
               <ion-card class="example">
                 <ion-card-content>
@@ -45,8 +49,10 @@
               </ion-card>
             </ion-col>
           </ion-row>
+          }
         </ion-col>
       </ion-row>
+      }
     </ion-grid>
   </div>
 

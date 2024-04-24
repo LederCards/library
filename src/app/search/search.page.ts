@@ -21,10 +21,6 @@ export class SearchPage {
   public querySortBy: 'asc' | 'desc' = 'asc';
   public page = 0;
 
-  public get isDeckSearch() {
-    return this.query.includes('is:deck');
-  }
-
   ionViewDidEnter() {
     this.query = this.route.snapshot.queryParamMap.get('q') || '';
     this.queryDisplay =

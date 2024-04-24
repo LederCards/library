@@ -6,12 +6,15 @@
           <ion-img src="assets/favicon/android-chrome-192x192.png"></ion-img>
         </a>
 
-        <ion-title *ngIf="title">
+        @if(title) {
+        <ion-title>
           {{ title }}
         </ion-title>
+        }
 
-        <app-omnisearch *ngIf="showSearch" (type)="type.emit($event)" (enter)="enter.emit($event)"
-          [initialQuery]="query"></app-omnisearch>
+        @if(showSearch) {
+        <app-omnisearch (type)="type.emit($event)" (enter)="enter.emit($event)" [initialQuery]="query"></app-omnisearch>
+        }
       </ion-col>
 
       <ion-col size-xs="2" size-sm="2" size-md="8" size-lg="6">
@@ -28,7 +31,8 @@
                     <ng-content select="[slot='buttons-mobile']"></ng-content>
                   </div>
 
-                  <ng-container *ngIf="!buttonsMobile.hasChildNodes()">
+                  @if(!buttonsMobile.hasChildNodes()) {
+                  <ng-container>
                     <ion-item [routerLink]="['/advanced']" detail="false">
                       <ion-icon slot="start" name="funnel-outline"></ion-icon>
                       Advanced
@@ -44,6 +48,7 @@
                       Products
                     </ion-item>
                   </ng-container>
+                  }
 
                 </ion-list>
               </ion-content>
@@ -56,7 +61,8 @@
             <ng-content select="[slot='buttons-desktop']"></ng-content>
           </div>
 
-          <ng-container *ngIf="!buttonsDesktop.hasChildNodes()">
+          @if(!buttonsDesktop.hasChildNodes()) {
+          <ng-container>
             <ion-button fill="clear" color="light" [routerLink]="['/advanced']">
               <ion-icon slot="start" name="funnel-outline"></ion-icon>
               Advanced
@@ -72,6 +78,7 @@
               Products
             </ion-button>
           </ng-container>
+          }
         </div>
       </ion-col>
     </ion-row>
