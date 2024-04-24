@@ -15,7 +15,7 @@ export class CardPage implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private cardsService = inject(CardsService);
-  private metaService = inject(MetaService);
+  public metaService = inject(MetaService);
 
   public cardData: ICard | undefined = undefined;
   public template = '';
