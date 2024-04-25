@@ -2,7 +2,8 @@ import { Component, inject, type OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorage } from 'ngx-webstorage';
 
-import { sortBy, uniqBy } from 'lodash';
+import { isNumber, sortBy, uniqBy } from 'lodash';
+import type { IProductFilter } from '../../../interfaces';
 import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
 
@@ -11,6 +12,7 @@ const defaultQuery = () => ({
   product: undefined,
   subproduct: [],
   tags: [],
+  meta: {},
 });
 
 interface DropdownForProductItem {
@@ -27,7 +29,7 @@ interface DropdownForProductItem {
 export class AdvancedPage implements OnInit {
   private router = inject(Router);
   private cardsService = inject(CardsService);
-  private metaService = inject(MetaService);
+  public metaService = inject(MetaService);
 
   public allOperators = [
     { value: '=', label: 'Equal To' },
@@ -44,6 +46,8 @@ export class AdvancedPage implements OnInit {
 
   public visibleSubproducts: DropdownForProductItem[] = [];
   public visibleTags: string[] = [];
+
+  public visibleFilters: IProductFilter[] = [];
 
   @LocalStorage()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -84,6 +88,7 @@ export class AdvancedPage implements OnInit {
     this.visibleTags = this.allTags;
 
     this.setSubproductsBasedOnProduct();
+    this.setBasicMeta();
   }
 
   saveQuery() {
@@ -94,8 +99,23 @@ export class AdvancedPage implements OnInit {
   changeProduct() {
     this.searchQuery.subproducts = [];
     this.searchQuery.tags = [];
+    this.searchQuery.meta = {};
 
     this.setSubproductsBasedOnProduct();
+    this.setBasicMeta();
+  }
+
+  setBasicMeta() {
+    this.visibleFilters.forEach((filter) => {
+      if (this.searchQuery.meta[filter.prop]) return;
+
+      if (filter.type === 'number') {
+        this.searchQuery.meta[filter.prop] = {
+          operator: '=',
+          value: undefined,
+        };
+      }
+    });
   }
 
   setSubproductsBasedOnProduct() {
@@ -104,6 +124,10 @@ export class AdvancedPage implements OnInit {
     } else {
       this.visibleSubproducts = this.allSubproducts.filter(
         (sp) => sp.product === this.searchQuery.product.value
+      );
+
+      this.visibleFilters = this.metaService.getFiltersByProductId(
+        this.searchQuery.product.value
       );
     }
   }
@@ -129,6 +153,17 @@ export class AdvancedPage implements OnInit {
     if (this.searchQuery.tags.length > 0) {
       queryAttributes.push(`tag:"${this.searchQuery.tags.join(',')}"`);
     }
+
+    this.visibleFilters.forEach((filter) => {
+      if (!this.searchQuery.meta[filter.prop]) return;
+
+      if (filter.type === 'number') {
+        const { operator, value } = this.searchQuery.meta[filter.prop];
+        if (isNumber(+value) && !isNaN(+value)) {
+          queryAttributes.push(`${filter.prop}:${operator}${value}`);
+        }
+      }
+    });
 
     const query = queryAttributes.join(' ');
 

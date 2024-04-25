@@ -1,10 +1,10 @@
-import { isArray } from 'lodash';
+import { get, isArray } from 'lodash';
 import type * as parser from 'search-query-parser';
 
 import { type ICard } from '../../interfaces';
 
 function getValueFromCard<T>(card: ICard, prop: keyof ICard): T {
-  return card[prop] as T;
+  return get(card, prop) as T;
 }
 
 function cardMatchesNumberCheck(value: number, numberCheck: string): boolean {
@@ -38,11 +38,7 @@ function cardMatchesNumberCheck(value: number, numberCheck: string): boolean {
 // this operator works on number fields
 // it supports exact matching, as well as >, >=, <, <=
 export function numericalOperator(aliases: string[], key: keyof ICard) {
-  return (
-    cards: ICard[],
-    results: parser.SearchParserResult,
-    extraData = {}
-  ) => {
+  return (cards: ICard[], results: parser.SearchParserResult) => {
     // if we have no cards, short-circuit because we can't filter it anymore
     if (cards.length === 0) {
       return [];
@@ -95,11 +91,7 @@ export function numericalOperator(aliases: string[], key: keyof ICard) {
 // it also checks case-insensitively
 // it also supports "none" as a value for empty arrays
 export function arraySearchOperator(aliases: string[], key: keyof ICard) {
-  return (
-    cards: ICard[],
-    results: parser.SearchParserResult,
-    extraData = {}
-  ) => {
+  return (cards: ICard[], results: parser.SearchParserResult) => {
     // if we have no cards, short-circuit because we can't filter it anymore
     if (cards.length === 0) {
       return [];
@@ -175,11 +167,7 @@ export function partialWithOptionalExactTextOperator(
   aliases: string[],
   key: keyof ICard
 ) {
-  return (
-    cards: ICard[],
-    results: parser.SearchParserResult,
-    extraData = {}
-  ) => {
+  return (cards: ICard[], results: parser.SearchParserResult) => {
     // if we have no cards, short-circuit because we can't filter it anymore
     if (cards.length === 0) {
       return [];
@@ -252,11 +240,7 @@ export function partialWithOptionalExactTextOperator(
 // most properties can use this sufficiently
 // it still checks case-insensitively
 export function exactTextOperator(aliases: string[], key: keyof ICard) {
-  return (
-    cards: ICard[],
-    results: parser.SearchParserResult,
-    extraData = {}
-  ) => {
+  return (cards: ICard[], results: parser.SearchParserResult) => {
     // if we have no cards, short-circuit because we can't filter it anymore
     if (cards.length === 0) {
       return [];

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import type { IProduct } from '../../interfaces';
+import type { IProduct, IProductFilter } from '../../interfaces';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -10,6 +10,7 @@ export class MetaService {
   private allProducts: IProduct[] = [];
   private templatesByProductId: Record<string, string> = {};
   private rulesByProductId: Record<string, string> = {};
+  private filtersByProductId: Record<string, IProductFilter[]> = {};
 
   public get products() {
     return this.allProducts;
@@ -28,6 +29,7 @@ export class MetaService {
     this.allProducts.forEach((product) => {
       this.templatesByProductId[product.id] = product.cardTemplate;
       this.rulesByProductId[product.id] = product.external.rules;
+      this.filtersByProductId[product.id] = product.filters;
     });
   }
 
@@ -37,5 +39,13 @@ export class MetaService {
 
   public getRulesByProductId(productId: string): string {
     return this.rulesByProductId[productId];
+  }
+
+  public getFiltersByProductId(productId: string): IProductFilter[] {
+    return this.filtersByProductId[productId] ?? [];
+  }
+
+  public getAllFilters(): IProductFilter[] {
+    return Object.values(this.filtersByProductId).flat();
   }
 }

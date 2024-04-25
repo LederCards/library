@@ -14,7 +14,12 @@ const allKeywords = [
   ['tag'], // array search
 ];
 
-const operators = [card, name, product, subproduct, tag];
+export type ParserOperator = (
+  cards: ICard[],
+  results: parser.SearchParserResult
+) => ICard[];
+
+const operators: ParserOperator[] = [card, name, product, subproduct, tag];
 
 export function properOperatorsInsteadOfAliases(
   result: parser.SearchParserResult
@@ -130,19 +135,24 @@ export function queryToText(query: string): string {
 export function parseQuery(
   cards: ICard[],
   query: string,
-  extraData = {}
+  extraOperators: Array<{ aliases: string[]; operator: ParserOperator }> = []
 ): ICard[] {
   query = query.toLowerCase().trim();
 
+  const validKeywords = [
+    allKeywords,
+    ...extraOperators.map((o) => o.aliases),
+  ].flat(2);
+
   const result = parser.parse(query, {
-    keywords: allKeywords.flat(),
+    keywords: validKeywords,
     offsets: false,
   });
 
   // the parser returns a string if there's nothing interesting to do, for some reason
   // so we have a bare words parser
   if (isString(result)) {
-    return bare(cards, query, extraData);
+    return bare(cards, query);
   }
 
   const resultText = (result as parser.SearchParserResult).text as string;
@@ -150,17 +160,15 @@ export function parseQuery(
   let returnCards = cards;
 
   if (resultText) {
-    returnCards = bare(returnCards, resultText, extraData);
+    returnCards = bare(returnCards, resultText);
   }
 
   // check all the operators
-  operators.forEach((operator) => {
-    returnCards = operator(
-      returnCards,
-      result as parser.SearchParserResult,
-      extraData
-    );
-  });
+  [operators, extraOperators.map((o) => o.operator)]
+    .flat()
+    .forEach((operator) => {
+      returnCards = operator(returnCards, result as parser.SearchParserResult);
+    });
 
   return returnCards;
 }

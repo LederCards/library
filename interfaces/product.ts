@@ -1,6 +1,7 @@
 export interface IProductFilter {
   name: string;
   prop: string;
+  type: 'number';
 }
 
 export interface IProductDefinition {

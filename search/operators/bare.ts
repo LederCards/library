@@ -1,6 +1,6 @@
 import { type ICard } from '../../interfaces';
 
-export function bare(cards: ICard[], query: string, extraData = {}): ICard[] {
+export function bare(cards: ICard[], query: string): ICard[] {
   const sQueries = query.toLowerCase().split(' ');
 
   const matches = (card: ICard, term: string) => {
