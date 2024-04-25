@@ -62,7 +62,7 @@
         </ion-col>
       </ion-row>
 
-      @for(filter of visibleFilters; track index) {
+      @for(filter of visibleFilters; track $index) {
       <ion-row>
         @switch(filter.type) {
         @case ('number') {
