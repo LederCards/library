@@ -4,7 +4,7 @@
 
 <ion-content>
   <div class="page-container">
-    @if(cardData) {
+    @if(cardData(); as cardData) {
     <ion-grid>
       <ion-row>
         <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="4" [offsetLg]="2">
@@ -44,7 +44,38 @@
                     }
                   </ion-label>
                 </ion-item>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
 
+          @if(faq().length > 0) {
+          <ion-card class="card-info">
+            <ion-card-header>
+              <ion-card-title>FAQ</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
+                @for(entry of faq(); track $index) {
+                <ion-item>
+                  <ion-label text-wrap>
+                    <h3>Q: {{ entry.q }}</h3>
+                    <p>A: {{ entry.a }}</p>
+                  </ion-label>
+                </ion-item>
+                }
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+          }
+
+          <ion-card class="card-info">
+            <ion-card-header>
+              <ion-card-title>More {{ metaService.getProductNameByProductId(cardData.product) }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
                 <ion-item [href]="metaService.getRulesByProductId(cardData.product)" target="_blank">
                   <ion-icon slot="start" name="link-outline"></ion-icon>
                   Rules

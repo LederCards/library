@@ -1,10 +1,19 @@
-import { Component, inject, type OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  type OnInit,
+  type Signal,
+  type WritableSignal,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { type ICard } from '../../../interfaces';
+import { type ICard, type ICardFAQEntry } from '../../../interfaces';
 import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
 
 import Handlebars from 'handlebars';
+import { FAQService } from '../faq.service';
 
 @Component({
   selector: 'app-card',
@@ -15,25 +24,34 @@ export class CardPage implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private cardsService = inject(CardsService);
+  private faqService = inject(FAQService);
   public metaService = inject(MetaService);
 
-  public cardData: ICard | undefined = undefined;
+  public cardData: WritableSignal<ICard | undefined> = signal(undefined);
   public template = '';
+
+  public faq: Signal<ICardFAQEntry[]> = computed(() => {
+    const cardData = this.cardData();
+    if (!this.faqService.ready$() || !cardData) return [];
+
+    return this.faqService.getCardFAQ(cardData.product, cardData.name);
+  });
 
   ngOnInit() {
     const cardId = this.route.snapshot.paramMap.get('id');
-    this.cardData = this.cardsService.getCardById(cardId ?? '');
+    const cardData = this.cardsService.getCardById(cardId ?? '');
 
-    if (!this.cardData) {
+    if (!cardData) {
       this.router.navigate(['/']);
       return;
     }
 
-    const template = this.metaService.getTemplateByProductId(
-      this.cardData.product
-    );
+    const template = this.metaService.getTemplateByProductId(cardData.product);
     const compiledTemplate = Handlebars.compile(template);
-    this.template = compiledTemplate(this.cardData);
+    this.template = compiledTemplate(cardData);
+
+    this.cardData.set(cardData);
+    this.loadFAQ();
   }
 
   search(query: string) {
@@ -43,4 +61,6 @@ export class CardPage implements OnInit {
   searchTag(tag: string) {
     this.search(`tag:"${tag}"`);
   }
+
+  loadFAQ() {}
 }

@@ -14,9 +14,16 @@ export class CardTextComponent {
 
   constructor() {
     const renderer = this.getCustomRenderer();
+
     effect(() => {
-      this.html = marked(this.text(), { renderer });
+      this.html = marked(this.fixText(), {
+        renderer,
+      });
     });
+  }
+
+  private fixText(): string {
+    return this.text().split('+').join('\\+').split('-').join('\\-');
   }
 
   private getCustomRenderer(): marked.Renderer {

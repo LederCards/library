@@ -1,44 +1,10 @@
-
 .page-container {
   margin-top: 1em;
 }
 
 .card-info {
-
-  &.color-B {
-    --color-bar-color-start: #0099d9;
-    --color-bar-color-end: #00587c;
-  }
-
-  &.color-R {
-    --color-bar-color-start: #e63028;
-    --color-bar-color-end: #6a111b;
-  }
-
-  &.color-G {
-    --color-bar-color-start: #3db554;
-    --color-bar-color-end: #21613d;
-  }
-
-  &.color-Y {
-    --color-bar-color-start: #faed00;
-    --color-bar-color-end: #7d700c;
-  }
-
-  .ability, .flavortext {
-    font-size: 0.75em;
-  }
-
-  .color-bar {
-    z-index: 0;
-    min-height: 22px;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    background: linear-gradient(to right, var(--color-bar-color-start), var(--color-bar-color-end));
+  &:not(:first-child) {
+    margin-top: 2em;
   }
 
   app-cardicon {

@@ -16,5 +16,6 @@ export interface IProduct extends IProductDefinition {
   cardTemplate: string;
   external: {
     rules: string;
+    faq: Record<string, string>;
   };
 }

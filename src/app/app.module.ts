@@ -12,6 +12,8 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CardsService } from './cards.service';
+import { FAQService } from './faq.service';
+import { LocaleService } from './locale.service';
 import { MetaService } from './meta.service';
 
 @NgModule({
@@ -32,21 +34,21 @@ import { MetaService } from './meta.service';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: APP_INITIALIZER,
-      useFactory: (cardsService: CardsService) => async () => {
-        await cardsService.init();
-        return cardsService;
-      },
-      deps: [CardsService],
       multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (metaService: MetaService) => async () => {
-        await metaService.init();
-        return metaService;
-      },
-      deps: [MetaService],
-      multi: true,
+      deps: [MetaService, LocaleService, FAQService, CardsService],
+      useFactory:
+        (
+          metaService: MetaService,
+          localeService: LocaleService,
+          faqService: FAQService,
+          cardsService: CardsService
+        ) =>
+        async () => {
+          await metaService.init();
+          await localeService.init();
+          await faqService.init();
+          await cardsService.init();
+        },
     },
   ],
   bootstrap: [AppComponent],

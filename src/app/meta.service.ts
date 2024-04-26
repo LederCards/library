@@ -8,9 +8,11 @@ import { environment } from '../environments/environment';
 })
 export class MetaService {
   private allProducts: IProduct[] = [];
+  private productNamesByProductId: Record<string, string> = {};
   private templatesByProductId: Record<string, string> = {};
   private rulesByProductId: Record<string, string> = {};
   private filtersByProductId: Record<string, IProductFilter[]> = {};
+  private faqByProductId: Record<string, Record<string, string>> = {};
 
   public get products() {
     return this.allProducts;
@@ -27,10 +29,16 @@ export class MetaService {
 
   private loadExternals() {
     this.allProducts.forEach((product) => {
+      this.productNamesByProductId[product.id] = product.name;
       this.templatesByProductId[product.id] = product.cardTemplate;
       this.rulesByProductId[product.id] = product.external.rules;
       this.filtersByProductId[product.id] = product.filters;
+      this.faqByProductId[product.id] = product.external.faq;
     });
+  }
+
+  public getProductNameByProductId(productId: string): string {
+    return this.productNamesByProductId[productId];
   }
 
   public getTemplateByProductId(productId: string): string {
@@ -45,7 +53,27 @@ export class MetaService {
     return this.filtersByProductId[productId] ?? [];
   }
 
+  public getFAQByProductId(productId: string): Record<string, string> {
+    return this.faqByProductId[productId] ?? {};
+  }
+
   public getAllFilters(): IProductFilter[] {
     return Object.values(this.filtersByProductId).flat();
+  }
+
+  public getAllFAQs(): Array<{
+    productId: string;
+    locale: string;
+    url: string;
+  }> {
+    return Object.keys(this.faqByProductId)
+      .map((productId) =>
+        Object.keys(this.faqByProductId[productId]).map((locale) => ({
+          productId,
+          locale,
+          url: this.faqByProductId[productId][locale],
+        }))
+      )
+      .flat();
   }
 }
