@@ -31,9 +31,9 @@ export class MetaService {
     this.allProducts.forEach((product) => {
       this.productNamesByProductId[product.id] = product.name;
       this.templatesByProductId[product.id] = product.cardTemplate;
-      this.rulesByProductId[product.id] = product.external.rules;
+      this.rulesByProductId[product.id] = product.external?.rules ?? '';
       this.filtersByProductId[product.id] = product.filters;
-      this.faqByProductId[product.id] = product.external.faq;
+      this.faqByProductId[product.id] = product.external?.faq ?? {};
     });
   }
 

@@ -1,0 +1,57 @@
+<ion-header>
+  <app-topbar (enter)="search($event)"></app-topbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-container">
+
+    @if(currentFAQ(); as faq) {
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-list>
+            @for(entry of faq; track $index) {
+            <ion-item-group>
+              <ion-item-divider>
+                <ion-label>{{ entry.card }}</ion-label>
+              </ion-item-divider>
+
+              @for(faqEntry of entry.faq; track $index) {
+              <ion-item>
+                <ion-label text-wrap>
+                  <h3>Q: {{ faqEntry.q }}</h3>
+                  <p>A: {{ faqEntry.a }}</p>
+                </ion-label>
+              </ion-item>
+              }
+            </ion-item-group>
+            }
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    }
+
+    @else {
+    <ion-grid>
+      <ion-row>
+        @for(faq of faqs(); track $index) {
+        <ion-col size-lg="3" size-md="4" size-sm="6" size-xs="12">
+          <ion-card class="faq-tile" (click)="loadFAQ(faq)">
+            <ion-card-header>
+              <ion-card-title>{{ metaService.getProductNameByProductId(faq.productId) }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              {{ faq.faq.length | number }} FAQs
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+    }
+  </div>
+
+  <app-below-the-fold></app-below-the-fold>
+</ion-content>

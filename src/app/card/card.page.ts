@@ -51,7 +51,6 @@ export class CardPage implements OnInit {
     this.template = compiledTemplate(cardData);
 
     this.cardData.set(cardData);
-    this.loadFAQ();
   }
 
   search(query: string) {
@@ -61,6 +60,4 @@ export class CardPage implements OnInit {
   searchTag(tag: string) {
     this.search(`tag:"${tag}"`);
   }
-
-  loadFAQ() {}
 }

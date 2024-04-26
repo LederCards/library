@@ -34,6 +34,10 @@ const routes: Routes = [
       import('./sets/sets.module').then((m) => m.SetsPageModule),
   },
   {
+    path: 'faq',
+    loadChildren: () => import('./faq/faq.module').then((m) => m.FaqPageModule),
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full',

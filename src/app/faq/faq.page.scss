@@ -1,0 +1,22 @@
+.faq-tile {
+  min-height: 200px;
+  padding: 4px;
+
+  border: 2px solid #000;
+
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    border: 2px solid var(--ion-color-primary);
+  }
+
+  ion-card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 2em;
+    padding: 1em;
+  }
+}

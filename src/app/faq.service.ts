@@ -1,4 +1,11 @@
-import { effect, inject, Injectable, Injector, signal } from '@angular/core';
+import {
+  effect,
+  inject,
+  Injectable,
+  Injector,
+  signal,
+  type WritableSignal,
+} from '@angular/core';
 import type { ICardFAQ, ICardFAQEntry } from '../../interfaces';
 import { LocaleService } from './locale.service';
 import { MetaService } from './meta.service';
@@ -14,14 +21,17 @@ export class FAQService {
   private isReady = signal<boolean>(false);
   public ready$ = this.isReady.asReadonly();
 
-  private allFAQs: Array<{
-    productId: string;
-    locale: string;
-    url: string;
-  }> = [];
+  private allFAQs: WritableSignal<
+    Array<{
+      productId: string;
+      locale: string;
+      url: string;
+    }>
+  > = signal([]);
 
-  private faqByProductIdAndLocale: Record<string, Record<string, ICardFAQ[]>> =
-    {};
+  private faqByProductIdAndLocale: WritableSignal<
+    Record<string, Record<string, ICardFAQ[]>>
+  > = signal({});
 
   private faqByProductLocaleCard: Record<
     string,
@@ -29,7 +39,7 @@ export class FAQService {
   > = {};
 
   public async init() {
-    this.allFAQs = this.metaService.getAllFAQs();
+    this.allFAQs.set(this.metaService.getAllFAQs());
 
     effect(
       () => {
@@ -41,16 +51,23 @@ export class FAQService {
   }
 
   private loadLocaleFAQs(locale: string) {
-    this.allFAQs.forEach(async (faq) => {
-      if (faq.locale !== locale) return;
-      if (this.faqByProductIdAndLocale[faq.productId]?.[faq.locale]) return;
+    const baseFAQs = this.faqByProductIdAndLocale();
 
-      this.faqByProductIdAndLocale[faq.productId] ??= {};
+    this.allFAQs().forEach(async (faq) => {
+      if (faq.locale !== locale) return;
+      if (baseFAQs[faq.productId]?.[faq.locale]) return;
+
+      baseFAQs[faq.productId] ??= {};
 
       const faqData = await fetch(faq.url);
       const realData = await faqData.json();
 
-      this.faqByProductIdAndLocale[faq.productId][faq.locale] = realData;
+      baseFAQs[faq.productId][faq.locale] = realData;
+
+      this.faqByProductIdAndLocale.set({
+        ...this.faqByProductIdAndLocale(),
+        ...baseFAQs,
+      });
 
       realData.forEach((cardFAQ: ICardFAQ) => {
         this.faqByProductLocaleCard[faq.productId] ??= {};
@@ -61,6 +78,34 @@ export class FAQService {
     });
 
     if (!this.isReady()) this.isReady.set(true);
+  }
+
+  public getFAQs(): Array<{
+    productId: string;
+    locale: string;
+    faq: ICardFAQ[];
+  }> {
+    if (!this.isReady()) return [];
+
+    const faqData = this.faqByProductIdAndLocale();
+    const locale = this.localeService.currentLocale();
+
+    return Object.keys(faqData)
+      .map((productId) => ({
+        productId,
+        locale,
+        faq: faqData[productId][locale],
+      }))
+      .filter((p) => p.faq)
+      .flat();
+  }
+
+  public getProductFAQ(
+    productId: string,
+    locale: string
+  ): ICardFAQ[] | undefined {
+    const faq = this.faqByProductIdAndLocale();
+    return faq?.[productId]?.[locale];
   }
 
   public getCardFAQ(productId: string, card: string): ICardFAQEntry[] {
