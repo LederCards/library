@@ -91,40 +91,6 @@ a {
 .cell {
   padding-left: 10px;
   border-left: 6px solid var(--cell-border, transparent);
-
-  &.color-B {
-    --cell-border: #00587c;
-  }
-
-  &.color-R {
-    --cell-border: #6a111b;
-  }
-
-  &.color-G {
-    --cell-border: #21613d;
-  }
-
-  &.color-Y {
-    --cell-border: #7d700c;
-  }
-}
-
-.trigger-icons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  &.character {
-    app-cardicon {
-      margin-left: 5px;
-    }
-  }
-
-  &.climax {
-    app-cardicon:not(:first-child) {
-      margin-left: 5px;
-    }
-  }
 }
 
 .ability:not(:last-child) {

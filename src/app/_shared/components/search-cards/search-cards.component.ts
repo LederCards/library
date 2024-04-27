@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, effect, inject, input, ViewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  output,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatatableComponent, SelectionType } from '@siemens/ngx-datatable';
 import { sortBy } from 'lodash';
@@ -35,6 +42,8 @@ export class SearchCardsComponent {
   public querySort = input<QuerySort>('name');
   public querySortBy = input<QuerySortBy>('asc');
   public page = input<number>(0);
+
+  public pageChanged = output<number>();
 
   public queryDesc = '';
 
@@ -144,6 +153,7 @@ export class SearchCardsComponent {
     );
 
     this.updateParams();
+    this.pageChanged.emit(this.pageValue);
   }
 
   select({ selected }: any) {
