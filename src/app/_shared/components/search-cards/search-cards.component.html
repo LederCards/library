@@ -31,7 +31,9 @@
       </ion-row>
     </ion-grid>
 
+    @if(visibleCards.length > 4) {
     <ng-container *ngTemplateOutlet="cardSwitches"></ng-container>
+    }
   </div>
 </ng-container>
 }

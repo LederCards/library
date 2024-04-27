@@ -41,6 +41,12 @@ body {
   --ion-font-family: Montserrat, Roboto, Helvetica Neue, sans-serif;
 }
 
+body.dark {
+  ion-input {
+    --color: #ccc !important;
+  }
+}
+
 .page-container {
   padding-left: 1em;
   padding-right: 1em;
@@ -60,7 +66,9 @@ ion-searchbar.themed,
 ion-input.themed,
 ion-select.themed {
   --background: #3f2f5c !important;
+  --ion-text-color: #fff !important;
   --color: #fff !important;
+  color: #fff !important;
 }
 
 ion-select.themed {
@@ -77,10 +85,6 @@ ion-select.themed {
 ion-select,
 ion-input {
   --padding-start: 8px !important;
-}
-
-ion-input {
-  --color: #ccc !important;
 }
 
 code {
