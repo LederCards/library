@@ -7,7 +7,7 @@ import { LocalStorage } from 'ngx-webstorage';
   styleUrls: ['./below-the-fold.component.scss'],
 })
 export class BelowTheFoldComponent implements OnInit {
-  @LocalStorage() visualMode = '';
+  @LocalStorage() visualMode!: string;
 
   constructor() {}
 
