@@ -1,4 +1,5 @@
 import { inject, Injectable, signal, type WritableSignal } from '@angular/core';
+import { sortBy } from 'lodash';
 import type { ICardFAQ, ICardFAQEntry } from '../../interfaces';
 import { LocaleService } from './locale.service';
 import { MetaService } from './meta.service';
@@ -43,7 +44,7 @@ export class FAQService {
         const faqData = await fetch(faq.url);
         const realData = await faqData.json();
 
-        baseFAQs[faq.productId][faq.locale] = realData;
+        baseFAQs[faq.productId][faq.locale] = sortBy(realData, 'card');
 
         this.faqByProductIdAndLocale.set({
           ...this.faqByProductIdAndLocale(),
