@@ -28,9 +28,8 @@ export class TopbarComponent {
     this.search($event);
   }
 
-  private search(query: string) {
-    this.router.navigate(['/search'], {
-      queryParamsHandling: 'merge',
+  private async search(query: string) {
+    await this.router.navigate(['/search'], {
       queryParams: { q: query },
     });
 
