@@ -1,0 +1,54 @@
+.print-only {
+  @media screen {
+    display: none !important;
+  }
+}
+
+@media print {
+  ion-header,
+  app-below-the-fold,
+  .print-hide {
+    display: none !important;
+  }
+
+  .ion-page {
+    display: initial !important;
+    position: initial !important;
+  }
+
+  body {
+    position: initial !important;
+    max-height: initial !important;
+    overflow: auto !important;
+  }
+
+  ion-router-outlet {
+    overflow: auto !important;
+    contain: none !important;
+    position: initial !important;
+  }
+
+  ion-content {
+    --offset-bottom: unset !important;
+    display: unset !important;
+    position: unset !important;
+  }
+
+  .print-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    padding-top: 8px;
+  }
+
+  .page-container {
+    margin-top: 50px;
+  }
+}

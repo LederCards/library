@@ -16,11 +16,14 @@ export class FaqPage {
   public metaService = inject(MetaService);
 
   private locale = signal<string>('');
-  private productId = signal<string>('');
+  public productId = signal<string>('');
 
   public faqs = computed(() => this.faqService.getFAQs());
   public currentFAQ = computed(() =>
     this.faqService.getProductFAQ(this.productId(), this.locale())
+  );
+  public faqProductName = computed(() =>
+    this.metaService.getProductNameByProductId(this.productId())
   );
 
   constructor() {}

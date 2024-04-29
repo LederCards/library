@@ -2,11 +2,16 @@
   <app-topbar [searchOnEnter]="true"></app-topbar>
 </ion-header>
 
+<header class="print-only print-header">
+  {{ faqProductName() }} FAQ
+</header>
+
 <ion-content>
   <div class="page-container">
 
     @if(currentFAQ(); as faq) {
     <ion-grid>
+
       <ion-row>
         <ion-col>
           <ion-list>
@@ -18,9 +23,14 @@
 
               @for(faqEntry of entry.faq; track $index) {
               <ion-item>
-                <ion-label text-wrap>
-                  <h3>Q: {{ faqEntry.q }}</h3>
-                  <p>A: {{ faqEntry.a }}</p>
+                <ion-label text-wrap class="print-only">
+                  <h3 [innerText]="'Q: ' + (faqEntry.q | faq)"></h3>
+                  <p [innerText]="'A: ' + (faqEntry.a | faq)"></p>
+                </ion-label>
+
+                <ion-label text-wrap class="print-hide">
+                  <h3 [innerHTML]="'Q: ' + (faqEntry.q | faq:productId())"></h3>
+                  <p [innerHTML]="'A: ' + (faqEntry.a | faq:productId())"></p>
                 </ion-label>
               </ion-item>
               }
@@ -55,3 +65,31 @@
 
   <app-below-the-fold></app-below-the-fold>
 </ion-content>
+
+<!--
+<div class="print-only">
+
+  <div class="print-content">
+    @if(currentFAQ(); as faq) {
+    <ion-list>
+      @for(entry of faq; track $index) {
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-label>{{ entry.card }}</ion-label>
+        </ion-item-divider>
+
+        @for(faqEntry of entry.faq; track $index) {
+        <ion-item>
+          <ion-label text-wrap>
+            <h3 [innerText]="'Q: ' + (faqEntry.q | faq)"></h3>
+            <p [innerText]="'A: ' + (faqEntry.a | faq)"></p>
+          </ion-label>
+        </ion-item>
+        }
+      </ion-item-group>
+      }
+    </ion-list>
+    }
+  </div>
+</div>
+-->

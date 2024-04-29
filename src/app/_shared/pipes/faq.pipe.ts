@@ -14,6 +14,8 @@ export class FaqPipe implements PipeTransform {
 
     const ruleRegex = /\$rule:([\d.]+)\$/gm;
     value = value.replace(ruleRegex, (match, p1) => {
+      if (!productId) return p1;
+
       const rulesUrl = this.metaService.getRulesByProductId(productId);
       if (!rulesUrl) return p1;
 
@@ -22,6 +24,8 @@ export class FaqPipe implements PipeTransform {
 
     const linkRegex = /\$link:([\w'" ]+)\$/gm;
     value = value.replace(linkRegex, (match, p1) => {
+      if (!productId) return p1;
+
       const foundCard = this.cardsService.getCardByIdOrName(p1);
       if (!foundCard) return p1;
 
