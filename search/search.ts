@@ -102,6 +102,7 @@ export function queryToText(query: string): string {
     keywords: allKeywords.flat(),
     offsets: false,
   }) as parser.SearchParserResult;
+
   if (isString(firstResult)) {
     const queries = query
       .split(' ')
@@ -129,7 +130,26 @@ export function queryToText(query: string): string {
     text.push(`in ${result['in']}`);
   }
 
+  if (result['text']) {
+    text.push(`${result['text']} is in name or card id`);
+  }
+
   return `cards where ${text.join(' and ')}`;
+}
+
+export function getProductFromQuery(query: string): string | undefined {
+  query = query.toLowerCase().trim();
+
+  const validKeywords = [allKeywords].flat(2);
+
+  const result = parser.parse(query, {
+    keywords: validKeywords,
+    offsets: false,
+  });
+
+  if (isString(result)) return undefined;
+
+  return result['product'];
 }
 
 export function parseQuery(

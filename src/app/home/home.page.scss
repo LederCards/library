@@ -32,16 +32,6 @@
       position: relative;
       margin-bottom: 20px;
 
-      .search-icon {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: calc(20px);
-        z-index: 10;
-        height: 32px;
-        width: 32px;
-      }
-
       .search {
         width: 100%;
       }

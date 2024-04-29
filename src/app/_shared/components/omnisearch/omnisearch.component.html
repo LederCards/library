@@ -1,3 +1,34 @@
+<ion-img class="search-icon" (click)="popover.present($event)"
+  [src]="'https://ledercards.netlify.app/symbols/product-' + chosenProduct + '.webp'"></ion-img>
+
 <ion-searchbar #search class="search themed" [ngClass]="[big() ? 'big' : '']" [debounce]="1000"
-  (ionChange)="type.emit(searchFieldValue)" searchIcon="''" (keyup.enter)="enter.emit(searchFieldValue)"
-  [(ngModel)]="query" placeholder="Search all of Leder Games..."></ion-searchbar>
+  (ionChange)="changeText(searchFieldValue)" searchIcon="''" (keyup.enter)="doEnter(searchFieldValue)"
+  [(ngModel)]="query" [placeholder]="placeholder"></ion-searchbar>
+
+<ion-popover #popover [dismissOnSelect]="true">
+  <ng-template>
+    <ion-content>
+      <ion-list>
+        <ion-item class="product-entry" (click)="changeProduct('default')">
+          <ion-img slot="start" class="product-icon"
+            [src]="'https://ledercards.netlify.app/symbols/product-default.webp'"></ion-img>
+
+          <ion-label>
+            Leder Games
+          </ion-label>
+        </ion-item>
+
+        @for(product of metaService.products; track product.id) {
+        <ion-item class="product-entry" (click)="changeProduct(product.id)">
+          <ion-img slot="start" class="product-icon"
+            [src]="'https://ledercards.netlify.app/symbols/product-' + product.id + '.webp'"></ion-img>
+
+          <ion-label>
+            {{ product.name }}
+          </ion-label>
+        </ion-item>
+        }
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>
