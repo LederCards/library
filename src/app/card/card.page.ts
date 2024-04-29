@@ -32,7 +32,7 @@ export class CardPage implements OnInit {
 
   public faq: Signal<ICardFAQEntry[]> = computed(() => {
     const cardData = this.cardData();
-    if (!this.faqService.ready$() || !cardData) return [];
+    if (!cardData) return [];
 
     return this.faqService.getCardFAQ(cardData.product, cardData.name);
   });
