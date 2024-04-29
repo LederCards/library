@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, inject, output } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../search.service';
 
 @Component({
@@ -10,8 +9,7 @@ import { SearchService } from '../../../search.service';
   styleUrls: ['./search-cards.component.scss'],
 })
 export class SearchCardsComponent {
-  private route = inject(ActivatedRoute);
-  private searchService = inject(SearchService);
+  public searchService = inject(SearchService);
 
   public pageChanged = output<number>();
 
