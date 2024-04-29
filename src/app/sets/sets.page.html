@@ -11,7 +11,10 @@
         <ion-col [offsetXs]="0" [sizeXs]="12" [offsetSm]="2" [sizeSm]="8" [offsetMd]="2" [sizeMd]="8">
           <ion-card>
             <ion-card-header>
-              <ion-card-title>{{ product.name }}</ion-card-title>
+              <ion-card-title>
+                <a [routerLink]="['/search']" [queryParams]="{ q: formatSetNameForSearch(product.id) }">
+                  {{ product.name }}
+                </a></ion-card-title>
             </ion-card-header>
 
             <ion-card-content>

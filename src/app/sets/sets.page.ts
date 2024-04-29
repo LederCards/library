@@ -22,7 +22,11 @@ export class SetsPage implements OnInit {
       });
   }
 
-  formatSetNameForSearch(productId: string, subproductId: string): string {
+  formatSetNameForSearch(productId: string, subproductId?: string): string {
+    if (!subproductId) {
+      return `product:"${productId}"`;
+    }
+
     return `product:"${productId}" subproduct:"${subproductId}"`;
   }
 }
