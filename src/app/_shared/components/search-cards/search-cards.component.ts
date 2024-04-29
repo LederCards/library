@@ -10,10 +10,7 @@ import { SearchService } from '../../../search.service';
 })
 export class SearchCardsComponent {
   public searchService = inject(SearchService);
-
   public pageChanged = output<number>();
-
-  public queryDesc = '';
 
   changePage(newPage: number) {
     this.searchService.changePage(newPage);

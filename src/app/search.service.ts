@@ -46,7 +46,7 @@ export class SearchService {
 
     if (!this.queryValue) {
       this.queriedCards = [];
-      this.visibleCards.set([]);
+      this.resetCards();
       this.updateParams();
       return;
     }
