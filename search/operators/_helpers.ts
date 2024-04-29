@@ -55,29 +55,35 @@ export function numericalOperator(aliases: string[], key: keyof ICard) {
     // map all of the aliases (the same alias is an OR)
     return aliases
       .map((alias) => {
-        // if we have an exclusion rule for the alias (-alias), we ignore those cards
-        if (results.exclude?.[alias]) {
-          const search = isArray(results.exclude[alias])
-            ? results.exclude[alias]
-            : [results.exclude[alias]];
-          return cards.filter((c) =>
-            search.every(
-              (i: string) =>
-                !cardMatchesNumberCheck(getValueFromCard<number>(c, key), i)
-            )
-          );
-        }
+        if (results[alias] || results.exclude?.[alias]) {
+          let foundCards = cards;
 
-        // otherwise we treat it as inclusion, and get those cards
-        if (results[alias]) {
-          const search = isArray(results[alias])
-            ? results[alias]
-            : [results[alias]];
-          return cards.filter((c) =>
-            search.some((i: string) =>
-              cardMatchesNumberCheck(getValueFromCard<number>(c, key), i)
-            )
-          );
+          // otherwise we treat it as inclusion, and get those cards
+          if (results[alias]) {
+            const search = isArray(results[alias])
+              ? results[alias]
+              : [results[alias]];
+            foundCards = foundCards.filter((c) =>
+              search.some((i: string) =>
+                cardMatchesNumberCheck(getValueFromCard<number>(c, key), i)
+              )
+            );
+          }
+
+          // if we have an exclusion rule for the alias (-alias), we ignore those cards
+          if (results.exclude?.[alias]) {
+            const search = isArray(results.exclude[alias])
+              ? results.exclude[alias]
+              : [results.exclude[alias]];
+            foundCards = foundCards.filter((c) =>
+              search.every(
+                (i: string) =>
+                  !cardMatchesNumberCheck(getValueFromCard<number>(c, key), i)
+              )
+            );
+          }
+
+          return foundCards;
         }
 
         // if we have no results for this alias, we return no cards
@@ -108,15 +114,17 @@ export function arraySearchOperator(aliases: string[], key: keyof ICard) {
     // map all of the aliases (the same alias is an OR)
     return aliases
       .map((alias) => {
-        // if we have an exclusion rule for the alias (-alias), we ignore those cards
-        if (results.exclude?.[alias]) {
-          const search = isArray(results.exclude[alias])
-            ? results.exclude[alias]
-            : [results.exclude[alias]];
-          const invalidItems = search.map((x: string) => x.toLowerCase());
-          return cards.filter(
-            (c) =>
-              !invalidItems.some((i: string) => {
+        if (results[alias] || results.exclude?.[alias]) {
+          let foundCards = cards;
+
+          // otherwise we treat it as inclusion, and get those cards
+          if (results[alias]) {
+            const search = isArray(results[alias])
+              ? results[alias]
+              : [results[alias]];
+            const validItems = search.map((x: string) => x.toLowerCase());
+            foundCards = foundCards.filter((c) =>
+              validItems.some((i: string) => {
                 const arr = getValueFromCard<string[]>(c, key);
 
                 if (i === 'none') {
@@ -128,29 +136,33 @@ export function arraySearchOperator(aliases: string[], key: keyof ICard) {
                   x.toLowerCase().includes(i.toLowerCase())
                 );
               })
-          );
-        }
+            );
+          }
 
-        // otherwise we treat it as inclusion, and get those cards
-        if (results[alias]) {
-          const search = isArray(results[alias])
-            ? results[alias]
-            : [results[alias]];
-          const validItems = search.map((x: string) => x.toLowerCase());
-          return cards.filter((c) =>
-            validItems.some((i: string) => {
-              const arr = getValueFromCard<string[]>(c, key);
+          // if we have an exclusion rule for the alias (-alias), we ignore those cards
+          if (results.exclude?.[alias]) {
+            const search = isArray(results.exclude[alias])
+              ? results.exclude[alias]
+              : [results.exclude[alias]];
+            const invalidItems = search.map((x: string) => x.toLowerCase());
+            foundCards = foundCards.filter(
+              (c) =>
+                !invalidItems.some((i: string) => {
+                  const arr = getValueFromCard<string[]>(c, key);
 
-              if (i === 'none') {
-                return arr.length === 0;
-              }
+                  if (i === 'none') {
+                    return arr.length === 0;
+                  }
 
-              const innerSearches = arr.map((x) => x.toLowerCase());
-              return innerSearches.some((x) =>
-                x.toLowerCase().includes(i.toLowerCase())
-              );
-            })
-          );
+                  const innerSearches = arr.map((x) => x.toLowerCase());
+                  return innerSearches.some((x) =>
+                    x.toLowerCase().includes(i.toLowerCase())
+                  );
+                })
+            );
+          }
+
+          return foundCards;
         }
 
         // if we have no results for this alias, we return no cards
@@ -184,15 +196,17 @@ export function partialWithOptionalExactTextOperator(
     // map all of the aliases (the same alias is an OR)
     return aliases
       .map((alias) => {
-        // if we have an exclusion rule for the alias (-alias), we ignore those cards
-        if (results.exclude?.[alias]) {
-          const search = isArray(results.exclude[alias])
-            ? results.exclude[alias]
-            : [results.exclude[alias]];
-          const invalidItems = search.map((x: string) => x.toLowerCase());
-          return cards.filter(
-            (c) =>
-              !invalidItems.some((i: string) => {
+        if (results[alias] || results.exclude?.[alias]) {
+          let foundCards = cards;
+
+          // otherwise we treat it as inclusion, and get those cards
+          if (results[alias]) {
+            const search = isArray(results[alias])
+              ? results[alias]
+              : [results[alias]];
+            const validItems = search.map((x: string) => x.toLowerCase());
+            foundCards = foundCards.filter((c) =>
+              validItems.some((i: string) => {
                 const isExact = i.startsWith('=');
                 const searchString = isExact ? i.replace('=', '') : i;
 
@@ -204,29 +218,33 @@ export function partialWithOptionalExactTextOperator(
 
                 return val.toLowerCase().includes(i);
               })
-          );
-        }
+            );
+          }
 
-        // otherwise we treat it as inclusion, and get those cards
-        if (results[alias]) {
-          const search = isArray(results[alias])
-            ? results[alias]
-            : [results[alias]];
-          const validItems = search.map((x: string) => x.toLowerCase());
-          return cards.filter((c) =>
-            validItems.some((i: string) => {
-              const isExact = i.startsWith('=');
-              const searchString = isExact ? i.replace('=', '') : i;
+          // if we have an exclusion rule for the alias (-alias), we ignore those cards
+          if (results.exclude?.[alias]) {
+            const search = isArray(results.exclude[alias])
+              ? results.exclude[alias]
+              : [results.exclude[alias]];
+            const invalidItems = search.map((x: string) => x.toLowerCase());
+            foundCards = foundCards.filter(
+              (c) =>
+                !invalidItems.some((i: string) => {
+                  const isExact = i.startsWith('=');
+                  const searchString = isExact ? i.replace('=', '') : i;
 
-              const val = getValueFromCard<string>(c, key);
+                  const val = getValueFromCard<string>(c, key);
 
-              if (isExact) {
-                return val.toLowerCase() === searchString;
-              }
+                  if (isExact) {
+                    return val.toLowerCase() === searchString;
+                  }
 
-              return val.toLowerCase().includes(i);
-            })
-          );
+                  return val.toLowerCase().includes(i);
+                })
+            );
+          }
+
+          return foundCards;
         }
 
         // if we have no results for this alias, we return no cards
@@ -257,29 +275,37 @@ export function exactTextOperator(aliases: string[], key: keyof ICard) {
     // map all of the aliases (the same alias is an OR)
     return aliases
       .map((alias) => {
-        // if we have an exclusion rule for the alias (-alias), we ignore those cards
-        if (results.exclude?.[alias]) {
-          const search = isArray(results.exclude[alias])
-            ? results.exclude[alias]
-            : [results.exclude[alias]];
-          const invalidItems = search.map((x: string) => x.toLowerCase());
-          return cards.filter(
-            (c) =>
-              !invalidItems.includes(
+        if (results[alias] || results.exclude?.[alias]) {
+          let foundCards = cards;
+
+          // otherwise we treat it as inclusion, and get those cards
+          if (results[alias]) {
+            const search = isArray(results[alias])
+              ? results[alias]
+              : [results[alias]];
+            const validItems = search.map((x: string) => x.toLowerCase());
+            foundCards = foundCards.filter((c) =>
+              validItems.includes(
                 getValueFromCard<string>(c, key).toLowerCase()
               )
-          );
-        }
+            );
+          }
 
-        // otherwise we treat it as inclusion, and get those cards
-        if (results[alias]) {
-          const search = isArray(results[alias])
-            ? results[alias]
-            : [results[alias]];
-          const validItems = search.map((x: string) => x.toLowerCase());
-          return cards.filter((c) =>
-            validItems.includes(getValueFromCard<string>(c, key).toLowerCase())
-          );
+          // if we have an exclusion rule for the alias (-alias), we ignore those cards
+          if (results.exclude?.[alias]) {
+            const search = isArray(results.exclude[alias])
+              ? results.exclude[alias]
+              : [results.exclude[alias]];
+            const invalidItems = search.map((x: string) => x.toLowerCase());
+            foundCards = foundCards.filter(
+              (c) =>
+                !invalidItems.includes(
+                  getValueFromCard<string>(c, key).toLowerCase()
+                )
+            );
+          }
+
+          return foundCards;
         }
 
         // if we have no results for this alias, we return no cards
