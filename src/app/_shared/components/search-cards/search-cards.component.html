@@ -22,11 +22,13 @@
     <ion-grid class="cards">
       <ion-row>
         @for(card of searchService.visibleCards(); track card.id) {
-        <ion-col class="card-container" [sizeMd]="3" [sizeSm]="6" [sizeXs]="12">
-          <a [routerLink]="['/card', card.id]">
-            <app-card-display class="card" [cardCode]="card.id"
-              [display]="searchService.queryDisplayValue"></app-card-display>
-          </a>
+        <ion-col [sizeMd]="3" [sizeSm]="6" [sizeXs]="12">
+          <div class="card-container">
+            <a [routerLink]="['/card', card.id]">
+              <app-card-display class="card" [cardCode]="card.id"
+                [display]="searchService.queryDisplayValue"></app-card-display>
+            </a>
+          </div>
         </ion-col>
         }
       </ion-row>
