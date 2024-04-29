@@ -14,6 +14,7 @@ import { CardTextComponent } from './components/card-text/card-text.component';
 import { CardIconComponent } from './components/cardicon/cardicon.component';
 import { OmnisearchComponent } from './components/omnisearch/omnisearch.component';
 import { SearchCardsComponent } from './components/search-cards/search-cards.component';
+import { FaqPipe } from './pipes/faq.pipe';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SearchCardsComponent } from './components/search-cards/search-cards.com
     SearchCardsComponent,
     OmnisearchComponent,
     CardTextComponent,
+    FaqPipe,
   ],
   imports: [
     CommonModule,
@@ -42,6 +44,7 @@ import { SearchCardsComponent } from './components/search-cards/search-cards.com
     SearchCardsComponent,
     OmnisearchComponent,
     CardTextComponent,
+    FaqPipe,
   ],
 })
 export class SharedModule {}

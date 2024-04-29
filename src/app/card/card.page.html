@@ -59,8 +59,8 @@
                 @for(entry of faq(); track $index) {
                 <ion-item>
                   <ion-label text-wrap>
-                    <h3>Q: {{ entry.q }}</h3>
-                    <p>A: {{ entry.a }}</p>
+                    <h3 [innerHTML]="'Q: ' + (entry.q | faq:cardData.product)"></h3>
+                    <p [innerHTML]="'A: ' + (entry.a | faq:cardData.product)"></p>
                   </ion-label>
                 </ion-item>
                 }
