@@ -1,5 +1,4 @@
 import {
-  effect,
   inject,
   Injectable,
   Injector,
@@ -33,49 +32,46 @@ export class FAQService {
     Record<string, Record<string, ICardFAQ[]>>
   > = signal({});
 
-  private faqByProductLocaleCard: Record<
-    string,
-    Record<string, Record<string, ICardFAQEntry[]>>
-  > = {};
+  private faqByProductLocaleCard: WritableSignal<
+    Record<string, Record<string, Record<string, ICardFAQEntry[]>>>
+  > = signal({});
 
   public async init() {
     this.allFAQs.set(this.metaService.getAllFAQs());
-
-    effect(
-      () => {
-        const locale = this.localeService.currentLocale();
-        this.loadLocaleFAQs(locale);
-      },
-      { injector: this.injector, allowSignalWrites: true }
-    );
+    await this.loadLocaleFAQs();
   }
 
-  private loadLocaleFAQs(locale: string) {
+  private async loadLocaleFAQs() {
     const baseFAQs = this.faqByProductIdAndLocale();
 
-    this.allFAQs().forEach(async (faq) => {
-      if (faq.locale !== locale) return;
-      if (baseFAQs[faq.productId]?.[faq.locale]) return;
+    await Promise.all(
+      this.allFAQs().map(async (faq) => {
+        if (baseFAQs[faq.productId]?.[faq.locale]) return;
 
-      baseFAQs[faq.productId] ??= {};
+        baseFAQs[faq.productId] ??= {};
 
-      const faqData = await fetch(faq.url);
-      const realData = await faqData.json();
+        const faqData = await fetch(faq.url);
+        const realData = await faqData.json();
 
-      baseFAQs[faq.productId][faq.locale] = realData;
+        baseFAQs[faq.productId][faq.locale] = realData;
 
-      this.faqByProductIdAndLocale.set({
-        ...this.faqByProductIdAndLocale(),
-        ...baseFAQs,
-      });
+        this.faqByProductIdAndLocale.set({
+          ...this.faqByProductIdAndLocale(),
+          ...baseFAQs,
+        });
 
-      realData.forEach((cardFAQ: ICardFAQ) => {
-        this.faqByProductLocaleCard[faq.productId] ??= {};
-        this.faqByProductLocaleCard[faq.productId][faq.locale] ??= {};
-        this.faqByProductLocaleCard[faq.productId][faq.locale][cardFAQ.card] ??=
-          cardFAQ.faq;
-      });
-    });
+        const faqByProductLocaleCard = this.faqByProductLocaleCard();
+
+        realData.forEach((cardFAQ: ICardFAQ) => {
+          faqByProductLocaleCard[faq.productId] ??= {};
+          faqByProductLocaleCard[faq.productId][faq.locale] ??= {};
+          faqByProductLocaleCard[faq.productId][faq.locale][cardFAQ.card] ??=
+            cardFAQ.faq;
+        });
+
+        this.faqByProductLocaleCard.set(faqByProductLocaleCard);
+      })
+    );
 
     if (!this.isReady()) this.isReady.set(true);
   }
@@ -109,10 +105,13 @@ export class FAQService {
   }
 
   public getCardFAQ(productId: string, card: string): ICardFAQEntry[] {
-    return (
-      this.faqByProductLocaleCard[productId]?.[
-        this.localeService.currentLocale()
-      ]?.[card] ?? []
-    );
+    if (!this.isReady()) return [];
+
+    const faq = this.faqByProductLocaleCard();
+    const locale = this.localeService.currentLocale();
+
+    console.log({ faq, locale }, 4);
+
+    return faq[productId]?.[locale]?.[card] ?? [];
   }
 }
