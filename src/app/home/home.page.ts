@@ -12,6 +12,8 @@ export class HomePage {
   public searchQuery = '';
 
   search(query: string) {
-    this.router.navigate(['/search'], { queryParams: { q: query } });
+    this.router.navigate(['/search'], {
+      queryParams: { q: query },
+    });
   }
 }

@@ -47,8 +47,4 @@ export class FaqPage {
     this.locale.set(faq.locale);
     this.productId.set(faq.productId);
   }
-
-  search(query: string) {
-    this.router.navigate(['/search'], { queryParams: { q: query } });
-  }
 }

@@ -1,11 +1,10 @@
 <ion-header>
-  <app-topbar [query]="query" (type)="search($event)"></app-topbar>
+  <app-topbar [query]="query" [searchOnType]="true" [searchOnEnter]="true"></app-topbar>
 </ion-header>
 
 <ion-content #content>
   <div class="container">
-    <app-search-cards [query]="query" [queryDisplay]="queryDisplay" [querySort]="querySort" [querySortBy]="querySortBy"
-      [page]="page" (pageChanged)="content.scrollToTop()"></app-search-cards>
+    <app-search-cards (pageChanged)="content.scrollToTop()"></app-search-cards>
   </div>
 
   <app-below-the-fold></app-below-the-fold>

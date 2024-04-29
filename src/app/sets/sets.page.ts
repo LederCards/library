@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, type OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { sortBy } from 'lodash';
 import { type IProduct } from '../../../interfaces';
 import { environment } from '../../environments/environment';
@@ -11,7 +10,6 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./sets.page.scss'],
 })
 export class SetsPage implements OnInit {
-  private router = inject(Router);
   private http = inject(HttpClient);
 
   public allProducts: IProduct[] = [];
@@ -26,9 +24,5 @@ export class SetsPage implements OnInit {
 
   formatSetNameForSearch(productId: string, subproductId: string): string {
     return `product:"${productId}" subproduct:"${subproductId}"`;
-  }
-
-  search(query: string) {
-    this.router.navigate(['/search'], { queryParams: { q: query } });
   }
 }

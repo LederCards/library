@@ -13,8 +13,7 @@
         }
 
         @if(showSearch()) {
-        <app-omnisearch (type)="type.emit($event)" (enter)="enter.emit($event)"
-          [initialQuery]="query()"></app-omnisearch>
+        <app-omnisearch (type)="doType($event)" (enter)="doEnter($event)" [initialQuery]="query()"></app-omnisearch>
         }
       </ion-col>
 

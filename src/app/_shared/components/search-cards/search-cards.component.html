@@ -1,19 +1,19 @@
-@if(displayTotal === 0) {
+@if(searchService.displayTotal() === 0) {
 <div class="no-results ion-text-center">
   <h2>No results found</h2>
   <p>For help using the search tool, check the <a target="_blank" [routerLink]="['/syntax']">help guide</a>.</p>
 </div>
 }
 
-@if(displayTotal > 0) {
+@if(searchService.displayTotal() > 0) {
 <ng-container>
   <ng-container *ngTemplateOutlet="cardSwitches"></ng-container>
 
   <ion-grid class="info">
     <ion-row>
       <ion-col>
-        <span>{{ displayCurrent | number }} - {{ displayMaximum | number }}
-          of&nbsp;</span> {{ displayTotal | number }} {{ queryDesc }}
+        <span>{{ searchService.displayCurrent() | number }} - {{ searchService.displayMaximum() | number }}
+          of&nbsp;</span> {{ searchService.displayTotal() | number }} {{ searchService.queryDesc() }}
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -21,17 +21,18 @@
   <div class="page-container">
     <ion-grid class="cards">
       <ion-row>
-        @for(card of visibleCards; track card.id) {
+        @for(card of searchService.visibleCards(); track card.id) {
         <ion-col class="card-container" [sizeMd]="3" [sizeSm]="6" [sizeXs]="12">
           <a [routerLink]="['/card', card.id]">
-            <app-card-display class="card" [cardCode]="card.id" [display]="queryDisplayValue"></app-card-display>
+            <app-card-display class="card" [cardCode]="card.id"
+              [display]="searchService.queryDisplayValue"></app-card-display>
           </a>
         </ion-col>
         }
       </ion-row>
     </ion-grid>
 
-    @if(visibleCards.length > 4) {
+    @if(searchService.visibleCards().length > 4) {
     <ng-container *ngTemplateOutlet="cardSwitches"></ng-container>
     }
   </div>
@@ -43,8 +44,8 @@
     <ion-row>
       <ion-col [sizeXs]="12" [sizeMd]="2">
         <div class="text-display">Cards as</div>
-        <ion-select class="themed" [(ngModel)]="queryDisplayValue" interface="popover" placeholder="Card Display"
-          (ionChange)="redoCurrentSearch()">
+        <ion-select class="themed" [(ngModel)]="searchService.queryDisplayValue" interface="popover"
+          placeholder="Card Display" (ionChange)="searchService.redoCurrentSearch()">
           <ion-select-option value="images">Images</ion-select-option>
           <ion-select-option value="text">Text</ion-select-option>
         </ion-select>
@@ -52,36 +53,41 @@
 
       <ion-col [sizeXs]="12" [sizeMd]="4">
         <div class="text-display">Sorted by</div>
-        <ion-select class="themed" [(ngModel)]="querySortValue" interface="popover" placeholder="Sort Prop"
-          (ionChange)="redoCurrentSearch()">
+        <ion-select class="themed" [(ngModel)]="searchService.querySortValue" interface="popover"
+          placeholder="Sort Prop" (ionChange)="searchService.redoCurrentSearch()">
           <ion-select-option value="name">Name</ion-select-option>
           <ion-select-option value="id">ID</ion-select-option>
           <ion-select-option value="product">Product</ion-select-option>
         </ion-select>
 
-        <ion-select class="themed" [(ngModel)]="querySortByValue" interface="popover" placeholder="Sort Dir"
-          (ionChange)="redoCurrentSearch()">
+        <ion-select class="themed" [(ngModel)]="searchService.querySortByValue" interface="popover"
+          placeholder="Sort Dir" (ionChange)="searchService.redoCurrentSearch()">
           <ion-select-option value="asc">Asc ↑</ion-select-option>
           <ion-select-option value="desc">Desc ↓</ion-select-option>
         </ion-select>
       </ion-col>
 
       <ion-col [sizeXs]="12" [sizeMd]="6" class="pagination ion-justify-content-center">
-        <ion-button fill="outline" color="secondary" [disabled]="pageValue <= 0" (click)="changePage(0)">
+        <ion-button fill="outline" color="secondary" [disabled]="searchService.pageValue() <= 0"
+          (click)="changePage(0)">
           <span class="symbol">&laquo;</span>
         </ion-button>
 
-        <ion-button fill="outline" color="secondary" [disabled]="pageValue <= 0" (click)="changePage(pageValue - 1)">
+        <ion-button fill="outline" color="secondary" [disabled]="searchService.pageValue() <= 0"
+          (click)="changePage(searchService.pageValue() - 1)">
           <span class="symbol left">&lsaquo;</span> <span class="ion-hide-sm-down">Previous</span>
         </ion-button>
 
-        <ion-button fill="outline" color="secondary" [disabled]="pageValue >= totalPages"
-          (click)="changePage(pageValue + 1)">
-          <span class="ion-hide-sm-down">Next {{ cardsPerPage }}</span> <span class="symbol right">&rsaquo;</span>
+        <ion-button fill="outline" color="secondary"
+          [disabled]="searchService.pageValue() >= searchService.totalPages()"
+          (click)="changePage(searchService.pageValue() + 1)">
+          <span class="ion-hide-sm-down">Next {{ searchService.cardsPerPage }}</span> <span
+            class="symbol right">&rsaquo;</span>
         </ion-button>
 
-        <ion-button fill="outline" color="secondary" [disabled]="pageValue >= totalPages"
-          (click)="changePage(totalPages)">
+        <ion-button fill="outline" color="secondary"
+          [disabled]="searchService.pageValue() >= searchService.totalPages()"
+          (click)="changePage(searchService.totalPages())">
           <span class="symbol">&raquo;</span>
         </ion-button>
       </ion-col>

@@ -23,7 +23,7 @@ export class CardTextComponent {
   }
 
   private fixText(): string {
-    return this.text().split('+').join('\\+').split('-').join('\\-');
+    return (this.text() ?? '').split('+').join('\\+').split('-').join('\\-');
   }
 
   private getCustomRenderer(): marked.Renderer {
