@@ -29,7 +29,8 @@
 
         <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
           <ng-select [items]="allProducts" [closeOnSelect]="true" [searchable]="true" placeholder="Select product"
-            (change)="changeProduct(); saveQuery()" [(ngModel)]="searchQuery.product">
+            (change)="changeProduct($event); saveQuery()" (clear)="changeProduct($event); saveQuery()"
+            [(ngModel)]="searchQuery.product">
           </ng-select>
         </ion-col>
       </ion-row>

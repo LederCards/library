@@ -87,7 +87,7 @@ export class AdvancedPage implements OnInit {
     this.visibleSubproducts = this.allSubproducts;
     this.visibleTags = this.allTags;
 
-    this.setSubproductsBasedOnProduct();
+    this.setSubproductsBasedOnProduct(this.searchQuery?.product?.product);
     this.setBasicMeta();
   }
 
@@ -96,12 +96,12 @@ export class AdvancedPage implements OnInit {
     this.searchQuery = this.searchQuery;
   }
 
-  changeProduct() {
+  changeProduct(newProduct?: { product: string }) {
     this.searchQuery.subproducts = [];
     this.searchQuery.tags = [];
     this.searchQuery.meta = {};
 
-    this.setSubproductsBasedOnProduct();
+    this.setSubproductsBasedOnProduct(newProduct?.product);
     this.setBasicMeta();
   }
 
@@ -118,17 +118,16 @@ export class AdvancedPage implements OnInit {
     });
   }
 
-  setSubproductsBasedOnProduct() {
-    if (!this.searchQuery.product) {
+  setSubproductsBasedOnProduct(product: string | undefined) {
+    if (!product) {
       this.visibleSubproducts = this.allSubproducts;
+      this.visibleFilters = [];
     } else {
       this.visibleSubproducts = this.allSubproducts.filter(
-        (sp) => sp.product === this.searchQuery.product.value
+        (sp) => sp.product === product
       );
 
-      this.visibleFilters = this.metaService.getFiltersByProductId(
-        this.searchQuery.product.value
-      );
+      this.visibleFilters = this.metaService.getFiltersByProductId(product);
     }
   }
 
