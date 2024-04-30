@@ -1,15 +1,18 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import type { IProduct, IProductFilter } from '../../interfaces';
 import { environment } from '../environments/environment';
+import { LocaleService } from './locale.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MetaService {
+  private localeService = inject(LocaleService);
+
   private allProducts: IProduct[] = [];
   private productNamesByProductId: Record<string, string> = {};
-  private templatesByProductId: Record<string, string> = {};
+  private templatesByProductId: Record<string, Record<string, string>> = {};
   private rulesByProductId: Record<string, string> = {};
   private filtersByProductId: Record<string, IProductFilter[]> = {};
   private faqByProductId: Record<string, Record<string, string>> = {};
@@ -42,7 +45,9 @@ export class MetaService {
   }
 
   public getTemplateByProductId(productId: string): string {
-    return this.templatesByProductId[productId];
+    return this.templatesByProductId[productId][
+      this.localeService.currentLocale()
+    ];
   }
 
   public getRulesByProductId(productId: string): string {

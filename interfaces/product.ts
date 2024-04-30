@@ -13,7 +13,7 @@ export interface IProductDefinition {
 export interface IProduct extends IProductDefinition {
   filters: IProductFilter[];
   subproducts: IProductDefinition[];
-  cardTemplate: string;
+  cardTemplate: Record<string, string>;
   external: {
     rules: string;
     faq: Record<string, string>;
