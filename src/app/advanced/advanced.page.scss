@@ -50,53 +50,14 @@
     font-size: 0.7rem;
     font-style: italic;
   }
-
-  .triggers {
-    flex-wrap: wrap;
-
-    ion-col {
-      flex-basis: 50%;
-
-      .label-custom-icon {
-        display: flex;
-        align-items: center;
-
-        app-cardicon {
-          margin-right: 0.5em;
-        }
-      }
-    }
-  }
-
-  .color-B {
-    --background-checked: #00587c;
-  }
-
-  .color-R {
-    --background-checked: #6a111b;
-  }
-
-  .color-G {
-    --background-checked: #21613d;
-  }
-
-  .color-Y {
-    --background-checked: #7d700c;
-  }
-
-  .color-white {
-    --background-checked: #fff;
-    --checkmark-color: #000;
-  }
-
-  .color-black {
-    --background-checked: #000;
-    --checkmark-color: #fff;
-  }
 }
 
 .actions {
   padding-top: 0.5em;
+}
+
+ion-list {
+  --width: 270px;
 }
 
 // The "pointer: fine" media feature tests whether
@@ -110,4 +71,8 @@
     z-index: 2;
     background-color: var(--ion-background-color);
   }
+}
+
+::ng-deep .operator-select {
+  --width: 270px;
 }
