@@ -58,6 +58,6 @@ export class CardPage implements OnInit {
   }
 
   searchTag(tag: string) {
-    this.search(`tag:"${tag}"`);
+    this.search(`product:"${this.cardData()?.product}" tag:"${tag}"`);
   }
 }
