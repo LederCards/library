@@ -31,17 +31,17 @@
                   <ng-container>
                     <ion-item [routerLink]="['/advanced']" detail="false">
                       <ion-icon slot="start" name="funnel-outline"></ion-icon>
-                      Advanced
+                      {{ 'Common.Actions.AdvancedShort' | translate }}
                     </ion-item>
 
                     <ion-item [routerLink]="['/syntax']" detail="false">
                       <ion-icon slot="start" name="help-circle-outline"></ion-icon>
-                      Syntax
+                      {{ 'Common.Actions.SyntaxShort' | translate }}
                     </ion-item>
 
                     <ion-item [routerLink]="['/products']" detail="false">
                       <ion-icon slot="start" name="file-tray-full-outline"></ion-icon>
-                      Products
+                      {{ 'Common.Actions.ProductsShort' | translate }}
                     </ion-item>
                   </ng-container>
                   }
@@ -61,17 +61,17 @@
           <ng-container>
             <ion-button fill="clear" color="light" [routerLink]="['/advanced']">
               <ion-icon slot="start" name="funnel-outline"></ion-icon>
-              Advanced
+              {{ 'Common.Actions.AdvancedShort' | translate }}
             </ion-button>
 
             <ion-button fill="clear" color="light" [routerLink]="['/syntax']">
               <ion-icon slot="start" name="help-circle-outline"></ion-icon>
-              Syntax
+              {{ 'Common.Actions.SyntaxShort' | translate }}
             </ion-button>
 
             <ion-button fill="clear" color="light" [routerLink]="['/products']">
               <ion-icon slot="start" name="file-tray-full-outline"></ion-icon>
-              Products
+              {{ 'Common.Actions.ProductsShort' | translate }}
             </ion-button>
           </ng-container>
           }

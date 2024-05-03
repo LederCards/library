@@ -32,12 +32,12 @@ export class AdvancedPage implements OnInit {
   public metaService = inject(MetaService);
 
   public allOperators = [
-    { value: '=', label: 'Equal To' },
-    { value: '!=', label: 'Not Equal To' },
-    { value: '>', label: 'Greater Than' },
-    { value: '<', label: 'Less Than' },
-    { value: '>=', label: 'Greater Than Or Equal To' },
-    { value: '<=', label: 'Less Than Or Equal To' },
+    { value: '=', label: 'EqualTo' },
+    { value: '!=', label: 'NotEqualTo' },
+    { value: '>', label: 'GreaterThan' },
+    { value: '<', label: 'LessThan' },
+    { value: '>=', label: 'GreaterThanOrEqualTo' },
+    { value: '<=', label: 'LessThanOrEqualTo' },
   ];
 
   public allTags: string[] = [];

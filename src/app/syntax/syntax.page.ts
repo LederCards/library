@@ -5,6 +5,7 @@ import { marked } from 'marked';
 
 import { type ICardHelp } from '../../../interfaces';
 
+import { TranslateService } from '@ngx-translate/core';
 import {
   cardDescription,
   nameDescription,
@@ -20,6 +21,7 @@ import {
 })
 export class SyntaxPage implements OnInit {
   private domSanitizer = inject(DomSanitizer);
+  private translateService = inject(TranslateService);
 
   public allOperators: ICardHelp[] = [
     cardDescription,
@@ -37,7 +39,9 @@ export class SyntaxPage implements OnInit {
     }
   }
 
-  formatText(text: string): SafeHtml {
+  formatText(key: string): SafeHtml {
+    const text = this.translateService.instant(key);
+
     return this.domSanitizer.bypassSecurityTrustHtml(marked.parse(text));
   }
 

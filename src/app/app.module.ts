@@ -25,6 +25,7 @@ import { MetaService } from './meta.service';
     AppRoutingModule,
     NgxDatatableModule,
     NgxWebstorageModule.forRoot(),
+    HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       registrationStrategy: 'registerWhenStable:30000',

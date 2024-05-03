@@ -3,7 +3,8 @@
     <ion-grid class="search-container">
       <ion-row class="search-text">
         <ion-col>
-          <strong>Lederlight</strong> is your go-to cardpanion for <strong>Leder Games</strong>.
+          <strong>{{ 'Common.AppName' | translate }}</strong> {{ 'Pages.Homepage.SubText' | translate }} <strong>{{
+            'Common.Company' | translate }}</strong>.
         </ion-col>
       </ion-row>
 
@@ -15,15 +16,18 @@
 
       <ion-row class="search-actions">
         <ion-col>
-          <ion-button fill="outline" expand="block" color="light" routerLink="/advanced">Advanced Search</ion-button>
+          <ion-button fill="outline" expand="block" color="light" routerLink="/advanced">{{
+            'Common.Actions.AdvancedLong' | translate }}</ion-button>
         </ion-col>
 
         <ion-col>
-          <ion-button fill="outline" expand="block" color="light" routerLink="/syntax">Syntax</ion-button>
+          <ion-button fill="outline" expand="block" color="light" routerLink="/syntax">{{ 'Common.Actions.SyntaxLong' |
+            translate }}</ion-button>
         </ion-col>
 
         <ion-col>
-          <ion-button fill="outline" expand="block" color="light" routerLink="/products">All Products</ion-button>
+          <ion-button fill="outline" expand="block" color="light" routerLink="/products">{{
+            'Common.Actions.ProductsLong' | translate }}</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

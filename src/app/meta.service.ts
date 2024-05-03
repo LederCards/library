@@ -11,6 +11,7 @@ export class MetaService {
   private localeService = inject(LocaleService);
 
   private allProducts: IProduct[] = [];
+
   private productNamesByProductId: Record<string, string> = {};
   private templatesByProductId: Record<string, Record<string, string>> = {};
   private rulesByProductId: Record<string, string> = {};
@@ -26,6 +27,8 @@ export class MetaService {
     const realData = await metaData.json();
 
     this.allProducts = realData.products;
+
+    this.localeService.setLocales(realData.locales);
 
     this.loadExternals();
   }

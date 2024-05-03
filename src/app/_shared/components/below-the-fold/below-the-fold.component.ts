@@ -1,5 +1,6 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
 import { LocalStorage } from 'ngx-webstorage';
+import { LocaleService } from '../../../locale.service';
 
 @Component({
   selector: 'app-below-the-fold',
@@ -7,6 +8,8 @@ import { LocalStorage } from 'ngx-webstorage';
   styleUrls: ['./below-the-fold.component.scss'],
 })
 export class BelowTheFoldComponent implements OnInit {
+  public localeService = inject(LocaleService);
+
   @LocalStorage() visualMode!: string;
 
   constructor() {}
@@ -31,5 +34,10 @@ export class BelowTheFoldComponent implements OnInit {
 
     body.classList.remove('dark', 'light');
     body.classList.add(this.visualMode);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  changeLocale($event: any) {
+    this.localeService.changeLocale($event.detail.value);
   }
 }

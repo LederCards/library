@@ -14,7 +14,7 @@
             [src]="'https://ledercards.netlify.app/symbols/product-default.webp'"></ion-img>
 
           <ion-label>
-            Leder Games
+            {{ 'Common.Company' | translate }}
           </ion-label>
         </ion-item>
 
@@ -24,7 +24,7 @@
             [src]="'https://ledercards.netlify.app/symbols/product-' + product.id + '.webp'"></ion-img>
 
           <ion-label>
-            {{ product.name }}
+            {{ 'Common.Products.' + (product.name | titlecase) | translate }}
           </ion-label>
         </ion-item>
         }

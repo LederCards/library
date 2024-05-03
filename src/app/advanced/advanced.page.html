@@ -11,12 +11,12 @@
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
           <ion-icon name="person-outline" color="primary"></ion-icon>
-          <span>Card Name</span>
+          <span>{{ 'Pages.AdvancedSearch.CardNameLabel' | translate }}</span>
         </ion-col>
 
         <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
           <ion-input (ionChange)="saveQuery()" [(ngModel)]="searchQuery.name"
-            placeholder="Search any card name"></ion-input>
+            [placeholder]="'Pages.AdvancedSearch.CardNamePlaceholder' | translate"></ion-input>
         </ion-col>
       </ion-row>
 
@@ -24,11 +24,12 @@
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
           <ion-icon name="game-controller-outline" color="primary"></ion-icon>
-          <span>Product</span>
+          <span>{{ 'Pages.AdvancedSearch.ProductLabel' | translate }}</span>
         </ion-col>
 
         <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
-          <ng-select [items]="allProducts" [closeOnSelect]="true" [searchable]="true" placeholder="Select product"
+          <ng-select [items]="allProducts" [closeOnSelect]="true" [searchable]="true"
+            [placeholder]="'Pages.AdvancedSearch.ProductPlaceholder' | translate"
             (change)="changeProduct($event); saveQuery()" (clear)="changeProduct($event); saveQuery()"
             [(ngModel)]="searchQuery.product">
           </ng-select>
@@ -39,12 +40,13 @@
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
           <ion-icon name="hardware-chip-outline" color="primary"></ion-icon>
-          <span>Subproducts</span>
+          <span>{{ 'Pages.AdvancedSearch.SubproductsLabel' | translate }}</span>
         </ion-col>
 
         <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
           <ng-select [items]="visibleSubproducts" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
-            placeholder="Select subproducts" (change)="saveQuery()" [(ngModel)]="searchQuery.subproducts">
+            [placeholder]="'Pages.AdvancedSearch.SubproductsPlaceholder' | translate" (change)="saveQuery()"
+            [(ngModel)]="searchQuery.subproducts">
           </ng-select>
         </ion-col>
       </ion-row>
@@ -53,12 +55,13 @@
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
           <ion-icon name="pricetags-outline" color="primary"></ion-icon>
-          <span>Tags</span>
+          <span>{{ 'Pages.AdvancedSearch.TagsLabel' | translate }}</span>
         </ion-col>
 
         <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
           <ng-select [items]="visibleTags" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
-            placeholder="Select tags" (change)="saveQuery()" [(ngModel)]="searchQuery.tags">
+            [placeholder]="'Pages.AdvancedSearch.TagsPlaceholder' | translate" (change)="saveQuery()"
+            [(ngModel)]="searchQuery.tags">
           </ng-select>
         </ion-col>
       </ion-row>
@@ -77,8 +80,13 @@
       <ion-row class="actions">
         <ion-col class="criteria" [sizeXs]="2" [sizeMd]="2" [offsetMd]="2"></ion-col>
         <ion-col class="search" [sizeXs]="10" [sizeMd]="6">
-          <ion-button (click)="querySearch()" color="primary" [disabled]="!getSearchQuery()">Search</ion-button>
-          <ion-button (click)="reset()" color="warning" fill="outline">Reset</ion-button>
+          <ion-button (click)="querySearch()" color="primary" [disabled]="!getSearchQuery()">
+            {{ 'Pages.AdvancedSearch.Actions.Search' | translate }}
+          </ion-button>
+
+          <ion-button (click)="reset()" color="warning" fill="outline">
+            {{ 'Pages.AdvancedSearch.Actions.Reset' | translate }}
+          </ion-button>
         </ion-col>
       </ion-row>
 
@@ -92,7 +100,7 @@
 <ng-template #number let-filter="filter">
   <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
     <ion-icon name="bookmark-outline" color="primary"></ion-icon>
-    <span>{{ filter.name }}</span>
+    <span>{{ 'Pages.AdvancedSearch.' + (filter.name | stripspaces) + 'Label' | translate }}</span>
   </ion-col>
 
   <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
@@ -101,7 +109,7 @@
         <ion-select interface="popover" [(ngModel)]="searchQuery.meta[filter.prop].operator" (ionChange)="saveQuery()"
           [interfaceOptions]="{ cssClass: 'operator-select' }">
           <ion-select-option *ngFor="let operator of allOperators" [value]="operator.value">
-            {{ operator.label }}
+            {{ 'Pages.AdvancedSearch.Operators.' + operator.label | translate }}
           </ion-select-option>
         </ion-select>
       </ion-col>
@@ -109,14 +117,15 @@
       <ion-col size="2"></ion-col>
 
       <ion-col size="4">
-        <ion-input (ionChange)="saveQuery()" [placeholder]="filter.name"
+        <ion-input (ionChange)="saveQuery()"
+          [placeholder]="'Pages.AdvancedSearch.' + (filter.name | stripspaces) + 'Placeholder' | translate"
           [(ngModel)]="searchQuery.meta[filter.prop].value"></ion-input>
       </ion-col>
     </ion-row>
 
     <ion-row class="note">
       <ion-col>
-        If left unspecified, will not be included in search query.
+        {{ 'Pages.AdvancedSearch.NumberText' | translate }}
       </ion-col>
     </ion-row>
   </ion-col>

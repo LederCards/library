@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { IonSearchbar } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { getProductFromQuery } from '../../../../../search/search';
 import { MetaService } from '../../../meta.service';
 
@@ -16,6 +17,7 @@ import { MetaService } from '../../../meta.service';
   styleUrls: ['./omnisearch.component.scss'],
 })
 export class OmnisearchComponent {
+  private translateService = inject(TranslateService);
   public metaService = inject(MetaService);
 
   @ViewChild(IonSearchbar) searchField!: IonSearchbar;
@@ -39,11 +41,20 @@ export class OmnisearchComponent {
   }
 
   public get placeholder(): string {
-    const choice =
-      this.metaService.getProductNameByProductId(this.chosenProduct) ??
-      'Leder Games';
+    const choiceProduct = this.metaService.getProductNameByProductId(
+      this.chosenProduct
+    );
 
-    return `Search all of ${choice}...`;
+    const choiceKey = choiceProduct
+      ? `Common.Products.${choiceProduct}`
+      : 'Common.Company';
+
+    const selectedProduct = this.translateService.instant(choiceKey);
+    const text = this.translateService.instant('Components.Omnisearch.Search', {
+      selectedProduct,
+    });
+
+    return text;
   }
 
   constructor() {

@@ -1,5 +1,3 @@
-
-
 .below-the-fold {
   width: 100vw;
   min-height: 30vh;
@@ -27,7 +25,10 @@
       margin-bottom: 5px;
       --ion-color-primary: #999;
 
-      a:link, a:hover, a:visited, a:active {
+      a:link,
+      a:hover,
+      a:visited,
+      a:active {
         text-decoration: none;
       }
     }
@@ -36,5 +37,9 @@
   .legal {
     color: #444;
     font-size: 0.75em;
+  }
+
+  .lang-selector {
+    visibility: hidden;
   }
 }

@@ -51,7 +51,7 @@
           @if(faq().length > 0) {
           <ion-card class="card-info">
             <ion-card-header>
-              <ion-card-title>FAQ</ion-card-title>
+              <ion-card-title>{{ 'Pages.Card.FAQ' | translate }}</ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
@@ -71,14 +71,15 @@
 
           <ion-card class="card-info">
             <ion-card-header>
-              <ion-card-title>More {{ metaService.getProductNameByProductId(cardData.product) }}</ion-card-title>
+              <ion-card-title>{{ 'Pages.Card.More' | translate }} {{
+                metaService.getProductNameByProductId(cardData.product) }}</ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
               <ion-list>
                 <ion-item [href]="metaService.getRulesByProductId(cardData.product)" target="_blank">
                   <ion-icon slot="start" name="link-outline"></ion-icon>
-                  Rules
+                  {{ 'Pages.Card.Rules' | translate }}
                 </ion-item>
               </ion-list>
             </ion-card-content>

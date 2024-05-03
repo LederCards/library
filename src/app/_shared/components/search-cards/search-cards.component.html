@@ -1,7 +1,8 @@
 @if(searchService.displayTotal() === 0) {
 <div class="no-results ion-text-center">
-  <h2>No results found</h2>
-  <p>For help using the search tool, check the <a target="_blank" [routerLink]="['/syntax']">help guide</a>.</p>
+  <h2>{{ 'Pages.SearchResults.NoResults.Header' | translate }}</h2>
+  <p>{{ 'Pages.SearchResults.NoResults.Subheader' | translate }} <a target="_blank" [routerLink]="['/syntax']">{{
+      'Pages.SearchResults.NoResults.HelpGuide' | translate }}</a>.</p>
 </div>
 }
 
@@ -45,27 +46,33 @@
   <ion-grid class="switches">
     <ion-row>
       <ion-col [sizeXs]="12" [sizeMd]="2">
-        <div class="text-display">Cards as</div>
+        <div class="text-display">{{ 'Pages.SearchResults.Results.Sorter.As' | translate }}</div>
         <ion-select class="themed" [(ngModel)]="searchService.queryDisplayValue" interface="popover"
           placeholder="Card Display" (ionChange)="searchService.redoCurrentSearch()">
-          <ion-select-option value="images">Images</ion-select-option>
-          <ion-select-option value="text">Text</ion-select-option>
+          <ion-select-option value="images">{{ 'Pages.SearchResults.Results.Sorter.AsImages' | translate
+            }}</ion-select-option>
+          <ion-select-option value="text">{{ 'Pages.SearchResults.Results.Sorter.AsText' | translate
+            }}</ion-select-option>
         </ion-select>
       </ion-col>
 
       <ion-col [sizeXs]="12" [sizeMd]="4">
-        <div class="text-display">Sorted by</div>
+        <div class="text-display">{{ 'Pages.SearchResults.Results.Sorter.Sorted' | translate }}</div>
         <ion-select class="themed" [(ngModel)]="searchService.querySortValue" interface="popover"
           placeholder="Sort Prop" (ionChange)="searchService.redoCurrentSearch()">
-          <ion-select-option value="name">Name</ion-select-option>
-          <ion-select-option value="id">ID</ion-select-option>
-          <ion-select-option value="product">Product</ion-select-option>
+          <ion-select-option value="name">{{ 'Pages.SearchResults.Results.Sorter.SortedName' | translate
+            }}</ion-select-option>
+          <ion-select-option value="id">{{ 'Pages.SearchResults.Results.Sorter.SortedID' | translate
+            }}</ion-select-option>
+          <ion-select-option value="product">{{ 'Pages.SearchResults.Results.Sorter.SortedProduct' | translate
+            }}</ion-select-option>
         </ion-select>
 
         <ion-select class="themed" [(ngModel)]="searchService.querySortByValue" interface="popover"
           placeholder="Sort Dir" (ionChange)="searchService.redoCurrentSearch()">
-          <ion-select-option value="asc">Asc ↑</ion-select-option>
-          <ion-select-option value="desc">Desc ↓</ion-select-option>
+          <ion-select-option value="asc">{{ 'Pages.SearchResults.Results.Sorter.Asc' | translate }}</ion-select-option>
+          <ion-select-option value="desc">{{ 'Pages.SearchResults.Results.Sorter.Desc' | translate
+            }}</ion-select-option>
         </ion-select>
       </ion-col>
 
@@ -77,14 +84,15 @@
 
         <ion-button fill="outline" color="secondary" [disabled]="searchService.pageValue() <= 0"
           (click)="changePage(searchService.pageValue() - 1)">
-          <span class="symbol left">&lsaquo;</span> <span class="ion-hide-sm-down">Previous</span>
+          <span class="symbol left">&lsaquo;</span> <span class="ion-hide-sm-down">{{
+            'Pages.SearchResults.Results.Pagination.Previous' | translate }}</span>
         </ion-button>
 
         <ion-button fill="outline" color="secondary"
           [disabled]="searchService.pageValue() >= searchService.totalPages()"
           (click)="changePage(searchService.pageValue() + 1)">
-          <span class="ion-hide-sm-down">Next {{ searchService.cardsPerPage }}</span> <span
-            class="symbol right">&rsaquo;</span>
+          <span class="ion-hide-sm-down">{{ 'Pages.SearchResults.Results.Pagination.Next' | translate }} {{
+            searchService.cardsPerPage }}</span> <span class="symbol right">&rsaquo;</span>
         </ion-button>
 
         <ion-button fill="outline" color="secondary"

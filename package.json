@@ -32,6 +32,7 @@
     "@ionic/angular": "^8.0.0",
     "@ng-select/ng-select": "^12.0.7",
     "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "@siemens/ngx-datatable": "^22.2.0",
     "compress-json": "^2.1.2",
     "csv-parse": "^5.3.2",
