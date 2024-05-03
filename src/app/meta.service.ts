@@ -25,7 +25,7 @@ export class MetaService {
     const metaData = await fetch(`${environment.baseUrl}/meta.json`);
     const realData = await metaData.json();
 
-    this.allProducts = realData;
+    this.allProducts = realData.products;
 
     this.loadExternals();
   }

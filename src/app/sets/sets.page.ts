@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, type OnInit } from '@angular/core';
 import { sortBy } from 'lodash';
 import { type IProduct } from '../../../interfaces';
-import { environment } from '../../environments/environment';
+import { MetaService } from '../meta.service';
 
 @Component({
   selector: 'app-sets',
@@ -10,16 +9,12 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./sets.page.scss'],
 })
 export class SetsPage implements OnInit {
-  private http = inject(HttpClient);
+  private meta = inject(MetaService);
 
   public allProducts: IProduct[] = [];
 
   async ngOnInit() {
-    this.http
-      .get(`${environment.baseUrl}/meta.json`)
-      .subscribe((products: unknown) => {
-        this.allProducts = sortBy(products as IProduct[], (p) => p.name);
-      });
+    this.allProducts = sortBy(this.meta.products, (p) => p.name);
   }
 
   formatSetNameForSearch(productId: string, subproductId?: string): string {
