@@ -19,6 +19,10 @@ export class CardsService {
 
   private metaService = inject(MetaService);
 
+  public get allCards(): ICard[] {
+    return this.cards;
+  }
+
   public async init() {
     const cardData = await fetch(`${environment.baseUrl}/cards.min.json`);
     const realData = await cardData.json();

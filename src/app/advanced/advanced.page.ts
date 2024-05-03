@@ -44,6 +44,8 @@ export class AdvancedPage implements OnInit {
   public allProducts: DropdownForProductItem[] = [];
   public allSubproducts: DropdownForProductItem[] = [];
 
+  public tagsByProduct: Record<string, string[]> = {};
+
   public visibleSubproducts: DropdownForProductItem[] = [];
   public visibleTags: string[] = [];
 
@@ -62,6 +64,7 @@ export class AdvancedPage implements OnInit {
     this.searchQuery = Object.assign({}, defaultQuery(), this.searchQuery);
 
     this.allTags = this.cardsService.getAllUniqueAttributes('tags');
+
     this.allProducts = uniqBy(
       this.metaService.products.map((p) => ({
         product: p.id,
@@ -87,6 +90,7 @@ export class AdvancedPage implements OnInit {
     this.visibleSubproducts = this.allSubproducts;
     this.visibleTags = this.allTags;
 
+    this.acquireTags();
     this.setSubproductsBasedOnProduct(this.searchQuery?.product?.product);
     this.setBasicMeta();
   }
@@ -118,16 +122,32 @@ export class AdvancedPage implements OnInit {
     });
   }
 
+  acquireTags() {
+    const productSets: Record<string, Set<string>> = {};
+
+    this.cardsService.allCards.forEach((card) => {
+      productSets[card.product] ??= new Set();
+
+      card.tags.forEach((tag) => productSets[card.product].add(tag));
+    });
+
+    Object.keys(productSets).forEach((productKey) => {
+      this.tagsByProduct[productKey] = [...productSets[productKey]];
+    });
+  }
+
   setSubproductsBasedOnProduct(product: string | undefined) {
     if (!product) {
       this.visibleSubproducts = this.allSubproducts;
       this.visibleFilters = [];
+      this.visibleTags = this.allTags;
     } else {
       this.visibleSubproducts = this.allSubproducts.filter(
         (sp) => sp.product === product
       );
 
       this.visibleFilters = this.metaService.getFiltersByProductId(product);
+      this.visibleTags = this.tagsByProduct[product];
     }
   }
 
