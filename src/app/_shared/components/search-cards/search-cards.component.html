@@ -45,7 +45,7 @@
 <ng-template #cardSwitches>
   <ion-grid class="switches">
     <ion-row>
-      <ion-col [sizeXs]="12" [sizeMd]="2">
+      <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="2">
         <div class="text-display">{{ 'Pages.SearchResults.Results.Sorter.As' | translate }}</div>
         <ion-select class="themed" [(ngModel)]="searchService.queryDisplayValue" interface="popover"
           placeholder="Card Display" (ionChange)="searchService.redoCurrentSearch()">
@@ -56,7 +56,7 @@
         </ion-select>
       </ion-col>
 
-      <ion-col [sizeXs]="12" [sizeMd]="4">
+      <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="4">
         <div class="text-display">{{ 'Pages.SearchResults.Results.Sorter.Sorted' | translate }}</div>
         <ion-select class="themed" [(ngModel)]="searchService.querySortValue" interface="popover"
           placeholder="Sort Prop" (ionChange)="searchService.redoCurrentSearch()">
@@ -76,7 +76,7 @@
         </ion-select>
       </ion-col>
 
-      <ion-col [sizeXs]="12" [sizeMd]="6" class="pagination ion-justify-content-center">
+      <ion-col [sizeXs]="12" [sizeMd]="12" [sizeLg]="6" class="pagination ion-justify-content-center">
         <ion-button fill="outline" color="secondary" [disabled]="searchService.pageValue() <= 0"
           (click)="changePage(0)">
           <span class="symbol">&laquo;</span>
