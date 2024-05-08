@@ -159,14 +159,14 @@ export class AdvancedPage implements OnInit {
     }
 
     if (this.searchQuery.product?.value) {
-      queryAttributes.push(`product:"${this.searchQuery.product.value}"`);
+      queryAttributes.push(`game:"${this.searchQuery.product.value}"`);
     }
 
     if (this.searchQuery.subproducts?.length > 0) {
       const exactExpansions = this.searchQuery.subproducts.map(
         (e: { value: string }) => `${e.value}`
       );
-      queryAttributes.push(`subproduct:"${exactExpansions.join(',')}"`);
+      queryAttributes.push(`game:"${exactExpansions.join(',')}"`);
     }
 
     if (this.searchQuery.tags.length > 0) {

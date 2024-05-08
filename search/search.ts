@@ -9,8 +9,8 @@ import { bare, card, name, product, subproduct, tag } from './operators';
 const allKeywords = [
   ['id'], // exact text
   ['name', 'n'], // loose text
-  ['product', 'game'], // exact text
-  ['subproduct', 'expansion'], // exact text
+  ['game', 'g'], // exact text
+  ['product', 'expansion', 'p', 'e'], // exact text
   ['tag'], // array search
 ];
 
@@ -64,20 +64,20 @@ const allQueryFormatters = [
     },
   },
   {
+    key: 'game',
+    includes: 'is',
+    excludes: 'is not',
+    formatter: (result: Record<string, any>) => {
+      const value = result['game'];
+      return `${value}`;
+    },
+  },
+  {
     key: 'product',
     includes: 'is',
     excludes: 'is not',
     formatter: (result: Record<string, any>) => {
       const value = result['product'];
-      return `${value}`;
-    },
-  },
-  {
-    key: 'subproduct',
-    includes: 'is',
-    excludes: 'is not',
-    formatter: (result: Record<string, any>) => {
-      const value = result['subproduct'];
       return `${value}`;
     },
   },
@@ -149,7 +149,7 @@ export function getProductFromQuery(query: string): string | undefined {
 
   if (isString(result)) return undefined;
 
-  return result['product'];
+  return result['game'];
 }
 
 export function parseQuery(

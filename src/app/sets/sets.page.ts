@@ -19,9 +19,9 @@ export class SetsPage implements OnInit {
 
   formatSetNameForSearch(productId: string, subproductId?: string): string {
     if (!subproductId) {
-      return `product:"${productId}"`;
+      return `game:"${productId}"`;
     }
 
-    return `product:"${productId}" subproduct:"${subproductId}"`;
+    return `game:"${productId}" product:"${subproductId}"`;
   }
 }

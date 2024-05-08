@@ -46,7 +46,7 @@ export class CardPage implements OnInit {
       return;
     }
 
-    const template = this.metaService.getTemplateByProductId(cardData.product);
+    const template = this.metaService.getTemplateByProductId(cardData.game);
     const compiledTemplate = Handlebars.compile(template);
     this.template = compiledTemplate(cardData);
 
@@ -58,6 +58,6 @@ export class CardPage implements OnInit {
   }
 
   searchTag(tag: string) {
-    this.search(`product:"${this.cardData()?.product}" tag:"${tag}"`);
+    this.search(`game:"${this.cardData()?.game}" tag:"${tag}"`);
   }
 }

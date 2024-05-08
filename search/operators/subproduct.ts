@@ -2,12 +2,12 @@ import { type ICardHelp } from '../../interfaces';
 import { exactTextOperator } from './_helpers';
 
 export const subproduct = exactTextOperator(
-  ['subproduct', 'expansion'],
-  'subproduct'
+  ['product', 'expansion'],
+  'product'
 );
 
 export const subproductDescription: ICardHelp = {
-  name: 'Subproduct',
+  name: 'Product',
   id: 'id',
 
   icon: 'hardware-chip-outline',

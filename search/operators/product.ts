@@ -1,10 +1,10 @@
 import { type ICardHelp } from '../../interfaces';
 import { exactTextOperator } from './_helpers';
 
-export const product = exactTextOperator(['product', 'game'], 'product');
+export const product = exactTextOperator(['product', 'game'], 'game');
 
 export const productDescription: ICardHelp = {
-  name: 'Product',
+  name: 'Game',
   id: 'id',
 
   icon: 'game-controller-outline',

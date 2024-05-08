@@ -34,7 +34,7 @@ export class OmnisearchComponent {
   public get searchFieldValue(): string {
     let baseValue = this.searchField.value ?? '';
     if (this.chosenProduct !== 'default') {
-      baseValue = `product:"${this.chosenProduct}" ${baseValue}`;
+      baseValue = `game:"${this.chosenProduct}" ${baseValue}`;
     }
 
     return baseValue;
@@ -67,7 +67,7 @@ export class OmnisearchComponent {
   }
 
   private removeProductFromQuery(query: string) {
-    return query.replace(/\bproduct:"([\w]+)"/gm, '');
+    return query.replace(/\bgame:"([\w]+)"/gm, '');
   }
 
   doEnter(newText: string) {

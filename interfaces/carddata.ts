@@ -5,8 +5,8 @@ export interface ICard {
   name: string;
   tags: string[];
 
+  game: string;
   product: string;
-  subproduct: string;
   locale: string;
 
   imageClass?: string;
