@@ -1,7 +1,14 @@
 <ion-toolbar color="primary">
+  @if(showBackButton()) {
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/search"></ion-back-button>
+  </ion-buttons>
+  }
+
   <ion-grid>
     <ion-row>
       <ion-col size-xs="10" size-sm="10" size-md="4" size-lg="6">
+
         @if(title(); as titleText) {
         <ion-title>
           {{ titleText }}
