@@ -6,6 +6,7 @@ import {
   output,
   ViewChild,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IonSearchbar } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { getProductFromQuery } from '../../../../../search/search';
@@ -17,6 +18,7 @@ import { MetaService } from '../../../meta.service';
   styleUrls: ['./omnisearch.component.scss'],
 })
 export class OmnisearchComponent {
+  private route = inject(ActivatedRoute);
   private translateService = inject(TranslateService);
   public metaService = inject(MetaService);
 
@@ -30,6 +32,10 @@ export class OmnisearchComponent {
   public enter = output<string>();
 
   public chosenProduct = 'default';
+
+  public get queryString() {
+    return this.route.snapshot.queryParamMap.get('q');
+  }
 
   public get searchFieldValue(): string {
     let baseValue = this.searchField.value ?? '';
@@ -60,6 +66,12 @@ export class OmnisearchComponent {
   constructor() {
     effect(() => {
       this.query = this.initialQuery();
+      if (!this.query) {
+        this.query = this.queryString ?? '';
+      }
+
+      console.log(this.initialQuery(), this.query, this.queryString);
+
       this.chosenProduct = getProductFromQuery(this.query) ?? 'default';
 
       this.query = this.removeProductFromQuery(this.query).trim();

@@ -25,7 +25,7 @@
         @for(card of searchService.visibleCards(); track card.id) {
         <ion-col [sizeMd]="3" [sizeSm]="6" [sizeXs]="12">
           <div class="card-container">
-            <a [routerLink]="['/card', card.id]">
+            <a [routerLink]="['/card', card.id]" [queryParams]="{ q: queryString }">
               <app-card-display class="card" [cardCode]="card.id"
                 [display]="searchService.queryDisplayValue"></app-card-display>
             </a>
