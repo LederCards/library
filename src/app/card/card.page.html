@@ -3,7 +3,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="page-container">
+  <div class="page-container" #cardPage>
     @if(cardData(); as cardData) {
     <ion-grid>
       <ion-row>
@@ -49,7 +49,7 @@
           </ion-card>
 
           @if(faq().length > 0) {
-          <ion-card class="card-info">
+          <ion-card class="card-info" #faqSection>
             <ion-card-header>
               <ion-card-title>{{ 'Pages.Card.FAQ' | translate }}</ion-card-title>
             </ion-card-header>
