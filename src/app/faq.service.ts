@@ -49,8 +49,6 @@ export class FAQService {
 
     this.faqByProductIdAndLocale.set(baseFAQs);
     this.faqByProductLocaleCard.set(faqByProductLocaleCard);
-
-    console.log(baseFAQs, faqByProductLocaleCard);
   }
 
   public getFAQs(): Array<{
