@@ -7,6 +7,7 @@
 @media print {
   ion-header,
   app-below-the-fold,
+  app-topbar,
   .print-hide {
     display: none !important;
   }
@@ -46,6 +47,10 @@
     align-items: center;
     font-size: 2rem;
     padding-top: 8px;
+  }
+
+  .page-container:not(.printable) {
+    display: none;
   }
 
   .page-container {
