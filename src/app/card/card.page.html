@@ -14,7 +14,12 @@
         <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="4">
           <ion-card class="card-info">
             <ion-card-header>
-              <ion-card-title>{{ cardData.name }}</ion-card-title>
+              <ion-card-title>
+                {{ cardData.name }}
+
+                <ion-icon class="cursor share" name="share-social-outline" ngxClipboard [cbContent]="copyText"
+                  (click)="notify.showMessage('Copied URL to clipboard!')"></ion-icon>
+              </ion-card-title>
               <ion-card-subtitle>
                 {{ cardData.id }}
               </ion-card-subtitle>

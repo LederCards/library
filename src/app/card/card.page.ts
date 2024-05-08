@@ -17,6 +17,7 @@ import { MetaService } from '../meta.service';
 
 import Handlebars from 'handlebars';
 import { FAQService } from '../faq.service';
+import { NotifyService } from '../notify.service';
 
 @Component({
   selector: 'app-card',
@@ -31,9 +32,14 @@ export class CardPage implements OnInit, OnDestroy {
   private cardsService = inject(CardsService);
   private faqService = inject(FAQService);
   public metaService = inject(MetaService);
+  public notify = inject(NotifyService);
 
   public cardData: WritableSignal<ICard | undefined> = signal(undefined);
   public template = '';
+
+  public get copyText(): string {
+    return window.location.toString();
+  }
 
   public faq: Signal<ICardFAQEntry[]> = computed(() => {
     const cardData = this.cardData();
