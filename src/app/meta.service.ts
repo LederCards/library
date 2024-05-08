@@ -39,7 +39,6 @@ export class MetaService {
       this.templatesByProductId[product.id] = product.cardTemplate;
       this.rulesByProductId[product.id] = product.external?.rules ?? '';
       this.filtersByProductId[product.id] = product.filters;
-      this.faqByProductId[product.id] = product.external?.faq ?? {};
     });
   }
 
@@ -67,21 +66,5 @@ export class MetaService {
 
   public getAllFilters(): IProductFilter[] {
     return Object.values(this.filtersByProductId).flat();
-  }
-
-  public getAllFAQs(): Array<{
-    productId: string;
-    locale: string;
-    url: string;
-  }> {
-    return Object.keys(this.faqByProductId)
-      .map((productId) =>
-        Object.keys(this.faqByProductId[productId]).map((locale) => ({
-          productId,
-          locale,
-          url: this.faqByProductId[productId][locale],
-        }))
-      )
-      .flat();
   }
 }
