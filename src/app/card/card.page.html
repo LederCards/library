@@ -59,8 +59,8 @@
                 @for(entry of faq(); track $index) {
                 <ion-item>
                   <ion-label text-wrap>
-                    <h3 [innerHTML]="'Q: ' + (entry.q | faq:cardData.product)"></h3>
-                    <p [innerHTML]="'A: ' + (entry.a | faq:cardData.product)"></p>
+                    <h3 [innerHTML]="'Q: ' + (entry.q | faq:cardData.game)"></h3>
+                    <p [innerHTML]="'A: ' + (entry.a | faq:cardData.game)"></p>
                   </ion-label>
                 </ion-item>
                 }
@@ -69,21 +69,23 @@
           </ion-card>
           }
 
+          @if(metaService.getRulesByProductId(cardData.game); as rulesUrl) {
           <ion-card class="card-info">
             <ion-card-header>
               <ion-card-title>{{ 'Pages.Card.More' | translate }} {{
-                metaService.getProductNameByProductId(cardData.product) }}</ion-card-title>
+                metaService.getProductNameByProductId(cardData.game) }}</ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
               <ion-list>
-                <ion-item [href]="metaService.getRulesByProductId(cardData.product)" target="_blank">
+                <ion-item [href]="rulesUrl" target="_blank">
                   <ion-icon slot="start" name="link-outline"></ion-icon>
                   {{ 'Pages.Card.Rules' | translate }}
                 </ion-item>
               </ion-list>
             </ion-card-content>
           </ion-card>
+          }
         </ion-col>
       </ion-row>
     </ion-grid>

@@ -1,3 +1,7 @@
+.search ::ng-deep .searchbar-input {
+  padding-inline-start: calc(3.4375rem + 16px);
+}
+
 .big {
   padding: 0;
 
@@ -16,6 +20,15 @@
   z-index: 10;
   height: 32px;
   width: 32px;
+}
+
+.search-dropdown {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 60px;
+  z-index: 12;
 }
 
 .product-entry {

@@ -108,25 +108,6 @@ code {
   cursor: pointer;
 }
 
-.ngx-datatable {
-  .datatable-body-cell {
-    display: flex !important;
-    align-items: center;
-
-    .datatable-body-cell-label {
-      width: 100%;
-    }
-  }
-
-  .datatable-row-detail {
-    white-space: normal !important;
-  }
-
-  .datatable-checkbox {
-    margin-top: -7px;
-  }
-}
-
 .swiper {
   --swiper-theme-color: var(--ion-color-primary);
   --swiper-navigation-color: var(--ion-color-primary);
