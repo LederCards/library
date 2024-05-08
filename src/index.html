@@ -33,7 +33,49 @@
 </head>
 
 <body>
-  <app-root></app-root>
+  <app-root>
+    <style>
+      body,
+      html {
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      app-root {
+        display: flex;
+        font-size: 3.5rem;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #000;
+        color: #ccc;
+      }
+
+      @keyframes spinner {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .spinner:before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: calc(50% - 64px);
+        left: calc(50% - 64px);
+        width: 128px;
+        height: 128px;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        border-top-color: #000;
+        animation: spinner .6s linear infinite;
+      }
+    </style>
+
+    <div class="spinner"></div>
+  </app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
 
