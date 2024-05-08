@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { NgxDatatableModule } from '@siemens/ngx-datatable';
 
 import { SearchPageRoutingModule } from './search-routing.module';
 
@@ -15,7 +14,6 @@ import { SearchPage } from './search.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    NgxDatatableModule,
     SharedModule,
     SearchPageRoutingModule,
   ],

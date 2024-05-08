@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { NgxDatatableModule } from '@siemens/ngx-datatable';
 import { LuxonModule } from 'luxon-angular';
 import { BelowTheFoldComponent } from './components/below-the-fold/below-the-fold.component';
 import { CardDisplayComponent } from './components/card-display/card-display.component';
@@ -43,7 +42,6 @@ export function httpLoaderFactory(http: HttpClient) {
     RouterModule,
     IonicModule,
     LuxonModule,
-    NgxDatatableModule,
     NgSelectModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en-US',
