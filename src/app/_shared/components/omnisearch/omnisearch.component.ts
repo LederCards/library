@@ -67,7 +67,7 @@ export class OmnisearchComponent {
   }
 
   private removeProductFromQuery(query: string) {
-    return query.replace(/product:"([\w]+)"/gm, '');
+    return query.replace(/\bproduct:"([\w]+)"/gm, '');
   }
 
   doEnter(newText: string) {
