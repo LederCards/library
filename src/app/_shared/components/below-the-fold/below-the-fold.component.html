@@ -40,12 +40,15 @@
         <ion-col [sizeMd]="3" [sizeXs]="12">
           <div class="map-title">{{ 'Components.BelowTheFold.CategoryCards' | translate }}</div>
           <hr>
+
           <div class="map-item">
             <a routerLink="/advanced">{{ 'Common.Actions.AdvancedLong' | translate }}</a>
           </div>
+
           <div class="map-item">
             <a routerLink="/syntax">{{ 'Common.Actions.SyntaxLong' | translate }}</a>
           </div>
+
           <div class="map-item">
             <a routerLink="/products">{{ 'Common.Actions.ProductsLong' | translate }}</a>
           </div>
@@ -54,29 +57,42 @@
         <ion-col [sizeMd]="3" [sizeXs]="12">
           <div class="map-title">{{ 'Components.BelowTheFold.CategorySupport' | translate }}</div>
           <hr>
+
           <div class="map-item">
             <a routerLink="/faq">{{ 'Components.BelowTheFold.FAQ' | translate }}</a>
           </div>
+
           <div class="map-item">
             <a routerLink="/changelog">{{ 'Components.BelowTheFold.Changelog' | translate }}</a>
           </div>
+
+          @if(metaService.getSiteConfigProperty('features.askaquestion')) {
           <div class="map-item">
-            <a target="_blank" href="https://ledergames.com/pages/contact">{{ 'Components.BelowTheFold.Ask' | translate
+            <a target="_blank" [href]="metaService.getSiteConfigProperty('links.askaquestion')">{{
+              'Components.BelowTheFold.Ask' | translate
               }}</a>
           </div>
+          }
         </ion-col>
 
         <ion-col [sizeMd]="3" [sizeXs]="12">
           <div class="map-title">{{ 'Components.BelowTheFold.CategoryMore' | translate }}</div>
           <hr>
+
+          @if(metaService.getSiteConfigProperty('features.github')) {
           <div class="map-item">
-            <a target="_blank" href="https://github.com/LederCards">{{ 'Components.BelowTheFold.GitHub' | translate
+            <a target="_blank" [href]="metaService.getSiteConfigProperty('links.github')">{{
+              'Components.BelowTheFold.GitHub' | translate
               }}</a>
           </div>
+          }
+
+          @if(metaService.getSiteConfigProperty('features.discord')) {
           <div class="map-item">
-            <a target="_blank" href="https://discord.com/servers/woodland-warriors-476234833572397056">{{
+            <a target="_blank" [href]="metaService.getSiteConfigProperty('links.discord')">{{
               'Components.BelowTheFold.Discord' | translate }}</a>
           </div>
+          }
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -84,5 +100,12 @@
 
   <div class="legal">
     {{ 'Components.BelowTheFold.Copyright' | translate }}
+  </div>
+
+  <br>
+  <div class="creator">
+    {{ 'Components.BelowTheFold.CreatedText' | translate }} <a target="_blank"
+      [href]="metaService.getSiteConfigProperty('links.creator')">{{ 'Components.BelowTheFold.CreatedBy' | translate
+      }}</a>.
   </div>
 </div>

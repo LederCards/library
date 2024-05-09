@@ -10,7 +10,10 @@
       <!-- card name -->
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
-          <ion-icon name="person-outline" color="primary"></ion-icon>
+
+          @if(metaService.getSiteConfigProperty('icons.advanced.CardName')) {
+          <ion-icon [name]="metaService.getSiteConfigProperty('icons.advanced.CardName')" color="primary"></ion-icon>
+          }
           <span>{{ 'Pages.AdvancedSearch.CardNameLabel' | translate }}</span>
         </ion-col>
 
@@ -23,7 +26,10 @@
       <!-- product -->
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
-          <ion-icon name="game-controller-outline" color="primary"></ion-icon>
+
+          @if(metaService.getSiteConfigProperty('icons.advanced.Product')) {
+          <ion-icon [name]="metaService.getSiteConfigProperty('icons.advanced.Product')" color="primary"></ion-icon>
+          }
           <span>{{ 'Pages.AdvancedSearch.ProductLabel' | translate }}</span>
         </ion-col>
 
@@ -39,7 +45,11 @@
       <!-- subproducts -->
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
-          <ion-icon name="hardware-chip-outline" color="primary"></ion-icon>
+
+          @if(metaService.getSiteConfigProperty('icons.advanced.Subproducts')) {
+          <ion-icon [name]="metaService.getSiteConfigProperty('icons.advanced.Subproducts')" color="primary"></ion-icon>
+          }
+
           <span>{{ 'Pages.AdvancedSearch.SubproductsLabel' | translate }}</span>
         </ion-col>
 
@@ -54,7 +64,10 @@
       <!-- tags -->
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
-          <ion-icon name="pricetags-outline" color="primary"></ion-icon>
+
+          @if(metaService.getSiteConfigProperty('icons.advanced.Tags')) {
+          <ion-icon [name]="metaService.getSiteConfigProperty('icons.advanced.Tags')" color="primary"></ion-icon>
+          }
           <span>{{ 'Pages.AdvancedSearch.TagsLabel' | translate }}</span>
         </ion-col>
 
@@ -99,7 +112,11 @@
 
 <ng-template #number let-filter="filter">
   <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
-    <ion-icon name="bookmark-outline" color="primary"></ion-icon>
+
+    @if(metaService.getSiteConfigProperty('icons.advanced.' + filter.name | stripspaces)) {
+    <ion-icon [name]="metaService.getSiteConfigProperty('icons.advanced.' + filter.name | stripspaces)"
+      color="primary"></ion-icon>
+    }
     <span>{{ 'Pages.AdvancedSearch.' + (filter.name | stripspaces) + 'Label' | translate }}</span>
   </ion-col>
 

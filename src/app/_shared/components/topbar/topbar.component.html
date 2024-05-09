@@ -36,18 +36,28 @@
 
                   @if(!buttonsMobile.hasChildNodes()) {
                   <ng-container>
-                    <ion-item [routerLink]="['/advanced']" detail="false">
-                      <ion-icon slot="start" name="funnel-outline"></ion-icon>
+                    <ion-item [routerLink]="['/advanced']"
+                      detail="false">@if(metaService.getSiteConfigProperty('icons.topbar.advanced')) {
+                      <ion-icon slot="start"
+                        [name]="metaService.getSiteConfigProperty('icons.topbar.advanced')"></ion-icon>
+                      }
                       {{ 'Common.Actions.AdvancedShort' | translate }}
                     </ion-item>
 
                     <ion-item [routerLink]="['/syntax']" detail="false">
-                      <ion-icon slot="start" name="help-circle-outline"></ion-icon>
+                      @if(metaService.getSiteConfigProperty('icons.topbar.syntax')) {
+                      <ion-icon slot="start"
+                        [name]="metaService.getSiteConfigProperty('icons.topbar.syntax')"></ion-icon>
+                      }
                       {{ 'Common.Actions.SyntaxShort' | translate }}
                     </ion-item>
 
                     <ion-item [routerLink]="['/products']" detail="false">
-                      <ion-icon slot="start" name="file-tray-full-outline"></ion-icon>
+
+                      @if(metaService.getSiteConfigProperty('icons.topbar.products')) {
+                      <ion-icon slot="start"
+                        [name]="metaService.getSiteConfigProperty('icons.topbar.products')"></ion-icon>
+                      }
                       {{ 'Common.Actions.ProductsShort' | translate }}
                     </ion-item>
                   </ng-container>

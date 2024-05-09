@@ -1,6 +1,7 @@
 import { Component, inject, type OnInit } from '@angular/core';
 import { LocalStorage } from 'ngx-webstorage';
 import { LocaleService } from '../../../locale.service';
+import { MetaService } from '../../../meta.service';
 
 @Component({
   selector: 'app-below-the-fold',
@@ -8,6 +9,7 @@ import { LocaleService } from '../../../locale.service';
   styleUrls: ['./below-the-fold.component.scss'],
 })
 export class BelowTheFoldComponent implements OnInit {
+  public metaService = inject(MetaService);
   public localeService = inject(LocaleService);
 
   @LocalStorage() visualMode!: string;

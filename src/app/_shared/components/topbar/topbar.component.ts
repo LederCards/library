@@ -1,5 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
+import { MetaService } from '../../../meta.service';
 import { SearchService } from '../../../search.service';
 
 @Component({
@@ -8,6 +9,8 @@ import { SearchService } from '../../../search.service';
   styleUrls: ['./topbar.component.scss'],
 })
 export class TopbarComponent {
+  public metaService = inject(MetaService);
+
   private router = inject(Router);
   private searchService = inject(SearchService);
 

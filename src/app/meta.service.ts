@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
+import { get } from 'lodash';
 import type { IProduct, IProductFilter } from '../../interfaces';
 import { environment } from '../environments/environment';
 import { LocaleService } from './locale.service';
@@ -9,6 +10,9 @@ import { LocaleService } from './locale.service';
 })
 export class MetaService {
   private localeService = inject(LocaleService);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private siteConfig: any = {};
 
   private allProducts: IProduct[] = [];
 
@@ -25,6 +29,8 @@ export class MetaService {
   public async init() {
     const metaData = await fetch(`${environment.baseUrl}/meta.json`);
     const realData = await metaData.json();
+
+    this.siteConfig = realData.config;
 
     this.allProducts = realData.products;
 
@@ -66,5 +72,9 @@ export class MetaService {
 
   public getAllFilters(): IProductFilter[] {
     return Object.values(this.filtersByProductId).flat();
+  }
+
+  public getSiteConfigProperty(prop: string): string | undefined {
+    return get(this.siteConfig, prop);
   }
 }
