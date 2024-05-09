@@ -126,9 +126,9 @@ export class AdvancedPage implements OnInit {
     const productSets: Record<string, Set<string>> = {};
 
     this.cardsService.allCards.forEach((card) => {
-      productSets[card.product] ??= new Set();
+      productSets[card.game] ??= new Set();
 
-      card.tags.forEach((tag) => productSets[card.product].add(tag));
+      card.tags.forEach((tag) => productSets[card.game].add(tag));
     });
 
     Object.keys(productSets).forEach((productKey) => {
@@ -166,7 +166,7 @@ export class AdvancedPage implements OnInit {
       const exactExpansions = this.searchQuery.subproducts.map(
         (e: { value: string }) => `${e.value}`
       );
-      queryAttributes.push(`game:"${exactExpansions.join(',')}"`);
+      queryAttributes.push(`product:"${exactExpansions.join(',')}"`);
     }
 
     if (this.searchQuery.tags.length > 0) {
