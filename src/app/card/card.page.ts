@@ -60,7 +60,7 @@ export class CardPage implements OnInit, OnDestroy {
     }
 
     const template = this.metaService.getTemplateByProductId(cardData.game);
-    const compiledTemplate = Handlebars.compile(template);
+    const compiledTemplate = Handlebars.compile(template ?? '');
     this.template = compiledTemplate(cardData);
 
     this.cardData.set(cardData);
