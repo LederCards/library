@@ -122,7 +122,9 @@ export function arraySearchOperator(aliases: string[], key: keyof ICard) {
             const search = isArray(results[alias])
               ? results[alias]
               : [results[alias]];
-            const validItems = search.map((x: string) => x.toLowerCase());
+            const validItems = search.map((x: string) =>
+              x.toString().toLowerCase()
+            );
             foundCards = foundCards.filter((c) =>
               validItems.some((i: string) => {
                 const arr = getValueFromCard<string[]>(c, key);
@@ -131,9 +133,11 @@ export function arraySearchOperator(aliases: string[], key: keyof ICard) {
                   return arr.length === 0;
                 }
 
-                const innerSearches = arr.map((x) => x.toLowerCase());
+                const innerSearches = arr.map((x) =>
+                  x.toString().toLowerCase()
+                );
                 return innerSearches.some((x) =>
-                  x.toLowerCase().includes(i.toLowerCase())
+                  x.toString().toLowerCase().includes(i.toLowerCase())
                 );
               })
             );
@@ -144,7 +148,9 @@ export function arraySearchOperator(aliases: string[], key: keyof ICard) {
             const search = isArray(results.exclude[alias])
               ? results.exclude[alias]
               : [results.exclude[alias]];
-            const invalidItems = search.map((x: string) => x.toLowerCase());
+            const invalidItems = search.map((x: string) =>
+              x.toString().toLowerCase()
+            );
             foundCards = foundCards.filter(
               (c) =>
                 !invalidItems.some((i: string) => {
@@ -154,9 +160,11 @@ export function arraySearchOperator(aliases: string[], key: keyof ICard) {
                     return arr.length === 0;
                   }
 
-                  const innerSearches = arr.map((x) => x.toLowerCase());
+                  const innerSearches = arr.map((x) =>
+                    x.toString().toLowerCase()
+                  );
                   return innerSearches.some((x) =>
-                    x.toLowerCase().includes(i.toLowerCase())
+                    x.toString().toLowerCase().includes(i.toLowerCase())
                   );
                 })
             );
@@ -204,7 +212,9 @@ export function partialWithOptionalExactTextOperator(
             const search = isArray(results[alias])
               ? results[alias]
               : [results[alias]];
-            const validItems = search.map((x: string) => x.toLowerCase());
+            const validItems = search.map((x: string) =>
+              x.toString().toLowerCase()
+            );
             foundCards = foundCards.filter((c) =>
               validItems.some((i: string) => {
                 const isExact = i.startsWith('=');
@@ -213,10 +223,10 @@ export function partialWithOptionalExactTextOperator(
                 const val = getValueFromCard<string>(c, key);
 
                 if (isExact) {
-                  return val.toLowerCase() === searchString;
+                  return val.toString().toLowerCase() === searchString;
                 }
 
-                return val.toLowerCase().includes(i);
+                return val.toString().toLowerCase().includes(i);
               })
             );
           }
@@ -226,7 +236,9 @@ export function partialWithOptionalExactTextOperator(
             const search = isArray(results.exclude[alias])
               ? results.exclude[alias]
               : [results.exclude[alias]];
-            const invalidItems = search.map((x: string) => x.toLowerCase());
+            const invalidItems = search.map((x: string) =>
+              x.toString().toLowerCase()
+            );
             foundCards = foundCards.filter(
               (c) =>
                 !invalidItems.some((i: string) => {
@@ -236,10 +248,10 @@ export function partialWithOptionalExactTextOperator(
                   const val = getValueFromCard<string>(c, key);
 
                   if (isExact) {
-                    return val.toLowerCase() === searchString;
+                    return val.toString().toLowerCase() === searchString;
                   }
 
-                  return val.toLowerCase().includes(i);
+                  return val.toString().toLowerCase().includes(i);
                 })
             );
           }
@@ -283,10 +295,12 @@ export function exactTextOperator(aliases: string[], key: keyof ICard) {
             const search = isArray(results[alias])
               ? results[alias]
               : [results[alias]];
-            const validItems = search.map((x: string) => x.toLowerCase());
+            const validItems = search.map((x: string) =>
+              x.toString().toLowerCase()
+            );
             foundCards = foundCards.filter((c) =>
               validItems.includes(
-                getValueFromCard<string>(c, key).toLowerCase()
+                getValueFromCard<string>(c, key).toString().toLowerCase()
               )
             );
           }
@@ -296,11 +310,13 @@ export function exactTextOperator(aliases: string[], key: keyof ICard) {
             const search = isArray(results.exclude[alias])
               ? results.exclude[alias]
               : [results.exclude[alias]];
-            const invalidItems = search.map((x: string) => x.toLowerCase());
+            const invalidItems = search.map((x: string) =>
+              x.toString().toLowerCase()
+            );
             foundCards = foundCards.filter(
               (c) =>
                 !invalidItems.includes(
-                  getValueFromCard<string>(c, key).toLowerCase()
+                  getValueFromCard<string>(c, key).toString().toLowerCase()
                 )
             );
           }
