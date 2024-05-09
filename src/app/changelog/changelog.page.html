@@ -1,0 +1,64 @@
+<ion-header>
+  <app-topbar [searchOnEnter]="true" [showBackButton]="!!productId()" [defaultBackLocation]="'/changelog'"></app-topbar>
+</ion-header>
+
+<header class="print-only print-header">
+  {{ changelogProductName() }} Changelog
+</header>
+
+<ion-content>
+  <div class="page-container printable">
+
+    @if(productId()) {
+    <header class="print-hide print-header">
+      {{ changelogProductName() }} Changelog
+    </header>
+    }
+
+    @if(currentChangelog(); as changelog) {
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-list>
+            @for(entry of changelog; track $index) {
+            <ion-item>
+              <ion-label text-wrap class="print-only">
+                <h3>{{ entry.date | dateTimeFromIso | dateTimeToFormat:'DDD' }}</h3>
+                <p [innerText]="(entry.text | faq)"></p>
+              </ion-label>
+
+              <ion-label text-wrap class="print-hide">
+                <h3>{{ entry.date | dateTimeFromIso | dateTimeToFormat:'DDD' }}</h3>
+                <p [innerHTML]="(entry.text | faq:productId())"></p>
+              </ion-label>
+            </ion-item>
+            }
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    }
+
+    @else {
+    <ion-grid>
+      <ion-row>
+        @for(changelog of changelogs(); track $index) {
+        <ion-col size-lg="3" size-md="4" size-sm="6" size-xs="12">
+          <ion-card class="changelog-tile" (click)="loadChangelog(changelog)">
+            <ion-card-header>
+              <ion-card-title>{{ metaService.getProductNameByProductId(changelog.productId) }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              {{ changelog.changelog.length | number }} Change(s)
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+    }
+  </div>
+
+  <app-below-the-fold></app-below-the-fold>
+</ion-content>

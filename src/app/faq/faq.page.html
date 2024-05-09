@@ -1,5 +1,5 @@
 <ion-header>
-  <app-topbar [searchOnEnter]="true"></app-topbar>
+  <app-topbar [searchOnEnter]="true" [showBackButton]="true" [defaultBackLocation]="'/faq'"></app-topbar>
 </ion-header>
 
 <header class="print-only print-header">
@@ -8,6 +8,12 @@
 
 <ion-content>
   <div class="page-container printable">
+
+    @if(productId()) {
+    <header class="print-hide print-header">
+      {{ faqProductName() }} FAQ
+    </header>
+    }
 
     @if(currentFAQ(); as faq) {
     <ion-grid>
@@ -53,7 +59,7 @@
             </ion-card-header>
 
             <ion-card-content>
-              {{ faq.faq.length | number }} FAQs
+              {{ faq.faq.length | number }} FAQ(s)
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -65,31 +71,3 @@
 
   <app-below-the-fold></app-below-the-fold>
 </ion-content>
-
-<!--
-<div class="print-only">
-
-  <div class="print-content">
-    @if(currentFAQ(); as faq) {
-    <ion-list>
-      @for(entry of faq; track $index) {
-      <ion-item-group>
-        <ion-item-divider>
-          <ion-label>{{ entry.card }}</ion-label>
-        </ion-item-divider>
-
-        @for(faqEntry of entry.faq; track $index) {
-        <ion-item>
-          <ion-label text-wrap>
-            <h3 [innerText]="'Q: ' + (faqEntry.q | faq)"></h3>
-            <p [innerText]="'A: ' + (faqEntry.a | faq)"></p>
-          </ion-label>
-        </ion-item>
-        }
-      </ion-item-group>
-      }
-    </ion-list>
-    }
-  </div>
-</div>
--->

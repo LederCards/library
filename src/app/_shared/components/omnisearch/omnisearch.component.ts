@@ -70,8 +70,6 @@ export class OmnisearchComponent {
         this.query = this.queryString ?? '';
       }
 
-      console.log(this.initialQuery(), this.query, this.queryString);
-
       this.chosenProduct = getProductFromQuery(this.query) ?? 'default';
 
       this.query = this.removeProductFromQuery(this.query).trim();

@@ -63,6 +63,7 @@ export function httpLoaderFactory(http: HttpClient) {
     FaqPipe,
     StripSpacesPipe,
     TranslateModule,
+    LuxonModule,
   ],
 })
 export class SharedModule {}

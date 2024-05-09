@@ -2,29 +2,29 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import type { ICardFAQ } from '../../../interfaces';
-import { FAQService } from '../faq.service';
+import type { IChangelogEntry } from '../../../interfaces';
+import { ChangelogService } from '../changelog.service';
 import { MetaService } from '../meta.service';
 
 @Component({
-  selector: 'app-faq',
-  templateUrl: './faq.page.html',
-  styleUrls: ['./faq.page.scss'],
+  selector: 'app-changelog',
+  templateUrl: './changelog.page.html',
+  styleUrls: ['./changelog.page.scss'],
 })
-export class FaqPage {
+export class ChangelogPage {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private faqService = inject(FAQService);
+  private changelogService = inject(ChangelogService);
   public metaService = inject(MetaService);
 
   private locale = signal<string>('');
   public productId = signal<string>('');
 
-  public faqs = computed(() => this.faqService.getFAQs());
-  public currentFAQ = computed(() =>
-    this.faqService.getProductFAQ(this.productId(), this.locale())
+  public changelogs = computed(() => this.changelogService.getChangelogs());
+  public currentChangelog = computed(() =>
+    this.changelogService.getProductChangelog(this.productId(), this.locale())
   );
-  public faqProductName = computed(() =>
+  public changelogProductName = computed(() =>
     this.metaService.getProductNameByProductId(this.productId())
   );
 
@@ -39,12 +39,16 @@ export class FaqPage {
     this.parseQueryParams();
 
     if (!this.locale() || !this.productId()) {
-      this.router.navigate(['/faq']);
+      this.router.navigate(['/changelog']);
       return;
     }
   }
 
-  loadFAQ(faq: { productId: string; locale: string; faq: ICardFAQ[] }) {
+  loadChangelog(faq: {
+    productId: string;
+    locale: string;
+    changelog: IChangelogEntry[];
+  }) {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { locale: faq.locale, productId: faq.productId },

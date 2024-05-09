@@ -19,6 +19,7 @@ export class TopbarComponent {
   public searchOnEnter = input<boolean>(false);
 
   public showBackButton = input<boolean>(false);
+  public defaultBackLocation = input<string>('/search');
 
   doType($event: string) {
     if (!this.searchOnType()) return;

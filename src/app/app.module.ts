@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CardsService } from './cards.service';
+import { ChangelogService } from './changelog.service';
 import { FAQService } from './faq.service';
 import { LocaleService } from './locale.service';
 import { MetaService } from './meta.service';
@@ -36,18 +37,26 @@ import { MetaService } from './meta.service';
     {
       provide: APP_INITIALIZER,
       multi: true,
-      deps: [MetaService, LocaleService, FAQService, CardsService],
+      deps: [
+        MetaService,
+        LocaleService,
+        FAQService,
+        ChangelogService,
+        CardsService,
+      ],
       useFactory:
         (
           metaService: MetaService,
           localeService: LocaleService,
           faqService: FAQService,
+          changelogService: ChangelogService,
           cardsService: CardsService
         ) =>
         async () => {
           await metaService.init();
           await localeService.init();
           await faqService.init();
+          await changelogService.init();
           await cardsService.init();
         },
     },

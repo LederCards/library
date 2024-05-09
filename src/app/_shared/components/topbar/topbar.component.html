@@ -1,7 +1,7 @@
 <ion-toolbar color="primary">
   @if(showBackButton()) {
   <ion-buttons slot="start">
-    <ion-back-button defaultHref="/search"></ion-back-button>
+    <ion-back-button [defaultHref]="defaultBackLocation()"></ion-back-button>
   </ion-buttons>
   }
 
