@@ -34,6 +34,8 @@ export class FaqPipe implements PipeTransform {
       )}" target="_blank">${foundCard.name}</a>`;
     });
 
+    value = value.replace('\n', '<br>');
+
     return value;
   }
 }
