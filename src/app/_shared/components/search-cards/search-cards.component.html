@@ -48,7 +48,7 @@
       <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="2">
         <div class="text-display">{{ 'Pages.SearchResults.Results.Sorter.As' | translate }}</div>
         <ion-select class="themed" [(ngModel)]="searchService.queryDisplayValue" interface="popover"
-          placeholder="Card Display" (ionChange)="searchService.redoCurrentSearch()">
+          placeholder="Card Display" (ionChange)="setDisplay($event.target.value)">
           <ion-select-option value="images">{{ 'Pages.SearchResults.Results.Sorter.AsImages' | translate
             }}</ion-select-option>
           <ion-select-option value="text">{{ 'Pages.SearchResults.Results.Sorter.AsText' | translate
@@ -59,7 +59,7 @@
       <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="4">
         <div class="text-display">{{ 'Pages.SearchResults.Results.Sorter.Sorted' | translate }}</div>
         <ion-select class="themed" [(ngModel)]="searchService.querySortValue" interface="popover"
-          placeholder="Sort Prop" (ionChange)="searchService.redoCurrentSearch()">
+          placeholder="Sort Prop" (ionChange)="setSort($event.target.value)">
           <ion-select-option value="name">{{ 'Pages.SearchResults.Results.Sorter.SortedName' | translate
             }}</ion-select-option>
           <ion-select-option value="id">{{ 'Pages.SearchResults.Results.Sorter.SortedID' | translate
@@ -69,7 +69,7 @@
         </ion-select>
 
         <ion-select class="themed" [(ngModel)]="searchService.querySortByValue" interface="popover"
-          placeholder="Sort Dir" (ionChange)="searchService.redoCurrentSearch()">
+          placeholder="Sort Dir" (ionChange)="setDirection($event.target.value)">
           <ion-select-option value="asc">{{ 'Pages.SearchResults.Results.Sorter.Asc' | translate }}</ion-select-option>
           <ion-select-option value="desc">{{ 'Pages.SearchResults.Results.Sorter.Desc' | translate
             }}</ion-select-option>

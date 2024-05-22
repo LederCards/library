@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { LocalStorageService } from 'ngx-webstorage';
 import {
   SearchService,
   type QueryDisplay,
@@ -16,6 +17,7 @@ import {
 export class SearchPage {
   private route = inject(ActivatedRoute);
   private searchService = inject(SearchService);
+  private storageService = inject(LocalStorageService);
 
   public query = '';
 
@@ -24,11 +26,17 @@ export class SearchPage {
   ionViewDidEnter() {
     this.query = this.route.snapshot.queryParamMap.get('q') || '';
     this.searchService.queryDisplayValue =
-      (this.route.snapshot.queryParamMap.get('d') as QueryDisplay) || 'images';
+      (this.route.snapshot.queryParamMap.get('d') as QueryDisplay) ||
+      this.storageService.retrieve('search-display') ||
+      'images';
     this.searchService.querySortValue =
-      (this.route.snapshot.queryParamMap.get('s') as QuerySort) || 'name';
+      (this.route.snapshot.queryParamMap.get('s') as QuerySort) ||
+      this.storageService.retrieve('search-sort') ||
+      'id';
     this.searchService.querySortByValue =
-      (this.route.snapshot.queryParamMap.get('b') as QuerySortBy) || 'asc';
+      (this.route.snapshot.queryParamMap.get('b') as QuerySortBy) ||
+      this.storageService.retrieve('search-direction') ||
+      'asc';
     this.searchService.pageValue.set(
       parseInt(this.route.snapshot.queryParamMap.get('p') || '0', 10)
     );

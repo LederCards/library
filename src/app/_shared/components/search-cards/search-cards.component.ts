@@ -2,6 +2,7 @@
 import { Component, inject, output } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
+import { LocalStorageService } from 'ngx-webstorage';
 import { SearchService } from '../../../search.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { SearchService } from '../../../search.service';
 export class SearchCardsComponent {
   public route = inject(ActivatedRoute);
   public searchService = inject(SearchService);
+  private storageService = inject(LocalStorageService);
   public pageChanged = output<number>();
 
   public get queryString() {
@@ -25,5 +27,20 @@ export class SearchCardsComponent {
 
   public getDetailHeight(): any {
     return '100%';
+  }
+
+  public setDisplay(display: string): void {
+    this.storageService.store('search-display', display);
+    this.searchService.redoCurrentSearch();
+  }
+
+  public setSort(sort: string): void {
+    this.storageService.store('search-sort', sort);
+    this.searchService.redoCurrentSearch();
+  }
+
+  public setDirection(dir: string): void {
+    this.storageService.store('search-direction', dir);
+    this.searchService.redoCurrentSearch();
   }
 }
