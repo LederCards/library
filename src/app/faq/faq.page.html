@@ -24,7 +24,9 @@
             @for(entry of faq; track $index) {
             <ion-item-group>
               <ion-item-divider>
-                <ion-label>{{ entry.card }}</ion-label>
+                <ion-label>
+                  <span [innerHTML]="'$link:' + entry.card + '$' | faq:productId()"></span>
+                </ion-label>
               </ion-item-divider>
 
               @for(faqEntry of entry.faq; track $index) {
