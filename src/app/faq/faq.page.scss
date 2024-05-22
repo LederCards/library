@@ -29,3 +29,16 @@
 
   font-size: 3em;
 }
+
+ion-list {
+  padding: 0;
+  border: 1px solid var(--ion-color-light);
+
+  ion-item-group {
+    font-weight: bold;
+
+    &:not(:first-child) {
+      padding-top: 16px;
+    }
+  }
+}
