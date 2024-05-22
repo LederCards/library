@@ -18,8 +18,8 @@
     @if(currentFAQ(); as faq) {
     <ion-grid>
 
-      <ion-row>
-        <ion-col>
+      <ion-row class="print-hide">
+        <ion-col [sizeXs]="12" [sizeSm]="12" [sizeMd]="10" [offsetMd]="1" [sizeLg]="6" [offsetLg]="3">
           <ion-list>
             @for(entry of faq; track $index) {
             <ion-item-group>
@@ -31,14 +31,34 @@
 
               @for(faqEntry of entry.faq; track $index) {
               <ion-item>
-                <ion-label text-wrap class="print-only">
-                  <h3 [innerText]="'Q: ' + (faqEntry.q | faq)"></h3>
-                  <p [innerText]="'A: ' + (faqEntry.a | faq)"></p>
-                </ion-label>
-
-                <ion-label text-wrap class="print-hide">
+                <ion-label text-wrap>
                   <h3 [innerHTML]="'Q: ' + (faqEntry.q | faq:productId())"></h3>
                   <p [innerHTML]="'A: ' + (faqEntry.a | faq:productId())"></p>
+                </ion-label>
+              </ion-item>
+              }
+            </ion-item-group>
+            }
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="print-only">
+        <ion-col>
+          <ion-list>
+            @for(entry of faq; track $index) {
+            <ion-item-group>
+              <ion-item-divider>
+                <ion-label>
+                  {{ entry.card }}
+                </ion-label>
+              </ion-item-divider>
+
+              @for(faqEntry of entry.faq; track $index) {
+              <ion-item>
+                <ion-label text-wrap>
+                  <h3 [innerText]="'Q: ' + (faqEntry.q | faq)"></h3>
+                  <p [innerText]="'A: ' + (faqEntry.a | faq)"></p>
                 </ion-label>
               </ion-item>
               }
