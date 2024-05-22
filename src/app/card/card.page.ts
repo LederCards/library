@@ -15,6 +15,7 @@ import { type ICard, type ICardFAQEntry } from '../../../interfaces';
 import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
 
+import { NavController } from '@ionic/angular';
 import Handlebars from 'handlebars';
 import { FAQService } from '../faq.service';
 import { NotifyService } from '../notify.service';
@@ -29,6 +30,8 @@ export class CardPage implements OnInit, OnDestroy {
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private nav = inject(NavController);
+
   private cardsService = inject(CardsService);
   private faqService = inject(FAQService);
   public metaService = inject(MetaService);
@@ -49,6 +52,13 @@ export class CardPage implements OnInit, OnDestroy {
   });
 
   private clickListener!: () => void;
+
+  private backListener = (evt: KeyboardEvent) => {
+    const key = evt.key;
+    if (!['Backspace', 'Escape'].includes(key)) return;
+
+    this.nav.back();
+  };
 
   ngOnInit() {
     const cardId = this.route.snapshot.paramMap.get('id');
@@ -79,6 +89,8 @@ export class CardPage implements OnInit, OnDestroy {
         this.router.navigate(['/card', decodeURIComponent(cardId)]);
       }
     );
+
+    document.body.addEventListener('keydown', this.backListener);
   }
 
   ngOnDestroy() {
@@ -87,6 +99,10 @@ export class CardPage implements OnInit, OnDestroy {
         'click',
         this.clickListener
       );
+    }
+
+    if (this.backListener) {
+      document.body.removeEventListener('keydown', this.backListener);
     }
   }
 
