@@ -15,7 +15,7 @@
 
       <ion-row>
         @for(operator of allOperators; track $index) {
-        <ion-col [sizeXs]="12" [sizeMd]="4">
+        <ion-col [sizeXs]="12" [sizeMd]="3">
           <ion-button shape="round" expand="full" fill="outline" (click)="navigateTo(operator.id)">
             <ion-icon [name]="operator.icon" slot="start"></ion-icon>
             {{ 'Pages.SyntaxHelp.Operators.' + operator.name + '.Name' | translate }}
@@ -28,7 +28,7 @@
     <ion-grid class="reference-list">
       @for(operator of allOperators; track $index) {
       <ion-row class="reference-row" [style.--accent-color]="operator.color">
-        <ion-col [sizeXs]="12" [sizeMd]="6">
+        <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="4" [offsetLg]="2" [sizeXl]="3" [offsetXl]="3">
           <h3 class="operator-title" [id]="operator.id">
             <ion-icon [name]="operator.icon" [style.color]="operator.color"></ion-icon>
             <span class="text">{{ 'Pages.SyntaxHelp.Operators.' + operator.name + '.Name' | translate }}</span>
@@ -37,10 +37,10 @@
           <p [innerHTML]="formatText('Pages.SyntaxHelp.Operators.' + operator.name + '.Text')"></p>
         </ion-col>
 
-        <ion-col>
+        <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="4" [sizeXl]="3">
           @for(example of operator.examples; track $index) {
           <ion-row>
-            <ion-col size="12">
+            <ion-col [size]="12">
               <ion-card class="example">
                 <ion-card-content>
                   <h4 class="example-syntax"
