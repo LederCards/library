@@ -9,8 +9,10 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { IonSearchbar } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from 'ngx-webstorage';
 import { getProductFromQuery } from '../../../../../search/search';
 import { MetaService } from '../../../meta.service';
+import { SearchService } from '../../../search.service';
 
 @Component({
   selector: 'app-omnisearch',
@@ -20,6 +22,8 @@ import { MetaService } from '../../../meta.service';
 export class OmnisearchComponent {
   private route = inject(ActivatedRoute);
   private translateService = inject(TranslateService);
+  private searchService = inject(SearchService);
+  private storageService = inject(LocalStorageService);
   public metaService = inject(MetaService);
 
   @ViewChild(IonSearchbar) searchField!: IonSearchbar;
@@ -65,7 +69,12 @@ export class OmnisearchComponent {
 
   constructor() {
     effect(() => {
-      this.query = this.initialQuery();
+      this.query =
+        this.initialQuery() ||
+        this.searchService.queryString() ||
+        this.storageService.retrieve('search-query') ||
+        '';
+
       if (!this.query) {
         this.query = this.queryString ?? '';
       }

@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { sortBy } from 'lodash';
+import { LocalStorageService } from 'ngx-webstorage';
 import type { ICard } from '../../interfaces';
 import { queryToText } from '../../search/search';
 import { CardsService } from './cards.service';
@@ -16,9 +17,11 @@ export class SearchService {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private cardsService = inject(CardsService);
+  private storageService = inject(LocalStorageService);
 
   public visibleCards = signal<ICard[]>([]);
   public queryDesc = signal<string>('');
+  public queryString = signal<string>('');
 
   public readonly cardsPerPage = 60;
   public queriedCards: ICard[] = [];
@@ -59,6 +62,9 @@ export class SearchService {
     if (changePage) {
       this.changePage(0);
     }
+
+    this.queryString.set(this.queryValue);
+    this.storageService.store('search-query', this.queryValue);
   }
 
   redoCurrentSearch() {
