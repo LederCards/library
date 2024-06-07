@@ -1,7 +1,7 @@
 <ion-img class="search-icon" (click)="popover.present($event)"
   [src]="'https://ledercards.netlify.app/symbols/product-' + chosenProduct + '.webp'"></ion-img>
 
-<ion-icon class="search-dropdown" name="caret-down-outline" (click)="popover.present($event)"></ion-icon>
+<ion-icon class="search-dropdown" name="caret-down-outline" color="black" (click)="popover.present($event)"></ion-icon>
 
 <ion-searchbar #search class="search themed" [ngClass]="[big() ? 'big' : '']" [debounce]="1000"
   (ionChange)="changeText(searchFieldValue)" searchIcon="''" (keyup.enter)="doEnter(searchFieldValue)"

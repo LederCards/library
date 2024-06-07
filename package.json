@@ -3,7 +3,7 @@
   "description": "A cool Leder Games card search tool",
   "version": "0.0.1",
   "author": "Kyle Kemp <kyle@seiyria.com>",
-  "homepage": "https://lederlight.netlify.app/",
+  "homepage": "https://cards.ledergames.com",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 6709 -o",
