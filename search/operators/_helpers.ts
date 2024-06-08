@@ -136,8 +136,8 @@ export function arraySearchOperator(aliases: string[], key: keyof ICard) {
                 const innerSearches = arr.map((x) =>
                   x.toString().toLowerCase()
                 );
-                return innerSearches.some((x) =>
-                  x.toString().toLowerCase().includes(i.toLowerCase())
+                return innerSearches.some(
+                  (x) => x.toString().toLowerCase() === i.toLowerCase()
                 );
               })
             );
@@ -163,8 +163,8 @@ export function arraySearchOperator(aliases: string[], key: keyof ICard) {
                   const innerSearches = arr.map((x) =>
                     x.toString().toLowerCase()
                   );
-                  return innerSearches.some((x) =>
-                    x.toString().toLowerCase().includes(i.toLowerCase())
+                  return innerSearches.some(
+                    (x) => x.toString().toLowerCase() === i.toLowerCase()
                   );
                 })
             );

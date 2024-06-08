@@ -49,7 +49,5 @@ export class SearchPage {
     );
 
     this.searchService.search(this.query);
-
-    console.log('test');
   }
 }
