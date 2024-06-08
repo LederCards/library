@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { LocalStorageService } from 'ngx-webstorage';
+import { getProductFromQuery } from '../../../search/search';
 import {
   SearchService,
   type QueryDisplay,
@@ -26,7 +27,9 @@ export class SearchPage {
   ionViewDidEnter() {
     this.query =
       this.route.snapshot.queryParamMap.get('q') ||
-      this.storageService.retrieve('search-query') ||
+      this.reformatQueryToJustHaveProduct(
+        this.storageService.retrieve('search-query')
+      ) ||
       '';
 
     this.searchService.queryDisplayValue =
@@ -49,5 +52,9 @@ export class SearchPage {
     );
 
     this.searchService.search(this.query);
+  }
+
+  private reformatQueryToJustHaveProduct(query: string): string {
+    return `game:"${getProductFromQuery(query)}"`;
   }
 }
