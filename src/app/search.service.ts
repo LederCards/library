@@ -54,8 +54,6 @@ export class SearchService {
       return;
     }
 
-    this.queryDesc.set(queryToText(this.queryValue));
-
     this.queriedCards = this.cardsService.searchCards(this.queryValue);
     this.doExtraSorting();
 
@@ -65,6 +63,10 @@ export class SearchService {
 
     this.queryString.set(this.queryValue);
     this.storageService.store('search-query', this.queryValue);
+
+    this.queryDesc.set(
+      queryToText(this.queryValue, this.queriedCards.length > 1)
+    );
   }
 
   redoCurrentSearch() {

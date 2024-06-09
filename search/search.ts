@@ -95,7 +95,7 @@ const allQueryFormatters = [
   },
 ];
 
-export function queryToText(query: string): string {
+export function queryToText(query: string, isPlural = true): string {
   query = query.toLowerCase().trim();
 
   const firstResult = parser.parse(query, {
@@ -103,12 +103,14 @@ export function queryToText(query: string): string {
     offsets: false,
   }) as parser.SearchParserResult;
 
+  const cardText = `card${isPlural ? 's' : ''}`;
+
   if (isString(firstResult)) {
     const queries = query
       .split(' ')
       .map((x) => `"${x}"`)
       .join(' or ');
-    return `cards with ${queries} in the name or card id`;
+    return `${cardText} with ${queries} in the name or card id`;
   }
 
   const result = properOperatorsInsteadOfAliases(firstResult);
@@ -134,7 +136,7 @@ export function queryToText(query: string): string {
     text.push(`${result['text']} is in name or card id`);
   }
 
-  return `cards where ${text.join(' and ')}`;
+  return `${cardText} where ${text.join(' and ')}`;
 }
 
 export function getProductFromQuery(query: string): string | undefined {
