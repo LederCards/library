@@ -10,7 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 import { IonSearchbar } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from 'ngx-webstorage';
-import { getProductFromQuery } from '../../../../../search/search';
+import {
+  getProductFromQuery,
+  removeAllButBareTextAndGameFromQuery,
+  removeGameFromQuery,
+} from '../../../../../search/search';
+import { CardsService } from '../../../cards.service';
 import { MetaService } from '../../../meta.service';
 import { SearchService } from '../../../search.service';
 
@@ -24,6 +29,7 @@ export class OmnisearchComponent {
   private translateService = inject(TranslateService);
   private searchService = inject(SearchService);
   private storageService = inject(LocalStorageService);
+  private cardsService = inject(CardsService);
   public metaService = inject(MetaService);
 
   @ViewChild(IonSearchbar) searchField!: IonSearchbar;
@@ -81,12 +87,8 @@ export class OmnisearchComponent {
 
       this.chosenProduct = getProductFromQuery(this.query) ?? 'default';
 
-      this.query = this.removeProductFromQuery(this.query).trim();
+      this.query = removeGameFromQuery(this.query).trim();
     });
-  }
-
-  private removeProductFromQuery(query: string) {
-    return query.replace(/\bgame:"([\w]+)"/gm, '');
   }
 
   doEnter(newText: string) {
@@ -99,6 +101,9 @@ export class OmnisearchComponent {
 
   changeProduct(productName: string) {
     this.chosenProduct = productName;
+    this.searchField.value = removeAllButBareTextAndGameFromQuery(
+      this.searchField.value ?? ''
+    );
 
     this.changeText(this.searchFieldValue);
   }

@@ -48,6 +48,10 @@ export class CardsService {
   }
 
   public searchCards(query: string): ICard[] {
+    return parseQuery(this.cards, query, this.getExtraFilterOperators());
+  }
+
+  public getExtraFilterOperators() {
     const extraFilters = this.metaService.getAllFilters();
     const extraFilterOperators = extraFilters.map((filter) => {
       const mapped: Record<
@@ -65,7 +69,7 @@ export class CardsService {
       return { operator: mapped[filter.type](filter), aliases: [filter.prop] };
     });
 
-    return parseQuery(this.cards, query, extraFilterOperators);
+    return extraFilterOperators;
   }
 
   public getCardById(id: string): ICard | undefined {

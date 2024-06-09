@@ -152,6 +152,39 @@ export function getProductFromQuery(query: string): string | undefined {
   return result['game'];
 }
 
+export function removeGameFromQuery(query: string) {
+  return query.replace(/\bgame:"([\w]+)"/gm, '');
+}
+
+export function removeProductsFromQuery(query: string) {
+  return query.replace(/\bproduct:"([\w]+)"/gm, '');
+}
+
+export function removeTagsFromQuery(query: string) {
+  return query.replace(/\btag:"([\w]+)"/gm, '');
+}
+
+export function removeAllButBareTextAndGameFromQuery(
+  query: string,
+  extraOperators: Array<{ aliases: string[]; operator: ParserOperator }> = []
+): string {
+  query = query.toLowerCase().trim();
+
+  const validKeywords = [allKeywords].flat(2);
+
+  const result = parser.parse(query, {
+    keywords: validKeywords,
+    offsets: false,
+    ...extraOperators.map((o) => o.aliases),
+  });
+
+  if (isString(result)) {
+    return result;
+  }
+
+  return (result.text ?? '') as string;
+}
+
 export function parseQuery(
   cards: ICard[],
   query: string,
