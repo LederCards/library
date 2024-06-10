@@ -63,6 +63,7 @@ const allQueryFormatters = [
       return `"${value}"`;
     },
   },
+  /*
   {
     key: 'game',
     includes: 'is',
@@ -72,6 +73,7 @@ const allQueryFormatters = [
       return `${value}`;
     },
   },
+  */
   {
     key: 'product',
     includes: 'is',
@@ -83,8 +85,8 @@ const allQueryFormatters = [
   },
   {
     key: 'tag',
-    includes: 'has',
-    excludes: 'does not have',
+    includes: 'is',
+    excludes: 'is not',
     formatter: (result: Record<string, any>) => {
       const value = result['tag'];
       const tags: string[] = isString(value)
@@ -117,6 +119,11 @@ export function queryToText(query: string, isPlural = true): string {
 
   const text = [];
 
+  const gameResult = result['game'];
+  if (gameResult) {
+    text.push(`in ${gameResult} where`);
+  }
+
   allQueryFormatters.forEach((queryFormatter) => {
     const { key, includes, excludes, formatter } = queryFormatter;
 
@@ -136,7 +143,7 @@ export function queryToText(query: string, isPlural = true): string {
     text.push(`${result['text']} is in name or card id`);
   }
 
-  return `${cardText} where ${text.join(' and ')}`;
+  return `${cardText} ${text[0]} ${text.slice(1).join(' and ')}`;
 }
 
 export function getProductFromQuery(query: string): string | undefined {
