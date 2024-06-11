@@ -121,7 +121,7 @@ export function queryToText(query: string, isPlural = true): string {
 
   const gameResult = result['game'];
   if (gameResult) {
-    text.push(`in ${gameResult} where`);
+    text.push(`in ${gameResult}`);
   }
 
   allQueryFormatters.forEach((queryFormatter) => {
@@ -143,7 +143,9 @@ export function queryToText(query: string, isPlural = true): string {
     text.push(`${result['text']} is in name or card id`);
   }
 
-  return `${cardText} ${text[0]} ${text.slice(1).join(' and ')}`;
+  return `${cardText} ${text[0]} ${text.length > 1 ? 'where' : ''} ${text
+    .slice(1)
+    .join(' and ')}`;
 }
 
 export function getProductFromQuery(query: string): string | undefined {
