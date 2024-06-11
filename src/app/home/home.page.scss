@@ -42,6 +42,10 @@
       ion-button {
         margin-right: 10px;
         --ion-color-light: #f4f5f8;
+
+        @media screen and (max-width: 768px) {
+          min-height: 78px;
+        }
       }
     }
   }
