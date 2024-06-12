@@ -63,9 +63,19 @@ ion-searchbar.themed,
 ion-input.themed,
 ion-select.themed {
   --background: #fff !important;
+  background: #fff !important;
   --ion-text-color: #000 !important;
   --color: #000 !important;
   color: #000 !important;
+}
+
+ion-searchbar.themed.sc-ion-searchbar-ios-h {
+  min-height: 40px;
+  padding-bottom: 1px;
+
+  .searchbar-input.sc-ion-searchbar-ios {
+    background: unset !important;
+  }
 }
 
 ion-select.themed {
