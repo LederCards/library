@@ -140,7 +140,7 @@ export function queryToText(query: string, isPlural = true): string {
   }
 
   if (result['text']) {
-    text.push(`${result['text']} is in name or card id`);
+    text.push(`"${result['text']}" is in name or card id`);
   }
 
   return `${cardText} ${text[0]} ${text.length > 1 ? 'where' : ''} ${text
