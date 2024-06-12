@@ -41,7 +41,7 @@ export class CardTextComponent {
         const [type, subtype] = text.split(':');
         const fileName = `${type}-${subtype}`.split('\\').join('');
 
-        return `<img src="${environment.baseUrl}/symbols/${fileName}.webp" class="inline-icon" title="${subtype}" />`;
+        return `<img src="${environment.baseUrl}/symbols/${fileName}.webp" class="inline-icon" alt="${subtype}" title="${subtype}" />`;
       }
 
       return `<pre>${text}</pre>`;
