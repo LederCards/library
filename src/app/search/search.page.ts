@@ -47,11 +47,15 @@ export class SearchPage {
       this.storageService.retrieve('search-direction') ||
       'asc';
 
-    this.searchService.pageValue.set(
-      parseInt(this.route.snapshot.queryParamMap.get('p') || '0', 10)
+    const setPage = parseInt(
+      this.route.snapshot.queryParamMap.get('p') || '0',
+      10
     );
+    this.searchService.pageValue.set(setPage);
 
-    this.searchService.search(this.query);
+    console.log(this.route.snapshot.queryParamMap.get('p'));
+
+    this.searchService.search(this.query, true, setPage);
   }
 
   private reformatQueryToJustHaveProduct(query: string): string {

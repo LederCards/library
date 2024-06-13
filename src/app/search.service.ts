@@ -39,7 +39,7 @@ export class SearchService {
   public querySortValue: QuerySort = 'name';
   public querySortByValue: QuerySortBy = 'asc';
 
-  search(query: string, changePage = true) {
+  search(query: string, changePage = true, setPage = -1) {
     this.queryValue = query;
     this.pageValue.set(0);
     this.totalPages.set(0);
@@ -58,7 +58,7 @@ export class SearchService {
     this.doExtraSorting();
 
     if (changePage) {
-      this.changePage(0);
+      this.changePage(setPage >= 0 ? setPage : 0);
     }
 
     this.queryString.set(this.queryValue);
