@@ -69,12 +69,21 @@ ion-select.themed {
   color: #000 !important;
 }
 
-ion-searchbar.themed.sc-ion-searchbar-ios-h {
-  min-height: 40px;
-  padding-bottom: 1px;
+ion-searchbar.themed {
+  &.sc-ion-searchbar-md-s {
+    padding-inline-end: 0px;
+    padding-inline-start: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
 
-  .searchbar-input.sc-ion-searchbar-ios {
-    background: unset !important;
+  &.sc-ion-searchbar-ios-h {
+    min-height: 40px;
+    padding-bottom: 1px;
+
+    .searchbar-input.sc-ion-searchbar-ios {
+      background: unset !important;
+    }
   }
 }
 
