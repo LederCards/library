@@ -7,7 +7,7 @@
     @if(cardData(); as cardData) {
     <ion-grid>
       <ion-row>
-        <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="4" [offsetLg]="2">
+        <ion-col class="card-col" [sizeXs]="12" [sizeMd]="6" [sizeLg]="6">
           <app-card-display class="card" [cardCode]="cardData.id" [size]="'large'"></app-card-display>
         </ion-col>
 

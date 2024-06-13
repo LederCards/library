@@ -6,6 +6,11 @@
   float: right;
 }
 
+.card-col {
+  display: flex;
+  justify-content: center;
+}
+
 .card-info {
   &:not(:first-child) {
     margin-top: 2em;

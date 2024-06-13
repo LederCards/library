@@ -15,11 +15,9 @@
   --card-height: var(--size-normal-large);
 
   display: inline-block;
-  width: var(--card-width);
 }
 
 .card-image-container {
-  width: var(--card-width);
   display: flex;
   justify-content: center;
 
@@ -42,7 +40,7 @@
       --card-height: var(--size-large-large);
     }
 
-    &.climax {
+    &.rotated {
       --card-width: var(--size-normal-large);
       --card-height: var(--size-normal-small);
 
