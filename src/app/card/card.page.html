@@ -64,8 +64,8 @@
                 @for(entry of faq(); track $index) {
                 <ion-item>
                   <ion-label text-wrap>
-                    <h3 [innerHTML]="'Q: ' + (entry.q | faq:cardData.game)"></h3>
-                    <p [innerHTML]="'A: ' + (entry.a | faq:cardData.game)"></p>
+                    <h3 [innerHTML]="'Q: ' + (entry.q | faq:cardData.game | markdown)"></h3>
+                    <p [innerHTML]="'A: ' + (entry.a | faq:cardData.game | markdown)"></p>
                   </ion-label>
                 </ion-item>
                 }

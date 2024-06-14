@@ -19,6 +19,7 @@ import { OmnisearchComponent } from './components/omnisearch/omnisearch.componen
 import { SearchCardsComponent } from './components/search-cards/search-cards.component';
 import { CardNamePipe } from './pipes/cardname.pipe';
 import { FaqPipe } from './pipes/faq.pipe';
+import { MarkdownPipe } from './pipes/markdown.pipe';
 import { StripSpacesPipe } from './pipes/stripspaces.pipe';
 
 export function httpLoaderFactory(http: HttpClient) {
@@ -35,6 +36,7 @@ export function httpLoaderFactory(http: HttpClient) {
     OmnisearchComponent,
     CardTextComponent,
     FaqPipe,
+    MarkdownPipe,
     CardNamePipe,
     StripSpacesPipe,
   ],
@@ -63,6 +65,7 @@ export function httpLoaderFactory(http: HttpClient) {
     OmnisearchComponent,
     CardTextComponent,
     FaqPipe,
+    MarkdownPipe,
     CardNamePipe,
     StripSpacesPipe,
     TranslateModule,
