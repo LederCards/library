@@ -1,4 +1,4 @@
-import { Component, inject, input, type OnInit } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { type ICard } from '../../../../../interfaces';
 import { CardsService } from '../../../cards.service';
 
@@ -10,7 +10,7 @@ type CardDisplay = 'images' | 'text';
   templateUrl: './card-display.component.html',
   styleUrls: ['./card-display.component.scss'],
 })
-export class CardDisplayComponent implements OnInit {
+export class CardDisplayComponent {
   private cardsService = inject(CardsService);
 
   public size = input<CardSize>('normal');
@@ -20,7 +20,9 @@ export class CardDisplayComponent implements OnInit {
   public card: ICard | undefined;
   public soulArray = [];
 
-  ngOnInit() {
-    this.card = this.cardsService.getCardById(this.cardCode());
+  constructor() {
+    effect(() => {
+      this.card = this.cardsService.getCardById(this.cardCode());
+    });
   }
 }

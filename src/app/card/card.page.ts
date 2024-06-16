@@ -15,6 +15,7 @@ import { type ICard, type ICardFAQEntry } from '../../../interfaces';
 import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
 
+import { Location } from '@angular/common';
 import { NavController } from '@ionic/angular';
 import Handlebars from 'handlebars';
 import { FAQService } from '../faq.service';
@@ -31,6 +32,7 @@ export class CardPage implements OnInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private nav = inject(NavController);
+  private location = inject(Location);
 
   private cardsService = inject(CardsService);
   private faqService = inject(FAQService);
@@ -62,18 +64,7 @@ export class CardPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     const cardId = this.route.snapshot.paramMap.get('id');
-    const cardData = this.cardsService.getCardById(cardId ?? '');
-
-    if (!cardData) {
-      this.router.navigate(['/']);
-      return;
-    }
-
-    const template = this.metaService.getTemplateByProductId(cardData.game);
-    const compiledTemplate = Handlebars.compile(template ?? '');
-    this.template = compiledTemplate(cardData);
-
-    this.cardData.set(cardData);
+    this.loadCardData(cardId ?? '');
 
     this.clickListener = this.cardPage()?.nativeElement.addEventListener(
       'click',
@@ -104,6 +95,36 @@ export class CardPage implements OnInit, OnDestroy {
     if (this.backListener) {
       document.body.removeEventListener('keydown', this.backListener);
     }
+  }
+
+  loadCardData(id: string) {
+    const cardData = this.cardsService.getCardById(id);
+
+    if (!cardData) {
+      this.router.navigate(['/']);
+      return;
+    }
+
+    const template = this.metaService.getTemplateByProductId(cardData.game);
+    const compiledTemplate = Handlebars.compile(template ?? '');
+    this.template = compiledTemplate(cardData);
+
+    this.cardData.set(cardData);
+
+    /*
+    I might like to do something like one of these, but I want to replace the url without doing a nav.
+    But, they don't currently work right. Either it does a navigation event (latter), or it won't load you load into the page directly (former).
+
+    this.location.replaceState(
+      `/card/${id}`,
+      `q=${this.route.snapshot.queryParamMap.get('q') ?? ''}`
+    );
+
+    this.router.navigate(['/card', id], {
+      queryParams: { q: this.route.snapshot.queryParamMap.get('q') ?? '' },
+      replaceUrl: true,
+    });
+    */
   }
 
   search(query: string) {

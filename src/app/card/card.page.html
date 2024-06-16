@@ -7,8 +7,20 @@
     @if(cardData(); as cardData) {
     <ion-grid>
       <ion-row>
-        <ion-col class="card-col" [sizeXs]="12" [sizeMd]="6" [sizeLg]="6">
-          <app-card-display class="card" [cardCode]="cardData.id" [size]="'large'"></app-card-display>
+        <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="6">
+          <ion-row>
+            <ion-col class="card-col">
+              <app-card-display class="card" [cardCode]="cardData.id" [size]="'large'"></app-card-display>
+            </ion-col>
+          </ion-row>
+
+          @if(cardData.flipSide) {
+          <ion-row>
+            <ion-col class="flip-col">
+              <ion-button color="secondary" (click)="loadCardData(cardData.flipSide)">Flip Card</ion-button>
+            </ion-col>
+          </ion-row>
+          }
         </ion-col>
 
         <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="4">

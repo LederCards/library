@@ -9,6 +9,8 @@ export interface ICard {
   product: string;
   locale: string;
 
+  flipSide?: string;
+
   imageClass?: string;
   meta: Record<string, number>;
 }
