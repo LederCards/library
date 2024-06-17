@@ -69,6 +69,7 @@ export class CardPage implements OnInit, OnDestroy {
   private backListener = (evt: KeyboardEvent) => {
     const key = evt.key;
     if (!['Backspace', 'Escape'].includes(key)) return;
+    if (document.activeElement?.tagName === 'INPUT') return;
 
     this.nav.back();
   };
