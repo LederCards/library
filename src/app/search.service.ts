@@ -98,10 +98,6 @@ export class SearchService {
   }
 
   private updateParams() {
-    if (!this.queryValue) {
-      return;
-    }
-
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
