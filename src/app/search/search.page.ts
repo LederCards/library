@@ -53,12 +53,12 @@ export class SearchPage {
     );
     this.searchService.pageValue.set(setPage);
 
-    console.log(this.route.snapshot.queryParamMap.get('p'));
-
     this.searchService.search(this.query, true, setPage);
   }
 
   private reformatQueryToJustHaveProduct(query: string): string {
-    return `game:"${getProductFromQuery(query)}"`;
+    const product = getProductFromQuery(query);
+    if (!product) return '';
+    return `game:"${product}"`;
   }
 }

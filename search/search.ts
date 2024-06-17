@@ -108,6 +108,10 @@ export function queryToText(query: string, isPlural = true): string {
   const cardText = `card${isPlural ? 's' : ''}`;
 
   if (isString(firstResult)) {
+    if (!firstResult) {
+      return cardText;
+    }
+
     const queries = query
       .split(' ')
       .map((x) => `"${x}"`)

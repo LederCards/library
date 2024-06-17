@@ -47,13 +47,6 @@ export class SearchService {
     this.displayTotal.set(0);
     this.displayMaximum.set(0);
 
-    if (!this.queryValue) {
-      this.queriedCards = [];
-      this.resetCards();
-      this.updateParams();
-      return;
-    }
-
     this.queriedCards = this.cardsService.searchCards(this.queryValue);
     this.doExtraSorting();
 

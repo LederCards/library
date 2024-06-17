@@ -49,7 +49,7 @@ export class OmnisearchComponent {
 
   public get searchFieldValue(): string {
     let baseValue = this.searchField.value ?? '';
-    if (this.chosenProduct !== 'default') {
+    if (this.chosenProduct && this.chosenProduct !== 'default') {
       baseValue = `game:"${this.chosenProduct}" ${baseValue}`;
     }
 
@@ -101,6 +101,7 @@ export class OmnisearchComponent {
 
   changeProduct(productName: string) {
     this.chosenProduct = productName;
+
     this.searchField.value = removeAllButBareTextAndGameFromQuery(
       this.searchField.value ?? ''
     );
