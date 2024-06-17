@@ -11,13 +11,17 @@ import {
   type WritableSignal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { type ICard, type ICardFAQEntry } from '../../../interfaces';
+import {
+  type ICard,
+  type ICardErrataEntry,
+  type ICardFAQEntry,
+} from '../../../interfaces';
 import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
 
-import { Location } from '@angular/common';
 import { NavController } from '@ionic/angular';
 import Handlebars from 'handlebars';
+import { ErrataService } from '../errata.service';
 import { FAQService } from '../faq.service';
 import { NotifyService } from '../notify.service';
 
@@ -32,10 +36,10 @@ export class CardPage implements OnInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private nav = inject(NavController);
-  private location = inject(Location);
 
   private cardsService = inject(CardsService);
   private faqService = inject(FAQService);
+  private errataService = inject(ErrataService);
   public metaService = inject(MetaService);
   public notify = inject(NotifyService);
 
@@ -51,6 +55,13 @@ export class CardPage implements OnInit, OnDestroy {
     if (!cardData) return [];
 
     return this.faqService.getCardFAQ(cardData.game, cardData.name);
+  });
+
+  public errata: Signal<ICardErrataEntry[]> = computed(() => {
+    const cardData = this.cardData();
+    if (!cardData) return [];
+
+    return this.errataService.getCardErrata(cardData.game, cardData.name);
   });
 
   private clickListener!: () => void;

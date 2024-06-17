@@ -1,0 +1,93 @@
+<ion-header>
+  <app-topbar [searchOnEnter]="true" [showBackButton]="true" [defaultBackLocation]="'/errata'"></app-topbar>
+</ion-header>
+
+<header class="print-only print-header">
+  {{ errataProductName() }} Errata
+</header>
+
+<ion-content>
+  <div class="page-container printable">
+
+    @if(productId()) {
+    <header class="print-hide print-header">
+      {{ errataProductName() }} Errata
+    </header>
+    }
+
+    @if(currentErrata(); as errata) {
+    <ion-grid>
+
+      <ion-row class="print-hide">
+        <ion-col [sizeXs]="12" [sizeSm]="12" [sizeMd]="10" [offsetMd]="1" [sizeLg]="6" [offsetLg]="3">
+          <ion-list>
+            @for(entry of errata; track $index) {
+            <ion-item-group>
+              <ion-item-divider>
+                <ion-label>
+                  <span [innerHTML]="'$link:' + entry.card + '$' | faq:productId()"></span>
+                </ion-label>
+              </ion-item-divider>
+
+              @for(errataEntry of entry.errata; track $index) {
+              <ion-item>
+                <ion-label text-wrap>
+                  <p [innerHTML]="errataEntry.text | faq:productId() | markdown"></p>
+                </ion-label>
+              </ion-item>
+              }
+            </ion-item-group>
+            }
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="print-only">
+        <ion-col>
+          <ion-list>
+            @for(entry of errata; track $index) {
+            <ion-item-group>
+              <ion-item-divider>
+                <ion-label>
+                  {{ entry.card | cardname }}
+                </ion-label>
+              </ion-item-divider>
+
+              @for(errataEntry of entry.errata; track $index) {
+              <ion-item>
+                <ion-label text-wrap>
+                  <p [innerHTML]="errataEntry.text | faq:productId() | markdown"></p>
+                </ion-label>
+              </ion-item>
+              }
+            </ion-item-group>
+            }
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    }
+
+    @else {
+    <ion-grid>
+      <ion-row>
+        @for(errata of erratas(); track $index) {
+        <ion-col size-lg="3" size-md="4" size-sm="6" size-xs="12">
+          <ion-card class="faq-tile" (click)="loadErrata(errata)">
+            <ion-card-header>
+              <ion-card-title>{{ metaService.getProductNameByProductId(errata.productId) }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              {{ errata.errata.length | number }} Errata(s)
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+    }
+  </div>
+
+  <app-below-the-fold></app-below-the-fold>
+</ion-content>

@@ -86,6 +86,28 @@
           </ion-card>
           }
 
+          @if(errata().length > 0) {
+          <ion-card class="card-info" #errataSection>
+            <ion-card-header>
+              <ion-card-title>{{ 'Pages.Card.Errata' | translate }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
+                @for(entry of errata(); track $index) {
+                <ion-item>
+                  <ion-icon slot="start" name="chevron-forward-outline"></ion-icon>
+
+                  <ion-label text-wrap>
+                    <p [innerHTML]="entry.text | faq:cardData.game | markdown"></p>
+                  </ion-label>
+                </ion-item>
+                }
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+          }
+
           @if(metaService.getRulesByProductId(cardData.game); as rulesUrl) {
           <ion-card class="card-info">
             <ion-card-header>

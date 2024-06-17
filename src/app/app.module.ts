@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CardsService } from './cards.service';
 import { ChangelogService } from './changelog.service';
+import { ErrataService } from './errata.service';
 import { FAQService } from './faq.service';
 import { LocaleService } from './locale.service';
 import { MetaService } from './meta.service';
@@ -41,6 +42,7 @@ import { MetaService } from './meta.service';
         MetaService,
         LocaleService,
         FAQService,
+        ErrataService,
         ChangelogService,
         CardsService,
       ],
@@ -49,6 +51,7 @@ import { MetaService } from './meta.service';
           metaService: MetaService,
           localeService: LocaleService,
           faqService: FAQService,
+          errataService: ErrataService,
           changelogService: ChangelogService,
           cardsService: CardsService
         ) =>
@@ -56,6 +59,7 @@ import { MetaService } from './meta.service';
           await metaService.init();
           await localeService.init();
           await faqService.init();
+          await errataService.init();
           await changelogService.init();
           await cardsService.init();
         },

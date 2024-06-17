@@ -38,6 +38,11 @@ const routes: Routes = [
     loadChildren: () => import('./faq/faq.module').then((m) => m.FaqPageModule),
   },
   {
+    path: 'errata',
+    loadChildren: () =>
+      import('./errata/errata.module').then((m) => m.ErrataPageModule),
+  },
+  {
     path: 'changelog',
     loadChildren: () =>
       import('./changelog/changelog.module').then((m) => m.ChangelogPageModule),

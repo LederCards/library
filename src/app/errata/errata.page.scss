@@ -1,0 +1,46 @@
+.faq-tile {
+  min-height: 200px;
+  padding: 4px;
+
+  border: 2px solid #000;
+
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    border: 2px solid var(--ion-color-primary);
+  }
+
+  ion-card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 2em;
+    padding: 1em;
+  }
+}
+
+.page-container .print-header {
+  text-align: center;
+
+  margin-top: 24px;
+  margin-bottom: 24px;
+
+  font-size: 3em;
+}
+
+ion-item-group {
+  font-weight: bold;
+
+  &:not(:first-child) {
+    padding-top: 16px;
+  }
+}
+
+@media only screen {
+  ion-list {
+    padding: 0;
+    border: 1px solid var(--ion-color-light);
+  }
+}
