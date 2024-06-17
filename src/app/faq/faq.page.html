@@ -32,8 +32,8 @@
               @for(faqEntry of entry.faq; track $index) {
               <ion-item>
                 <ion-label text-wrap>
-                  <h3 [innerHTML]="('Pages.FAQ.Q' | translate) +': ' + (faqEntry.q | faq:productId())"></h3>
-                  <p [innerHTML]="('Pages.FAQ.A' | translate) +': ' + (faqEntry.a | faq:productId())"></p>
+                  <h3 [innerHTML]="('Pages.FAQ.Q' | translate) +': ' + (faqEntry.q | faq:productId() | markdown)"></h3>
+                  <p [innerHTML]="('Pages.FAQ.A' | translate) +': ' + (faqEntry.a | faq:productId() | markdown)"></p>
                 </ion-label>
               </ion-item>
               }
@@ -57,8 +57,8 @@
               @for(faqEntry of entry.faq; track $index) {
               <ion-item>
                 <ion-label text-wrap>
-                  <h3 [innerText]="('Pages.FAQ.Q' | translate) +': ' + (faqEntry.q | faq)"></h3>
-                  <p [innerText]="('Pages.FAQ.A' | translate) +': ' + (faqEntry.a | faq)"></p>
+                  <h3 [innerText]="('Pages.FAQ.Q' | translate) +': ' + (faqEntry.q | faq | markdown)"></h3>
+                  <p [innerText]="('Pages.FAQ.A' | translate) +': ' + (faqEntry.a | faq | markdown)"></p>
                 </ion-label>
               </ion-item>
               }
