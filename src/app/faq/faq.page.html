@@ -3,7 +3,7 @@
 </ion-header>
 
 <header class="print-only print-header">
-  {{ faqProductName() }} FAQ
+  {{ faqProductName() }} {{ 'Pages.FAQ.Single' | translate }}
 </header>
 
 <ion-content>
@@ -11,7 +11,7 @@
 
     @if(productId()) {
     <header class="print-hide print-header">
-      {{ faqProductName() }} FAQ
+      {{ faqProductName() }} {{ 'Pages.FAQ.Single' | translate }}
     </header>
     }
 
@@ -32,8 +32,8 @@
               @for(faqEntry of entry.faq; track $index) {
               <ion-item>
                 <ion-label text-wrap>
-                  <h3 [innerHTML]="'Q: ' + (faqEntry.q | faq:productId())"></h3>
-                  <p [innerHTML]="'A: ' + (faqEntry.a | faq:productId())"></p>
+                  <h3 [innerHTML]="('Pages.FAQ.Q' | translate) +': ' + (faqEntry.q | faq:productId())"></h3>
+                  <p [innerHTML]="('Pages.FAQ.A' | translate) +': ' + (faqEntry.a | faq:productId())"></p>
                 </ion-label>
               </ion-item>
               }
@@ -57,8 +57,8 @@
               @for(faqEntry of entry.faq; track $index) {
               <ion-item>
                 <ion-label text-wrap>
-                  <h3 [innerText]="'Q: ' + (faqEntry.q | faq)"></h3>
-                  <p [innerText]="'A: ' + (faqEntry.a | faq)"></p>
+                  <h3 [innerText]="('Pages.FAQ.Q' | translate) +': ' + (faqEntry.q | faq)"></h3>
+                  <p [innerText]="('Pages.FAQ.A' | translate) +': ' + (faqEntry.a | faq)"></p>
                 </ion-label>
               </ion-item>
               }
@@ -81,7 +81,7 @@
             </ion-card-header>
 
             <ion-card-content>
-              {{ faq.faq.length | number }} FAQ(s)
+              {{ faq.faq.length | number }} {{ 'Pages.FAQ.Plural' | translate }}
             </ion-card-content>
           </ion-card>
         </ion-col>

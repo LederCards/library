@@ -3,7 +3,7 @@
 </ion-header>
 
 <header class="print-only print-header">
-  {{ errataProductName() }} Errata
+  {{ errataProductName() }} {{ 'Pages.Errata.Single' | translate }}
 </header>
 
 <ion-content>
@@ -11,7 +11,7 @@
 
     @if(productId()) {
     <header class="print-hide print-header">
-      {{ errataProductName() }} Errata
+      {{ errataProductName() }} {{ 'Pages.Errata.Single' | translate }}
     </header>
     }
 
@@ -79,7 +79,7 @@
             </ion-card-header>
 
             <ion-card-content>
-              {{ errata.errata.length | number }} Errata(s)
+              {{ errata.errata.length | number }} {{ 'Pages.Errata.Plural' | translate }}
             </ion-card-content>
           </ion-card>
         </ion-col>
