@@ -167,6 +167,12 @@ export function getProductFromQuery(query: string): string | undefined {
   return result['game'];
 }
 
+export function reformatQueryToJustHaveProduct(query: string): string {
+  const product = getProductFromQuery(query);
+  if (!product) return '';
+  return `game:"${product}"`;
+}
+
 export function removeGameFromQuery(query: string) {
   return query.replace(/\bgame:"([\w]+)"/gm, '');
 }

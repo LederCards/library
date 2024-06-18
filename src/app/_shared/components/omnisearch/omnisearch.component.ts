@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from 'ngx-webstorage';
 import {
   getProductFromQuery,
+  reformatQueryToJustHaveProduct,
   removeAllButBareTextAndGameFromQuery,
   removeGameFromQuery,
 } from '../../../../../search/search';
@@ -78,7 +79,9 @@ export class OmnisearchComponent {
       this.query =
         this.initialQuery() ||
         this.searchService.queryString() ||
-        this.storageService.retrieve('search-query') ||
+        reformatQueryToJustHaveProduct(
+          this.storageService.retrieve('search-query')
+        ) ||
         '';
 
       if (!this.query) {
