@@ -72,9 +72,9 @@
         </ion-col>
 
         <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
-          <ng-select [items]="visibleTags" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
-            [placeholder]="'Pages.AdvancedSearch.TagsPlaceholder' | translate" (change)="saveQuery()"
-            [(ngModel)]="searchQuery.tags">
+          <ng-select #tagSearch [items]="visibleTags" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
+            [clearSearchOnAdd]="true" [placeholder]="'Pages.AdvancedSearch.TagsPlaceholder' | translate"
+            (change)="saveQuery()" [(ngModel)]="searchQuery.tags">
           </ng-select>
         </ion-col>
       </ion-row>
