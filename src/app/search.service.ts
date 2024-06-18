@@ -23,6 +23,8 @@ export class SearchService {
   public queryDesc = signal<string>('');
   public queryString = signal<string>('');
 
+  public isSearching = signal<boolean>(false);
+
   public readonly cardsPerPage = 60;
   public queriedCards: ICard[] = [];
 
@@ -40,6 +42,8 @@ export class SearchService {
   public querySortByValue: QuerySortBy = 'asc';
 
   search(query: string, changePage = true, setPage = -1) {
+    this.isSearching.set(true);
+
     this.queryValue = query;
     this.pageValue.set(0);
     this.totalPages.set(0);
@@ -60,6 +64,8 @@ export class SearchService {
     this.queryDesc.set(
       queryToText(this.queryValue, this.queriedCards.length > 1)
     );
+
+    this.isSearching.set(false);
   }
 
   redoCurrentSearch() {

@@ -1,4 +1,10 @@
-@if(searchService.displayTotal() === 0) {
+@if(searchService.isSearching()) {
+<div class="searching">
+  <ion-spinner name="crescent"></ion-spinner>
+</div>
+}
+
+@if(searchService.displayTotal() === 0 && !searchService.isSearching()) {
 <div class="no-results ion-text-center">
   <h2>{{ 'Pages.SearchResults.NoResults.Header' | translate }}</h2>
   <p>{{ 'Pages.SearchResults.NoResults.Subheader' | translate }} <a target="_blank" [routerLink]="['/syntax']">{{
@@ -6,7 +12,7 @@
 </div>
 }
 
-@if(searchService.displayTotal() > 0) {
+@if(searchService.displayTotal() > 0 && !searchService.isSearching()) {
 <ng-container>
   <ng-container *ngTemplateOutlet="cardSwitches"></ng-container>
 

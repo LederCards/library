@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { LocalStorageService } from 'ngx-webstorage';
@@ -15,7 +15,7 @@ import {
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
 })
-export class SearchPage {
+export class SearchPage implements OnInit {
   private route = inject(ActivatedRoute);
   private searchService = inject(SearchService);
   private storageService = inject(LocalStorageService);
@@ -23,6 +23,10 @@ export class SearchPage {
   public query = '';
 
   public page = 0;
+
+  ngOnInit() {
+    this.searchService.isSearching.set(true);
+  }
 
   ionViewDidEnter() {
     this.query =
