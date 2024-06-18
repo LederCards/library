@@ -1,9 +1,10 @@
 import { Component, inject, type OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LocalStorage } from 'ngx-webstorage';
+import { LocalStorage, LocalStorageService } from 'ngx-webstorage';
 
 import { isNumber, sortBy, uniqBy } from 'lodash';
 import type { IProductFilter } from '../../../interfaces';
+import { getProductFromQuery } from '../../../search/search';
 import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
 
@@ -30,6 +31,7 @@ export class AdvancedPage implements OnInit {
   private router = inject(Router);
   private cardsService = inject(CardsService);
   public metaService = inject(MetaService);
+  private storageService = inject(LocalStorageService);
 
   public allOperators = [
     { value: '=', label: 'EqualTo' },
@@ -93,6 +95,8 @@ export class AdvancedPage implements OnInit {
     this.acquireTags();
     this.setSubproductsBasedOnProduct(this.searchQuery?.product?.product);
     this.setBasicMeta();
+
+    this.potentiallyLoadProductFromSearch();
   }
 
   saveQuery() {
@@ -134,6 +138,18 @@ export class AdvancedPage implements OnInit {
     Object.keys(productSets).forEach((productKey) => {
       this.tagsByProduct[productKey] = [...productSets[productKey]];
     });
+  }
+
+  potentiallyLoadProductFromSearch() {
+    const product = getProductFromQuery(
+      this.storageService.retrieve('search-query')
+    );
+    if (!product) return;
+
+    this.searchQuery.product = this.allProducts.find(
+      (p) => p.value === product
+    );
+    this.changeProduct({ product });
   }
 
   setSubproductsBasedOnProduct(product: string | undefined) {
