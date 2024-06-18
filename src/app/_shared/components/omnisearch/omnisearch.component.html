@@ -1,7 +1,10 @@
-<ion-img class="search-icon" (click)="popover.present($event)"
-  [src]="'https://ledercards.netlify.app/symbols/product-' + chosenProduct + '.webp'"></ion-img>
+<div class="search-dropdown-container" (click)="popover.present($event)" (keydown.enter)="popover.present()"
+  tabindex="0">
+  <ion-img class="search-icon"
+    [src]="'https://ledercards.netlify.app/symbols/product-' + chosenProduct + '.webp'"></ion-img>
 
-<ion-icon class="search-dropdown" name="caret-down-outline" color="black" (click)="popover.present($event)"></ion-icon>
+  <ion-icon class="search-dropdown" name="caret-down-outline" color="black"></ion-icon>
+</div>
 
 <ion-searchbar #search class="search themed" [ngClass]="[big() ? 'big' : '']" [debounce]="1000"
   (ionChange)="changeText(searchFieldValue)" searchIcon="''" (keyup.enter)="doEnter(searchFieldValue)"
