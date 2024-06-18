@@ -13,7 +13,7 @@ import {
   subproductDescription,
   tagDescription,
 } from '../../../search/operators';
-import { tryNavigateToHash } from '../_shared/helpers';
+import { navigateTo, tryNavigateToHash } from '../_shared/helpers';
 
 @Component({
   selector: 'app-syntax',
@@ -40,5 +40,9 @@ export class SyntaxPage implements OnInit {
     const text = this.translateService.instant(key);
 
     return this.domSanitizer.bypassSecurityTrustHtml(marked.parse(text));
+  }
+
+  navigateTo(id: string) {
+    navigateTo(id);
   }
 }
