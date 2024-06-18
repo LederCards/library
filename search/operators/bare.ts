@@ -4,7 +4,7 @@ export function bare(cards: ICard[], query: string): ICard[] {
   const sQueries = query.toLowerCase().split(' ');
 
   const matches = (card: ICard, term: string) => {
-    if (card.id.toLowerCase() === term) {
+    if (card.id.toLowerCase().includes(term)) {
       return true;
     }
 
