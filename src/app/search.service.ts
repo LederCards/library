@@ -114,6 +114,7 @@ export class SearchService {
         p: this.pageValue(),
       },
       queryParamsHandling: 'merge',
+      replaceUrl: true,
     });
   }
 
