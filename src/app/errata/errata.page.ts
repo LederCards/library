@@ -1,8 +1,15 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  type OnInit,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import type { ICardErrata } from '../../../interfaces';
+import { tryNavigateToHash } from '../_shared/helpers';
 import { ErrataService } from '../errata.service';
 import { MetaService } from '../meta.service';
 
@@ -11,7 +18,7 @@ import { MetaService } from '../meta.service';
   templateUrl: './errata.page.html',
   styleUrls: ['./errata.page.scss'],
 })
-export class ErrataPage {
+export class ErrataPage implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private errataService = inject(ErrataService);
@@ -33,6 +40,10 @@ export class ErrataPage {
       .pipe(takeUntilDestroyed())
       .pipe(filter((evt) => evt.type === EventType.NavigationEnd))
       .subscribe(() => this.parseQueryParams());
+  }
+
+  ngOnInit() {
+    tryNavigateToHash();
   }
 
   ionViewDidEnter() {

@@ -24,7 +24,7 @@
             @for(entry of errata; track $index) {
             <ion-item-group>
               <ion-item-divider>
-                <ion-label>
+                <ion-label [id]="entry.card | cardid">
                   <span [innerHTML]="'$link:' + entry.card + '$' | faq:productId()"></span>
                 </ion-label>
               </ion-item-divider>

@@ -1,8 +1,15 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  type OnInit,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import type { ICardFAQ } from '../../../interfaces';
+import { tryNavigateToHash } from '../_shared/helpers';
 import { FAQService } from '../faq.service';
 import { MetaService } from '../meta.service';
 
@@ -11,7 +18,7 @@ import { MetaService } from '../meta.service';
   templateUrl: './faq.page.html',
   styleUrls: ['./faq.page.scss'],
 })
-export class FaqPage {
+export class FaqPage implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private faqService = inject(FAQService);
@@ -33,6 +40,10 @@ export class FaqPage {
       .pipe(takeUntilDestroyed())
       .pipe(filter((evt) => evt.type === EventType.NavigationEnd))
       .subscribe(() => this.parseQueryParams());
+  }
+
+  ngOnInit() {
+    tryNavigateToHash();
   }
 
   ionViewDidEnter() {

@@ -86,6 +86,7 @@ export class CardPage implements OnInit, OnDestroy {
 
         const href = (evt.target as HTMLAnchorElement)?.href;
         if (!href) return;
+        if (href.includes('faq') || href.includes('errata')) return;
 
         const url = new URL(href);
         const [, , cardId] = url.pathname.split('/');

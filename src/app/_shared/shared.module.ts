@@ -17,6 +17,7 @@ import { CardTextComponent } from './components/card-text/card-text.component';
 import { CardIconComponent } from './components/cardicon/cardicon.component';
 import { OmnisearchComponent } from './components/omnisearch/omnisearch.component';
 import { SearchCardsComponent } from './components/search-cards/search-cards.component';
+import { CardIdPipe } from './pipes/cardid.pipe';
 import { CardNamePipe } from './pipes/cardname.pipe';
 import { FaqPipe } from './pipes/faq.pipe';
 import { MarkdownPipe } from './pipes/markdown.pipe';
@@ -35,6 +36,7 @@ export function httpLoaderFactory(http: HttpClient) {
     SearchCardsComponent,
     OmnisearchComponent,
     CardTextComponent,
+    CardIdPipe,
     FaqPipe,
     MarkdownPipe,
     CardNamePipe,
@@ -64,6 +66,7 @@ export function httpLoaderFactory(http: HttpClient) {
     SearchCardsComponent,
     OmnisearchComponent,
     CardTextComponent,
+    CardIdPipe,
     FaqPipe,
     MarkdownPipe,
     CardNamePipe,

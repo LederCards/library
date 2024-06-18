@@ -29,8 +29,11 @@
               <ion-card-title>
                 {{ cardData.name }}
 
-                <ion-icon class="cursor share" name="share-social-outline" ngxClipboard [cbContent]="copyText"
-                  (click)="notify.showMessage('Copied URL to clipboard!')"></ion-icon>
+
+                <ion-button fill="clear" color="secondary" ngxClipboard [cbContent]="copyText"
+                  (click)="notify.showMessage('Copied URL to clipboard!')">
+                  <ion-icon slot="icon-only" name="share-social-outline"></ion-icon>
+                </ion-button>
               </ion-card-title>
               <ion-card-subtitle>
                 {{ cardData.id }}
@@ -68,7 +71,14 @@
           @if(faq().length > 0) {
           <ion-card class="card-info" #faqSection>
             <ion-card-header>
-              <ion-card-title>{{ 'Pages.Card.FAQ' | translate }}</ion-card-title>
+              <ion-card-title>
+                {{ 'Pages.Card.FAQ' | translate }}
+
+                <ion-button fill="clear" color="secondary" [routerLink]="['/faq']"
+                  [queryParams]="{ locale: cardData.locale, productId: cardData.game }" [fragment]="cardData.id">
+                  <ion-icon slot="icon-only" name="link-outline"></ion-icon>
+                </ion-button>
+              </ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
@@ -89,17 +99,22 @@
           @if(errata().length > 0) {
           <ion-card class="card-info" #errataSection>
             <ion-card-header>
-              <ion-card-title>{{ 'Pages.Card.Errata' | translate }}</ion-card-title>
+              <ion-card-title>
+                {{ 'Pages.Card.Errata' | translate }}
+
+                <ion-button fill="clear" color="secondary" [routerLink]="['/errata']"
+                  [queryParams]="{ locale: cardData.locale, productId: cardData.game }" [fragment]="cardData.id">
+                  <ion-icon slot="icon-only" name="link-outline"></ion-icon>
+                </ion-button>
+              </ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
               <ion-list>
                 @for(entry of errata(); track $index) {
                 <ion-item>
-                  <ion-icon slot="start" name="chevron-forward-outline"></ion-icon>
-
                   <ion-label text-wrap>
-                    <p [innerHTML]="entry.text | faq:cardData.game | markdown"></p>
+                    <p [innerHTML]="'&bull; ' + entry.text | faq:cardData.game | markdown"></p>
                   </ion-label>
                 </ion-item>
                 }

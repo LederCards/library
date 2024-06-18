@@ -13,6 +13,7 @@ import {
   subproductDescription,
   tagDescription,
 } from '../../../search/operators';
+import { tryNavigateToHash } from '../_shared/helpers';
 
 @Component({
   selector: 'app-syntax',
@@ -32,24 +33,12 @@ export class SyntaxPage implements OnInit {
   ];
 
   ngOnInit() {
-    if (document.location.hash) {
-      setTimeout(() => {
-        this.navigateTo(document.location.hash.replace('#', ''));
-      }, 500);
-    }
+    tryNavigateToHash();
   }
 
   formatText(key: string): SafeHtml {
     const text = this.translateService.instant(key);
 
     return this.domSanitizer.bypassSecurityTrustHtml(marked.parse(text));
-  }
-
-  navigateTo(id: string) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-
-    setTimeout(() => {
-      document.location.hash = id;
-    }, 0);
   }
 }

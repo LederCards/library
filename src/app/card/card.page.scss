@@ -25,6 +25,11 @@
 
 ion-card-header {
   padding-bottom: 0;
+
+  ion-card-title {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .title {
