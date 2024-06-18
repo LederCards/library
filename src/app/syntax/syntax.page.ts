@@ -12,6 +12,7 @@ import {
   productDescription,
   subproductDescription,
   tagDescription,
+  textDescription,
 } from '../../../search/operators';
 import { navigateTo, tryNavigateToHash } from '../_shared/helpers';
 
@@ -26,6 +27,7 @@ export class SyntaxPage implements OnInit {
 
   public allOperators: ICardHelp[] = [
     cardDescription,
+    textDescription,
     nameDescription,
     productDescription,
     subproductDescription,

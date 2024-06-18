@@ -23,6 +23,22 @@
         </ion-col>
       </ion-row>
 
+      <!-- card text -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+
+          @if(metaService.getSiteConfigProperty('icons.advanced.CardText')) {
+          <ion-icon [name]="metaService.getSiteConfigProperty('icons.advanced.CardText')" color="primary"></ion-icon>
+          }
+          <span>{{ 'Pages.AdvancedSearch.CardTextLabel' | translate }}</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-input (ionChange)="saveQuery()" [(ngModel)]="searchQuery.text"
+            [placeholder]="'Pages.AdvancedSearch.CardTextPlaceholder' | translate"></ion-input>
+        </ion-col>
+      </ion-row>
+
       <!-- product -->
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">

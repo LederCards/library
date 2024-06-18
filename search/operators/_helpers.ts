@@ -220,7 +220,7 @@ export function partialWithOptionalExactTextOperator(
                 const isExact = i.startsWith('=');
                 const searchString = isExact ? i.replace('=', '') : i;
 
-                const val = getValueFromCard<string>(c, key);
+                const val = getValueFromCard<string>(c, key) ?? '';
 
                 if (isExact) {
                   return val.toString().toLowerCase() === searchString;
@@ -245,7 +245,7 @@ export function partialWithOptionalExactTextOperator(
                   const isExact = i.startsWith('=');
                   const searchString = isExact ? i.replace('=', '') : i;
 
-                  const val = getValueFromCard<string>(c, key);
+                  const val = getValueFromCard<string>(c, key) ?? '';
 
                   if (isExact) {
                     return val.toString().toLowerCase() === searchString;

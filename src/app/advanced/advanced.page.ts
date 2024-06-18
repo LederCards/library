@@ -174,6 +174,10 @@ export class AdvancedPage implements OnInit {
       queryAttributes.push(`name:"${this.searchQuery.name}"`);
     }
 
+    if (this.searchQuery.text) {
+      queryAttributes.push(`cardtext:"${this.searchQuery.text}"`);
+    }
+
     if (this.searchQuery.product?.value) {
       queryAttributes.push(`game:"${this.searchQuery.product.value}"`);
     }
@@ -194,6 +198,8 @@ export class AdvancedPage implements OnInit {
 
       if (filter.type === 'number') {
         const { operator, value } = this.searchQuery.meta[filter.prop];
+        if (!value) return;
+
         if (isNumber(+value) && !isNaN(+value)) {
           queryAttributes.push(`${filter.prop}:${operator}${value}`);
         }

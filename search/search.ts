@@ -4,11 +4,12 @@ import * as parser from 'search-query-parser';
 
 import { type ICard } from '../interfaces';
 
-import { bare, card, name, product, subproduct, tag } from './operators';
+import { bare, card, name, product, subproduct, tag, text } from './operators';
 
 const allKeywords = [
   ['id'], // exact text
   ['name', 'n'], // loose text
+  ['cardtext', 't'], // loose text
   ['game', 'g'], // exact text
   ['product', 'expansion', 'p', 'e'], // exact text
   ['tag'], // array search
@@ -19,7 +20,14 @@ export type ParserOperator = (
   results: parser.SearchParserResult
 ) => ICard[];
 
-const operators: ParserOperator[] = [card, name, product, subproduct, tag];
+const operators: ParserOperator[] = [
+  card,
+  name,
+  text,
+  product,
+  subproduct,
+  tag,
+];
 
 export function properOperatorsInsteadOfAliases(
   result: parser.SearchParserResult
@@ -60,6 +68,15 @@ const allQueryFormatters = [
     excludes: 'does not contain',
     formatter: (result: Record<string, any>) => {
       const value = result['name'];
+      return `"${value}"`;
+    },
+  },
+  {
+    key: 'cardtext',
+    includes: 'contains',
+    excludes: 'does not contain',
+    formatter: (result: Record<string, any>) => {
+      const value = result['cardtext'];
       return `"${value}"`;
     },
   },
