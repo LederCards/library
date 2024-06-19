@@ -174,7 +174,10 @@ export class CardPage implements OnInit, OnDestroy {
         cardData.id
       )}`,
     });
-    this.pageMeta.updateTag({ name: 'description', content: text });
+    this.pageMeta.updateTag({
+      name: 'description',
+      content: `${cardData.name} (${cardData.id}) is a card in the ${cardData.game} game.`,
+    });
   }
 
   private removeEmojis(text: string) {
