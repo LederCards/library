@@ -35,7 +35,7 @@ jobs:
         uses: nwtgck/actions-netlify@v1.2
         with:
           publish-dir: "./dist/app/browser"
-          production-deploy: true
+          production-deploy: ${{ github.ref_name == 'master' }}
           production-branch: master
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
