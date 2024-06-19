@@ -176,7 +176,7 @@ export class CardPage implements OnInit, OnDestroy {
     });
     this.pageMeta.updateTag({
       name: 'description',
-      content: `${cardData.name} (${cardData.id}) is a card in the ${cardData.game} game.`,
+      content: `${cardData.name} (${cardData.id}) is a card in the ${cardData.game} board game.`,
     });
   }
 
