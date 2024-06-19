@@ -9,7 +9,6 @@ export class ProductNamePipe implements PipeTransform {
 
   transform(value: string): string {
     const foundProduct = this.metaService.getProductNameByProductId(value);
-    console.log(value, foundProduct);
     if (!foundProduct) return value;
 
     return foundProduct;
