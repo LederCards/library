@@ -1,6 +1,7 @@
 name: Deploy to Netlify
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -28,13 +29,13 @@ jobs:
 
       - run: npm run test
 
-      - run: npm run build
+      - run: npm run build:netlify
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2
         with:
-          publish-dir: "./www"
-          production-deploy: true
+          publish-dir: "./dist/app/browser"
+          production-deploy: ${{ github.ref_name == 'master' }}
           production-branch: master
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
