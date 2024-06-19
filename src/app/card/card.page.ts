@@ -23,6 +23,7 @@ import { DOCUMENT } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
 import { NavController } from '@ionic/angular';
 import Handlebars from 'handlebars';
+import { environment } from '../../environments/environment';
 import { WINDOW } from '../_shared/helpers';
 import { ErrataService } from '../errata.service';
 import { FAQService } from '../faq.service';
@@ -136,6 +137,13 @@ export class CardPage implements OnInit, OnDestroy {
       property: 'og:description',
       content: cardData.text,
     });
+    this.pageMeta.updateTag({
+      property: 'og:url',
+      content: `${environment.baseAppUrl}/card/${encodeURIComponent(
+        cardData.id
+      )}`,
+    });
+    this.pageMeta.updateTag({ name: 'description', content: cardData.text });
 
     /*
     I might like to do something like one of these, but I want to replace the url without doing a nav.

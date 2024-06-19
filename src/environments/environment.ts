@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  baseAppUrl: 'https://cards.ledergames.com',
   baseUrl: 'https://ledercards.netlify.app',
 };
 
