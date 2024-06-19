@@ -4,5 +4,5 @@ const fs = require('fs-extra');
   const cardsRes = await fetch('https://ledercards.netlify.app/cards.json');
   const cards = await cardsRes.json();
 
-  fs.writeJsonSync('src/assets/cards.json', cards);
+  fs.writeJsonSync('cards.json', cards);
 })();

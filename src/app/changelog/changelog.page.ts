@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import type { IChangelogEntry } from '../../../interfaces';
+import { WINDOW } from '../_shared/helpers';
 import { ChangelogService } from '../changelog.service';
 import { MetaService } from '../meta.service';
 
@@ -16,6 +17,7 @@ export class ChangelogPage {
   private route = inject(ActivatedRoute);
   private changelogService = inject(ChangelogService);
   public metaService = inject(MetaService);
+  private window = inject(WINDOW);
 
   private locale = signal<string>('');
   public productId = signal<string>('');
@@ -62,7 +64,7 @@ export class ChangelogPage {
   }
 
   private parseQueryParams() {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(this.window.location.search);
 
     this.locale.set(urlParams.get('locale') ?? '');
     this.productId.set(urlParams.get('productId') ?? '');
