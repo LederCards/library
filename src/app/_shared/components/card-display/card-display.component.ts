@@ -20,6 +20,12 @@ export class CardDisplayComponent {
   public card: ICard | undefined;
   public soulArray = [];
 
+  public get altText() {
+    if (!this.card) return '';
+
+    return `${this.card.id} - ${this.card.name} - card image display`;
+  }
+
   constructor() {
     effect(() => {
       this.card = this.cardsService.getCardById(this.cardCode());

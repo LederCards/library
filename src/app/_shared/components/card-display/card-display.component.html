@@ -1,7 +1,7 @@
 @if(card) {
 @if(display() === 'images') {
 <div class="card-image-container">
-  <ion-img [src]="card.image" class="card-image" [ngClass]="[size(), card.imageClass ?? '']"></ion-img>
+  <ion-img [src]="card.image" class="card-image" [ngClass]="[size(), card.imageClass ?? '']" [alt]="altText"></ion-img>
 </div>
 }
 

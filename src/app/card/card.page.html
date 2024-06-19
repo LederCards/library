@@ -27,7 +27,7 @@
           <ion-card class="card-info">
             <ion-card-header>
               <ion-card-title>
-                {{ cardData.name }}
+                <h1>{{ cardData.name }}</h1>
 
                 <ion-button fill="clear" color="secondary" ngxClipboard [cbContent]="copyText"
                   (click)="notify.showMessage('Copied URL to clipboard!')">
@@ -69,7 +69,7 @@
           </ion-card>
 
           @if(faq().length > 0) {
-          <ion-card class="card-info" #faqSection>
+          <ion-card class="card-info" #faqSection itemscope itemtype="https://schema.org/FAQPage">
             <ion-card-header>
               <ion-card-title>
                 {{ 'Pages.Card.FAQ' | translate }}
@@ -84,10 +84,12 @@
             <ion-card-content>
               <ion-list>
                 @for(entry of faq(); track $index) {
-                <ion-item>
+                <ion-item itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
                   <ion-label text-wrap>
-                    <h3 [innerHTML]="'Q: ' + (entry.q | faq:cardData.game | markdown)"></h3>
-                    <p [innerHTML]="'A: ' + (entry.a | faq:cardData.game | markdown)"></p>
+                    <h3 itemprop="name" [innerHTML]="'Q: ' + (entry.q | faq:cardData.game | markdown)"></h3>
+                    <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                      <p itemprop="text" [innerHTML]="'A: ' + (entry.a | faq:cardData.game | markdown)"></p>
+                    </div>
                   </ion-label>
                 </ion-item>
                 }

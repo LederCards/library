@@ -20,8 +20,9 @@ import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
 
 import { DOCUMENT } from '@angular/common';
-import { Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import Handlebars from 'handlebars';
 import { environment } from '../../environments/environment';
 import { WINDOW } from '../_shared/helpers';
@@ -43,7 +44,9 @@ export class CardPage implements OnInit, OnDestroy {
   private window = inject(WINDOW);
   private document = inject(DOCUMENT);
   private pageMeta = inject(Meta);
+  private title = inject(Title);
 
+  private translateService = inject(TranslateService);
   private cardsService = inject(CardsService);
   private faqService = inject(FAQService);
   private errataService = inject(ErrataService);
@@ -115,6 +118,8 @@ export class CardPage implements OnInit, OnDestroy {
     if (this.backListener) {
       this.document.body.removeEventListener('keydown', this.backListener);
     }
+
+    this.document.querySelector('script[type="application/ld+json"]')?.remove();
   }
 
   loadCardData(id: string) {
@@ -176,8 +181,35 @@ export class CardPage implements OnInit, OnDestroy {
     });
     this.pageMeta.updateTag({
       name: 'description',
-      content: `${cardData.name} (${cardData.id}) is a card in the ${cardData.game} board game.`,
+      content: `${cardData.name} (${
+        cardData.id
+      }) is a card in the ${this.metaService.getProductNameByProductId(
+        cardData.game
+      )} board game, part of the ${this.metaService.getProductNameByProductId(
+        cardData.product
+      )} set. It has ${this.faq().length} FAQ and ${
+        this.errata().length
+      } errata associated with it.`,
     });
+
+    this.title.setTitle(`Leder Card Library - ${cardData.name}`);
+
+    const ldData = this.document.createElement('script');
+    ldData.type = 'application/ld+json';
+
+    ldData.textContent = `
+    {
+      "@context": "https://schema.org/",
+      "@type": "ImageObject",
+      "contentUrl": "${cardData.image}",
+      "creator": {
+        "@type": "Organization",
+        "name": "${this.translateService.instant('Common.Company')}"
+       },
+      "copyrightNotice": "${this.translateService.instant('Common.Company')}"
+    }`;
+
+    this.document.head.appendChild(ldData);
   }
 
   private removeEmojis(text: string) {
