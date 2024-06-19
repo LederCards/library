@@ -131,19 +131,7 @@ export class CardPage implements OnInit, OnDestroy {
 
     this.cardData.set(cardData);
 
-    this.pageMeta.updateTag({ property: 'og:title', content: cardData.name });
-    this.pageMeta.updateTag({ property: 'og:image', content: cardData.image });
-    this.pageMeta.updateTag({
-      property: 'og:description',
-      content: cardData.text,
-    });
-    this.pageMeta.updateTag({
-      property: 'og:url',
-      content: `${environment.baseAppUrl}/card/${encodeURIComponent(
-        cardData.id
-      )}`,
-    });
-    this.pageMeta.updateTag({ name: 'description', content: cardData.text });
+    this.updateMeta(cardData);
 
     /*
     I might like to do something like one of these, but I want to replace the url without doing a nav.
@@ -167,5 +155,29 @@ export class CardPage implements OnInit, OnDestroy {
 
   searchTag(tag: string) {
     this.search(`game:"${this.cardData()?.game}" tag:"${tag}"`);
+  }
+
+  private updateMeta(cardData: ICard) {
+    const text = cardData.text
+      ? this.removeEmojis(cardData.text)
+      : 'No text entered for this card.';
+
+    this.pageMeta.updateTag({ property: 'og:title', content: cardData.name });
+    this.pageMeta.updateTag({ property: 'og:image', content: cardData.image });
+    this.pageMeta.updateTag({
+      property: 'og:description',
+      content: text,
+    });
+    this.pageMeta.updateTag({
+      property: 'og:url',
+      content: `${environment.baseAppUrl}/card/${encodeURIComponent(
+        cardData.id
+      )}`,
+    });
+    this.pageMeta.updateTag({ name: 'description', content: text });
+  }
+
+  private removeEmojis(text: string) {
+    return text.split('`').join('').split('symbol:').join('');
   }
 }
