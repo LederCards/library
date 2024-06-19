@@ -21,6 +21,7 @@ import { CardIdPipe } from './pipes/cardid.pipe';
 import { CardNamePipe } from './pipes/cardname.pipe';
 import { FaqPipe } from './pipes/faq.pipe';
 import { MarkdownPipe } from './pipes/markdown.pipe';
+import { ProductNamePipe } from './pipes/productname.pipe';
 import { StripSpacesPipe } from './pipes/stripspaces.pipe';
 
 export function httpLoaderFactory(http: HttpClient) {
@@ -38,6 +39,7 @@ export function httpLoaderFactory(http: HttpClient) {
     CardTextComponent,
     CardIdPipe,
     FaqPipe,
+    ProductNamePipe,
     MarkdownPipe,
     CardNamePipe,
     StripSpacesPipe,
@@ -68,6 +70,7 @@ export function httpLoaderFactory(http: HttpClient) {
     CardTextComponent,
     CardIdPipe,
     FaqPipe,
+    ProductNamePipe,
     MarkdownPipe,
     CardNamePipe,
     StripSpacesPipe,

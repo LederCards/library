@@ -45,6 +45,10 @@ export class MetaService {
       this.templatesByProductId[product.id] = product.cardTemplate;
       this.rulesByProductId[product.id] = product.external?.rules ?? '';
       this.filtersByProductId[product.id] = product.filters;
+
+      product.subproducts.forEach((sub) => {
+        this.productNamesByProductId[sub.id] = sub.name;
+      });
     });
   }
 

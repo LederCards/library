@@ -29,14 +29,14 @@
               <ion-card-title>
                 {{ cardData.name }}
 
-
                 <ion-button fill="clear" color="secondary" ngxClipboard [cbContent]="copyText"
                   (click)="notify.showMessage('Copied URL to clipboard!')">
                   <ion-icon slot="icon-only" name="share-social-outline"></ion-icon>
                 </ion-button>
               </ion-card-title>
+
               <ion-card-subtitle>
-                {{ cardData.id }}
+                {{ cardData.product | productname }} &middot; {{ cardData.id }}
               </ion-card-subtitle>
             </ion-card-header>
 
