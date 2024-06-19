@@ -119,7 +119,7 @@ export class CardPage implements OnInit, OnDestroy {
       this.document.body.removeEventListener('keydown', this.backListener);
     }
 
-    this.document.querySelector('script[type="application/ld+json"]')?.remove();
+    this.document.querySelector('#card-metadata')?.remove();
   }
 
   loadCardData(id: string) {
@@ -195,6 +195,7 @@ export class CardPage implements OnInit, OnDestroy {
     this.title.setTitle(`Leder Card Library - ${cardData.name}`);
 
     const ldData = this.document.createElement('script');
+    ldData.id = 'card-metadata';
     ldData.type = 'application/ld+json';
 
     ldData.textContent = `
