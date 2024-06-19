@@ -170,7 +170,7 @@ export function queryToText(query: string, isPlural = true): string {
 }
 
 export function getProductFromQuery(query: string): string | undefined {
-  query = query.toLowerCase().trim();
+  query = (query ?? '').toLowerCase().trim();
 
   const validKeywords = [allKeywords].flat(2);
 

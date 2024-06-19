@@ -9,7 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import type { ICardErrata } from '../../../interfaces';
-import { tryNavigateToHash } from '../_shared/helpers';
+import { tryNavigateToHash, WINDOW } from '../_shared/helpers';
 import { ErrataService } from '../errata.service';
 import { MetaService } from '../meta.service';
 
@@ -23,6 +23,7 @@ export class ErrataPage implements OnInit {
   private route = inject(ActivatedRoute);
   private errataService = inject(ErrataService);
   public metaService = inject(MetaService);
+  private window = inject(WINDOW);
 
   private locale = signal<string>('');
   public productId = signal<string>('');
@@ -73,7 +74,7 @@ export class ErrataPage implements OnInit {
   }
 
   private parseQueryParams() {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(this.window.location.search);
 
     this.locale.set(urlParams.get('locale') ?? '');
     this.productId.set(urlParams.get('productId') ?? '');

@@ -1,7 +1,9 @@
+import { DOCUMENT } from '@angular/common';
 import { Component, inject, type OnInit } from '@angular/core';
 import { LocalStorage } from 'ngx-webstorage';
 import { LocaleService } from '../../../locale.service';
 import { MetaService } from '../../../meta.service';
+import { WINDOW } from '../../helpers';
 
 @Component({
   selector: 'app-below-the-fold',
@@ -11,6 +13,8 @@ import { MetaService } from '../../../meta.service';
 export class BelowTheFoldComponent implements OnInit {
   public metaService = inject(MetaService);
   public localeService = inject(LocaleService);
+  private window = inject(WINDOW);
+  private document = inject(DOCUMENT);
 
   @LocalStorage() visualMode!: string;
 
@@ -18,7 +22,8 @@ export class BelowTheFoldComponent implements OnInit {
 
   ngOnInit() {
     if (!this.visualMode) {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+      const prefersDark =
+        this.window.matchMedia?.('(prefers-color-scheme: dark)') ?? true;
       this.visualMode = prefersDark.matches ? 'dark' : 'light';
     }
 
@@ -31,7 +36,7 @@ export class BelowTheFoldComponent implements OnInit {
   }
 
   ensureThemeSet() {
-    const body = document.querySelector('body');
+    const body = this.document.querySelector('body');
     if (!body) return;
 
     body.classList.remove('dark', 'light');

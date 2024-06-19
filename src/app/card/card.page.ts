@@ -19,8 +19,11 @@ import {
 import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
 
+import { DOCUMENT } from '@angular/common';
+import { Meta } from '@angular/platform-browser';
 import { NavController } from '@ionic/angular';
 import Handlebars from 'handlebars';
+import { WINDOW } from '../_shared/helpers';
 import { ErrataService } from '../errata.service';
 import { FAQService } from '../faq.service';
 import { NotifyService } from '../notify.service';
@@ -36,6 +39,9 @@ export class CardPage implements OnInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private nav = inject(NavController);
+  private window = inject(WINDOW);
+  private document = inject(DOCUMENT);
+  private pageMeta = inject(Meta);
 
   private cardsService = inject(CardsService);
   private faqService = inject(FAQService);
@@ -47,7 +53,7 @@ export class CardPage implements OnInit, OnDestroy {
   public template = '';
 
   public get copyText(): string {
-    return window.location.toString();
+    return this.window?.location?.toString() ?? '';
   }
 
   public faq: Signal<ICardFAQEntry[]> = computed(() => {
@@ -69,7 +75,7 @@ export class CardPage implements OnInit, OnDestroy {
   private backListener = (evt: KeyboardEvent) => {
     const key = evt.key;
     if (!['Backspace', 'Escape'].includes(key)) return;
-    if (document.activeElement?.tagName === 'INPUT') return;
+    if (this.document.activeElement?.tagName === 'INPUT') return;
 
     this.nav.back();
   };
@@ -94,7 +100,7 @@ export class CardPage implements OnInit, OnDestroy {
       }
     );
 
-    document.body.addEventListener('keydown', this.backListener);
+    this.document.body.addEventListener('keydown', this.backListener);
   }
 
   ngOnDestroy() {
@@ -106,7 +112,7 @@ export class CardPage implements OnInit, OnDestroy {
     }
 
     if (this.backListener) {
-      document.body.removeEventListener('keydown', this.backListener);
+      this.document.body.removeEventListener('keydown', this.backListener);
     }
   }
 
@@ -123,6 +129,13 @@ export class CardPage implements OnInit, OnDestroy {
     this.template = compiledTemplate(cardData);
 
     this.cardData.set(cardData);
+
+    this.pageMeta.updateTag({ property: 'og:title', content: cardData.name });
+    this.pageMeta.updateTag({ property: 'og:image', content: cardData.image });
+    this.pageMeta.updateTag({
+      property: 'og:description',
+      content: cardData.text,
+    });
 
     /*
     I might like to do something like one of these, but I want to replace the url without doing a nav.

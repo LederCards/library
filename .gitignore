@@ -41,3 +41,6 @@ src/assets/expansions.json
 *-debug.log
 .runtimeconfig.json
 .nx
+
+routes.txt
+cards.json
