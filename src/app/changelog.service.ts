@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, type WritableSignal } from '@angular/core';
 import { sortBy } from 'lodash';
 import type { IChangelogEntry } from '../../interfaces';
@@ -8,6 +9,7 @@ import { LocaleService } from './locale.service';
   providedIn: 'root',
 })
 export class ChangelogService {
+  private http = inject(HttpClient);
   private localeService = inject(LocaleService);
 
   private changelogByProductIdAndLocale: WritableSignal<
@@ -15,10 +17,14 @@ export class ChangelogService {
   > = signal({});
 
   public async init() {
-    const faqData = await fetch(`${environment.baseUrl}/changelog.json`);
-    const realData = await faqData.json();
-
-    this.parseLocaleFAQs(realData);
+    return (
+      this.http
+        .get(`${environment.baseUrl}/changelog.json`)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .subscribe((realData: any) => {
+          this.parseLocaleFAQs(realData);
+        })
+    );
   }
 
   private parseLocaleFAQs(

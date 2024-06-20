@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
+import { HttpClient } from '@angular/common/http';
 import { get } from 'lodash';
 import type { IProduct, IProductFilter } from '../../interfaces';
 import { environment } from '../environments/environment';
@@ -9,6 +10,7 @@ import { LocaleService } from './locale.service';
   providedIn: 'root',
 })
 export class MetaService {
+  private http = inject(HttpClient);
   private localeService = inject(LocaleService);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,16 +29,20 @@ export class MetaService {
   }
 
   public async init() {
-    const metaData = await fetch(`${environment.baseUrl}/meta.json`);
-    const realData = await metaData.json();
+    return (
+      this.http
+        .get(`${environment.baseUrl}/meta.json`)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .subscribe((realData: any) => {
+          this.siteConfig = realData.config;
 
-    this.siteConfig = realData.config;
+          this.allProducts = realData.products;
 
-    this.allProducts = realData.products;
+          this.localeService.setLocales(realData.locales);
 
-    this.localeService.setLocales(realData.locales);
-
-    this.loadExternals();
+          this.loadExternals();
+        })
+    );
   }
 
   private loadExternals() {

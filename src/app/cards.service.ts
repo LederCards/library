@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { decompress } from 'compress-json';
 import { sortBy } from 'lodash';
 
+import { HttpClient } from '@angular/common/http';
 import { type ICard, type IProductFilter } from '../../interfaces';
 import { numericalOperator } from '../../search/operators/_helpers';
 import { parseQuery, type ParserOperator } from '../../search/search';
@@ -17,6 +18,7 @@ export class CardsService {
   private cardsByName: Record<string, ICard> = {};
   private cardsById: Record<string, ICard> = {};
 
+  private http = inject(HttpClient);
   private metaService = inject(MetaService);
 
   public get allCards(): ICard[] {
@@ -24,11 +26,15 @@ export class CardsService {
   }
 
   public async init() {
-    const cardData = await fetch(`${environment.baseUrl}/cards.min.json`);
-    const realData = await cardData.json();
-
-    const allCards = decompress(realData);
-    this.setCards(allCards);
+    return (
+      this.http
+        .get(`${environment.baseUrl}/cards.min.json`)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .subscribe((realData: any) => {
+          const allCards = decompress(realData);
+          this.setCards(allCards);
+        })
+    );
   }
 
   private setCards(cards: ICard[]) {

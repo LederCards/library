@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, type WritableSignal } from '@angular/core';
 import { sortBy } from 'lodash';
 import type { ICardErrata, ICardErrataEntry } from '../../interfaces';
@@ -8,6 +9,7 @@ import { LocaleService } from './locale.service';
   providedIn: 'root',
 })
 export class ErrataService {
+  private http = inject(HttpClient);
   private localeService = inject(LocaleService);
 
   private errataByProductIdAndLocale: WritableSignal<
@@ -19,10 +21,14 @@ export class ErrataService {
   > = signal({});
 
   public async init() {
-    const errataData = await fetch(`${environment.baseUrl}/errata.json`);
-    const realData = await errataData.json();
-
-    this.parseLocaleErrata(realData);
+    return (
+      this.http
+        .get(`${environment.baseUrl}/errata.json`)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .subscribe((realData: any) => {
+          this.parseLocaleErrata(realData);
+        })
+    );
   }
 
   private parseLocaleErrata(

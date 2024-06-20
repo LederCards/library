@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, type WritableSignal } from '@angular/core';
 import { sortBy } from 'lodash';
 import type { ICardFAQ, ICardFAQEntry } from '../../interfaces';
@@ -8,6 +9,7 @@ import { LocaleService } from './locale.service';
   providedIn: 'root',
 })
 export class FAQService {
+  private http = inject(HttpClient);
   private localeService = inject(LocaleService);
 
   private faqByProductIdAndLocale: WritableSignal<
@@ -19,10 +21,14 @@ export class FAQService {
   > = signal({});
 
   public async init() {
-    const faqData = await fetch(`${environment.baseUrl}/faq.json`);
-    const realData = await faqData.json();
-
-    this.parseLocaleFAQs(realData);
+    return (
+      this.http
+        .get(`${environment.baseUrl}/faq.json`)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .subscribe((realData: any) => {
+          this.parseLocaleFAQs(realData);
+        })
+    );
   }
 
   private parseLocaleFAQs(faqData: Record<string, Record<string, ICardFAQ[]>>) {
