@@ -1,7 +1,7 @@
 import { Component, inject, type OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs';
+import { SEOService } from './seo.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ import { filter, map, mergeMap } from 'rxjs';
 export class AppComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private title = inject(Title);
+  private seo = inject(SEOService);
 
   constructor() {}
 
@@ -29,7 +29,17 @@ export class AppComponent implements OnInit {
       )
       .subscribe((event) => {
         if (event['title']) {
-          this.title.setTitle(event['title']);
+          this.seo.updatePageTitle(event['title']);
+        }
+
+        if (event['description']) {
+          this.seo.updateMetaDescription(event['description']);
+        }
+
+        if (event['noindex']) {
+          this.seo.makePageUnindexable();
+        } else {
+          this.seo.makePageIndexable();
         }
       });
   }

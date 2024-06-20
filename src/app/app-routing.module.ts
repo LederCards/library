@@ -17,6 +17,7 @@ const routes: Routes = [
       import('./advanced/advanced.module').then((m) => m.AdvancedPageModule),
     data: {
       title: 'Leder Card Library - Advanced Search',
+      description: 'Craft a custom search query to find the cards you need.',
     },
   },
   {
@@ -25,6 +26,8 @@ const routes: Routes = [
       import('./search/search.module').then((m) => m.SearchPageModule),
     data: {
       title: 'Leder Card Library - Card Search',
+      description: 'View card search results.',
+      noindex: true,
     },
   },
   {
@@ -41,6 +44,7 @@ const routes: Routes = [
       import('./syntax/syntax.module').then((m) => m.SyntaxPageModule),
     data: {
       title: 'Leder Card Library - Search Help',
+      description: 'Get help with the search operators and syntax.',
     },
   },
   {
@@ -49,6 +53,7 @@ const routes: Routes = [
       import('./sets/sets.module').then((m) => m.SetsPageModule),
     data: {
       title: 'Leder Card Library - Product List',
+      description: 'View all products in the card library catalog.',
     },
   },
   {
@@ -56,6 +61,8 @@ const routes: Routes = [
     loadChildren: () => import('./faq/faq.module').then((m) => m.FaqPageModule),
     data: {
       title: 'Leder Card Library - FAQs',
+      description:
+        'View a list of frequently asked questions on a per-product basis.',
     },
   },
   {
@@ -64,6 +71,7 @@ const routes: Routes = [
       import('./errata/errata.module').then((m) => m.ErrataPageModule),
     data: {
       title: 'Leder Card Library - Errata',
+      description: 'View a list of errata on a per-product basis.',
     },
   },
   {
@@ -72,6 +80,7 @@ const routes: Routes = [
       import('./changelog/changelog.module').then((m) => m.ChangelogPageModule),
     data: {
       title: 'Leder Card Library - Changelogs',
+      description: 'View a list of changelogs on a per-product basis.',
     },
   },
   {

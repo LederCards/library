@@ -20,7 +20,6 @@ import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
 
 import { DOCUMENT } from '@angular/common';
-import { Meta, Title } from '@angular/platform-browser';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import Handlebars from 'handlebars';
@@ -29,6 +28,7 @@ import { WINDOW } from '../_shared/helpers';
 import { ErrataService } from '../errata.service';
 import { FAQService } from '../faq.service';
 import { NotifyService } from '../notify.service';
+import { SEOService } from '../seo.service';
 
 @Component({
   selector: 'app-card',
@@ -43,8 +43,7 @@ export class CardPage implements OnInit, OnDestroy {
   private nav = inject(NavController);
   private window = inject(WINDOW);
   private document = inject(DOCUMENT);
-  private pageMeta = inject(Meta);
-  private title = inject(Title);
+  private seo = inject(SEOService);
 
   private translateService = inject(TranslateService);
   private cardsService = inject(CardsService);
@@ -167,21 +166,15 @@ export class CardPage implements OnInit, OnDestroy {
       ? this.removeEmojis(cardData.text)
       : 'No text entered for this card.';
 
-    this.pageMeta.updateTag({ property: 'og:title', content: cardData.name });
-    this.pageMeta.updateTag({ property: 'og:image', content: cardData.image });
-    this.pageMeta.updateTag({
-      property: 'og:description',
-      content: text,
-    });
-    this.pageMeta.updateTag({
-      property: 'og:url',
-      content: `${environment.baseAppUrl}/card/${encodeURIComponent(
-        cardData.id
-      )}`,
-    });
-    this.pageMeta.updateTag({
-      name: 'description',
-      content: `${cardData.name} (${
+    this.seo.updateOGTitle(cardData.name);
+    this.seo.updateOGImage(cardData.image);
+    this.seo.updateOGDescription(text);
+    this.seo.updateOGURL(
+      `${environment.baseAppUrl}/card/${encodeURIComponent(cardData.id)}`
+    );
+
+    this.seo.updateMetaDescription(
+      `${cardData.name} (${
         cardData.id
       }) is a card in the ${this.metaService.getProductNameByProductId(
         cardData.game
@@ -189,10 +182,10 @@ export class CardPage implements OnInit, OnDestroy {
         cardData.product
       )} set. It has ${this.faq().length} FAQ and ${
         this.errata().length
-      } errata associated with it.`,
-    });
+      } errata associated with it.`
+    );
 
-    this.title.setTitle(`Leder Card Library - ${cardData.name}`);
+    this.seo.updatePageTitle(`Leder Card Library - ${cardData.name}`);
 
     const ldData = this.document.createElement('script');
     ldData.id = 'card-metadata';
