@@ -10,7 +10,7 @@ export const environment = {
   production: true,
   ssg: true,
   baseAppUrl: 'http://localhost:4000',
-  baseUrl: 'http://localhost:4000/ssgdata',
+  baseUrl: 'https://ledercardcdn.seiyria.com',
   overrideData: {
     cardsMin: (cardsMin as any).default ?? cardsMin,
     changelog: (changelog as any).default ?? changelog,
