@@ -1,4 +1,4 @@
-# Contributing to Lederlight
+# Contributing to Spotlight
 
 ## Code Contributions
 
