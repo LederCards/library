@@ -8,10 +8,11 @@
     "ng": "ng",
     "start": "ng serve --port 6709 -o",
     "build": "ng build --configuration production",
-    "build:netlify": "npm run build && npm run build:ssg",
-    "build:ssg": "npm run fetch:cards && npm run prebuild:routes && npm run prerender",
+    "build:netlify": "npm run fetch:cards && npm run generate:sitemap && npm run build && npm run build:ssg",
+    "build:ssg": "npm run prebuild:routes && npm run prerender",
     "fetch:cards": "ts-node -O \"{\\\"module\\\": \\\"commonjs\\\"}\" scripts/fetch-cards",
     "prebuild:routes": "ts-node -O \"{\\\"module\\\": \\\"commonjs\\\"}\" scripts/prebuild-routes",
+    "generate:sitemap": "ts-node -O \"{\\\"module\\\": \\\"commonjs\\\"}\" scripts/generate-sitemap",
     "test": "npm run lint && npm run jest",
     "jest": "jest --passWithNoTests",
     "jest:watch": "jest --watch",
@@ -83,6 +84,7 @@
     "jest": "^29.7.0",
     "ts-jest": "^29.0.3",
     "ts-node": "~8.3.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.4.5",
+    "xmlbuilder": "^15.1.1"
   }
 }

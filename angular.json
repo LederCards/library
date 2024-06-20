@@ -54,6 +54,8 @@
               },
               "src/_redirects",
               "src/_headers",
+              "src/robots.txt",
+              "src/sitemap.xml",
               "src/manifest.webmanifest"
             ],
             "styles": ["src/theme/variables.scss", "src/global.scss"],
