@@ -1,5 +1,8 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  provideClientHydration,
+} from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -29,7 +32,7 @@ import { MetaService } from './meta.service';
     NgxWebstorageModule.forRoot(),
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
+      enabled: environment.production && !environment.ssg,
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],

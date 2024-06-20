@@ -1,5 +1,5 @@
 const fs = require('fs-extra');
-const cards = require('../cards.json');
+const cards = require('../ssgdata/cards.json');
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cardRoutes = cards.map((c: any) => `/card/${encodeURIComponent(c.id)}`);

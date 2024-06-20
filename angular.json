@@ -92,6 +92,29 @@
                 }
               ]
             },
+            "ssg": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ssg.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
             "ci": {
               "progress": false
             }
@@ -195,6 +218,20 @@
               "extractLicenses": true,
               "vendorChunk": false
             },
+            "ssg": {
+              "buildOptimizer": true,
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ssg.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": false,
+              "extractLicenses": true,
+              "vendorChunk": false
+            },
             "ci": {}
           },
           "defaultConfiguration": "production"
@@ -203,12 +240,12 @@
           "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "app:build:development",
-              "serverTarget": "app:server:development"
+              "browserTarget": "app:build:ssg",
+              "serverTarget": "app:server:ssg"
             },
             "production": {
-              "browserTarget": "app:build:production",
-              "serverTarget": "app:server:production"
+              "browserTarget": "app:build:ssg",
+              "serverTarget": "app:server:ssg"
             }
           },
           "defaultConfiguration": "development"
@@ -221,12 +258,12 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "app:build:production",
-              "serverTarget": "app:server:production"
+              "browserTarget": "app:build:ssg",
+              "serverTarget": "app:server:ssg"
             },
             "development": {
-              "browserTarget": "app:build:development",
-              "serverTarget": "app:server:development"
+              "browserTarget": "app:build:ssg",
+              "serverTarget": "app:server:ssg"
             }
           },
           "defaultConfiguration": "production"

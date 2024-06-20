@@ -18,7 +18,7 @@
     "lint": "ng lint",
     "dev:ssr": "ng run app:serve-ssr",
     "serve:ssr": "node dist/app/server/main.js",
-    "build:ssr": "ng build && ng run app:server",
+    "build:ssr": "ng build --configuration ssg && ng run app:server",
     "prerender": "ng run app:prerender"
   },
   "private": true,

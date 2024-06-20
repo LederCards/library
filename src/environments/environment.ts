@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  ssg: false,
   baseAppUrl: 'https://cards.ledergames.com',
   baseUrl: 'https://ledercardcdn.seiyria.com',
 };
