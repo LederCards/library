@@ -4,6 +4,7 @@ import { decompress } from 'compress-json';
 import { sortBy } from 'lodash';
 
 import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 import { type ICard, type IProductFilter } from '../../interfaces';
 import { numericalOperator } from '../../search/operators/_helpers';
 import { parseQuery, type ParserOperator } from '../../search/search';
@@ -26,14 +27,22 @@ export class CardsService {
   }
 
   public init() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const finishLoad = (realData: any) => {
+      const allCards = decompress(realData);
+      this.setCards(allCards);
+    };
+
+    if (environment.overrideData.cardsMin) {
+      finishLoad(environment.overrideData.cardsMin);
+      return of(true);
+    }
+
     const obs = this.http.get(`${environment.baseUrl}/cards.min.json`);
 
-    obs
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .subscribe((realData: any) => {
-        const allCards = decompress(realData);
-        this.setCards(allCards);
-      });
+    obs.subscribe((realData) => {
+      finishLoad(realData);
+    });
 
     return obs;
   }

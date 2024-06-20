@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { get } from 'lodash';
+import { of } from 'rxjs';
 import type { IProduct, IProductFilter } from '../../interfaces';
 import { environment } from '../environments/environment';
 import { LocaleService } from './locale.service';
@@ -29,19 +30,27 @@ export class MetaService {
   }
 
   public init() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const finishLoad = (realData: any) => {
+      this.siteConfig = realData.config;
+
+      this.allProducts = realData.products;
+
+      this.localeService.setLocales(realData.locales);
+
+      this.loadExternals();
+    };
+
+    if (environment.overrideData.meta) {
+      finishLoad(environment.overrideData.meta);
+      return of(true);
+    }
+
     const obs = this.http.get(`${environment.baseUrl}/meta.json`);
 
-    obs
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .subscribe((realData: any) => {
-        this.siteConfig = realData.config;
-
-        this.allProducts = realData.products;
-
-        this.localeService.setLocales(realData.locales);
-
-        this.loadExternals();
-      });
+    obs.subscribe((realData) => {
+      finishLoad(realData);
+    });
 
     return obs;
   }

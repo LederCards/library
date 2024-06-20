@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, type WritableSignal } from '@angular/core';
 import { sortBy } from 'lodash';
+import { of } from 'rxjs';
 import type { ICardFAQ, ICardFAQEntry } from '../../interfaces';
 import { environment } from '../environments/environment';
 import { LocaleService } from './locale.service';
@@ -21,13 +22,21 @@ export class FAQService {
   > = signal({});
 
   public init() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const finishLoad = (realData: any) => {
+      this.parseLocaleFAQs(realData);
+    };
+
+    if (environment.overrideData.faq) {
+      finishLoad(environment.overrideData.faq);
+      return of(true);
+    }
+
     const obs = this.http.get(`${environment.baseUrl}/faq.json`);
 
-    obs
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .subscribe((realData: any) => {
-        this.parseLocaleFAQs(realData);
-      });
+    obs.subscribe((realData) => {
+      finishLoad(realData);
+    });
 
     return obs;
   }
