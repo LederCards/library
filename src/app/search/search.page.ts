@@ -26,37 +26,47 @@ export class SearchPage implements OnInit {
 
   ngOnInit() {
     this.searchService.isSearching.set(true);
+
+    this.route.queryParams.subscribe((params) => {
+      const newQuery = params['q'];
+      if (newQuery === this.query) return;
+
+      this.extractArgsFromQueryParamsAndSearch();
+    });
   }
 
   ionViewDidEnter() {
-    this.query =
-      this.route.snapshot.queryParamMap.get('q') ||
-      reformatQueryToJustHaveProduct(
-        this.storageService.retrieve('search-query')
-      ) ||
-      '';
+    this.extractArgsFromQueryParamsAndSearch();
+  }
 
-    this.searchService.queryDisplayValue =
-      (this.route.snapshot.queryParamMap.get('d') as QueryDisplay) ||
-      this.storageService.retrieve('search-display') ||
-      'images';
+  private extractArgsFromQueryParamsAndSearch() {
+    this.route.queryParamMap.subscribe((paramMap) => {
+      this.query =
+        paramMap.get('q') ||
+        reformatQueryToJustHaveProduct(
+          this.storageService.retrieve('search-query')
+        ) ||
+        '';
 
-    this.searchService.querySortValue =
-      (this.route.snapshot.queryParamMap.get('s') as QuerySort) ||
-      this.storageService.retrieve('search-sort') ||
-      'id';
+      this.searchService.queryDisplayValue =
+        (paramMap.get('d') as QueryDisplay) ||
+        this.storageService.retrieve('search-display') ||
+        'images';
 
-    this.searchService.querySortByValue =
-      (this.route.snapshot.queryParamMap.get('b') as QuerySortBy) ||
-      this.storageService.retrieve('search-direction') ||
-      'asc';
+      this.searchService.querySortValue =
+        (paramMap.get('s') as QuerySort) ||
+        this.storageService.retrieve('search-sort') ||
+        'id';
 
-    const setPage = parseInt(
-      this.route.snapshot.queryParamMap.get('p') || '0',
-      10
-    );
-    this.searchService.pageValue.set(setPage);
+      this.searchService.querySortByValue =
+        (paramMap.get('b') as QuerySortBy) ||
+        this.storageService.retrieve('search-direction') ||
+        'asc';
 
-    this.searchService.search(this.query, true, setPage);
+      const setPage = parseInt(paramMap.get('p') || '0', 10);
+      this.searchService.pageValue.set(setPage);
+
+      this.searchService.search(this.query, true, setPage);
+    });
   }
 }
