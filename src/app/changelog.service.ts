@@ -16,18 +16,19 @@ export class ChangelogService {
     Record<string, Record<string, IChangelogEntry[]>>
   > = signal({});
 
-  public async init() {
-    return (
-      this.http
-        .get(`${environment.baseUrl}/changelog.json`)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .subscribe((realData: any) => {
-          this.parseLocaleFAQs(realData);
-        })
-    );
+  public init() {
+    const obs = this.http.get(`${environment.baseUrl}/changelog.json`);
+
+    obs
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .subscribe((realData: any) => {
+        this.parseChangelogs(realData);
+      });
+
+    return obs;
   }
 
-  private parseLocaleFAQs(
+  private parseChangelogs(
     faqData: Record<string, Record<string, IChangelogEntry[]>>
   ) {
     const baseChangelogs = this.changelogByProductIdAndLocale();

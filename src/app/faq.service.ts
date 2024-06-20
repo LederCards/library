@@ -20,15 +20,16 @@ export class FAQService {
     Record<string, Record<string, Record<string, ICardFAQEntry[]>>>
   > = signal({});
 
-  public async init() {
-    return (
-      this.http
-        .get(`${environment.baseUrl}/faq.json`)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .subscribe((realData: any) => {
-          this.parseLocaleFAQs(realData);
-        })
-    );
+  public init() {
+    const obs = this.http.get(`${environment.baseUrl}/faq.json`);
+
+    obs
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .subscribe((realData: any) => {
+        this.parseLocaleFAQs(realData);
+      });
+
+    return obs;
   }
 
   private parseLocaleFAQs(faqData: Record<string, Record<string, ICardFAQ[]>>) {

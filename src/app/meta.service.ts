@@ -28,21 +28,22 @@ export class MetaService {
     return this.allProducts;
   }
 
-  public async init() {
-    return (
-      this.http
-        .get(`${environment.baseUrl}/meta.json`)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .subscribe((realData: any) => {
-          this.siteConfig = realData.config;
+  public init() {
+    const obs = this.http.get(`${environment.baseUrl}/meta.json`);
 
-          this.allProducts = realData.products;
+    obs
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .subscribe((realData: any) => {
+        this.siteConfig = realData.config;
 
-          this.localeService.setLocales(realData.locales);
+        this.allProducts = realData.products;
 
-          this.loadExternals();
-        })
-    );
+        this.localeService.setLocales(realData.locales);
+
+        this.loadExternals();
+      });
+
+    return obs;
   }
 
   private loadExternals() {

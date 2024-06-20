@@ -25,16 +25,17 @@ export class CardsService {
     return this.cards;
   }
 
-  public async init() {
-    return (
-      this.http
-        .get(`${environment.baseUrl}/cards.min.json`)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .subscribe((realData: any) => {
-          const allCards = decompress(realData);
-          this.setCards(allCards);
-        })
-    );
+  public init() {
+    const obs = this.http.get(`${environment.baseUrl}/cards.min.json`);
+
+    obs
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .subscribe((realData: any) => {
+        const allCards = decompress(realData);
+        this.setCards(allCards);
+      });
+
+    return obs;
   }
 
   private setCards(cards: ICard[]) {

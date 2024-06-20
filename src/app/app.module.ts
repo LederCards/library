@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxWebstorageModule } from 'ngx-webstorage';
+import { forkJoin } from 'rxjs';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -59,12 +60,14 @@ import { MetaService } from './meta.service';
           cardsService: CardsService
         ) =>
         async () => {
-          await metaService.init();
-          await localeService.init();
-          await faqService.init();
-          await errataService.init();
-          await changelogService.init();
-          await cardsService.init();
+          return forkJoin([
+            metaService.init(),
+            localeService.init(),
+            faqService.init(),
+            errataService.init(),
+            changelogService.init(),
+            cardsService.init(),
+          ]);
         },
     },
     provideClientHydration(),

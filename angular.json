@@ -240,12 +240,12 @@
           "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "app:build:development",
-              "serverTarget": "app:server:development"
+              "browserTarget": "app:build:ssg",
+              "serverTarget": "app:server:ssg"
             },
             "production": {
-              "browserTarget": "app:build:production",
-              "serverTarget": "app:server:production"
+              "browserTarget": "app:build:ssg",
+              "serverTarget": "app:server:ssg"
             }
           },
           "defaultConfiguration": "development"
@@ -258,12 +258,12 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "app:build:production",
-              "serverTarget": "app:server:production"
+              "browserTarget": "app:build:ssg",
+              "serverTarget": "app:server:ssg"
             },
             "development": {
-              "browserTarget": "app:build:development",
-              "serverTarget": "app:server:development"
+              "browserTarget": "app:build:ssg",
+              "serverTarget": "app:server:ssg"
             }
           },
           "defaultConfiguration": "production"

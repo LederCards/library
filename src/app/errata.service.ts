@@ -20,15 +20,16 @@ export class ErrataService {
     Record<string, Record<string, Record<string, ICardErrataEntry[]>>>
   > = signal({});
 
-  public async init() {
-    return (
-      this.http
-        .get(`${environment.baseUrl}/errata.json`)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .subscribe((realData: any) => {
-          this.parseLocaleErrata(realData);
-        })
-    );
+  public init() {
+    const obs = this.http.get(`${environment.baseUrl}/errata.json`);
+
+    obs
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .subscribe((realData: any) => {
+        this.parseLocaleErrata(realData);
+      });
+
+    return obs;
   }
 
   private parseLocaleErrata(
