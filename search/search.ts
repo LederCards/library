@@ -169,7 +169,7 @@ export function queryToText(query: string, isPlural = true): string {
     .join(' and ')}`;
 }
 
-export function getProductFromQuery(query: string): string | undefined {
+export function getGameFromQuery(query: string): string | undefined {
   query = (query ?? '').toLowerCase().trim();
 
   const validKeywords = [allKeywords].flat(2);
@@ -185,21 +185,21 @@ export function getProductFromQuery(query: string): string | undefined {
 }
 
 export function reformatQueryToJustHaveProduct(query: string): string {
-  const product = getProductFromQuery(query);
+  const product = getGameFromQuery(query);
   if (!product) return '';
   return `game:"${product}"`;
 }
 
 export function removeGameFromQuery(query: string) {
-  return query.replace(/\bgame:"([\w]+)"/gm, '');
+  return query.replaceAll(/\bgame:"?([\w,]+)"?/gm, '');
 }
 
 export function removeProductsFromQuery(query: string) {
-  return query.replace(/\bproduct:"([\w]+)"/gm, '');
+  return query.replace(/\bproduct:"([\w,]+)"/gm, '');
 }
 
 export function removeTagsFromQuery(query: string) {
-  return query.replace(/\btag:"([\w]+)"/gm, '');
+  return query.replace(/\btag:"([\w,]+)"/gm, '');
 }
 
 export function removeAllButBareTextAndGameFromQuery(

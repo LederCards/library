@@ -4,7 +4,7 @@ import { LocalStorage, LocalStorageService } from 'ngx-webstorage';
 
 import { isNumber, sortBy, uniqBy } from 'lodash';
 import type { IProductFilter } from '../../../interfaces';
-import { getProductFromQuery } from '../../../search/search';
+import { getGameFromQuery } from '../../../search/search';
 import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
 
@@ -141,7 +141,7 @@ export class AdvancedPage implements OnInit {
   }
 
   potentiallyLoadProductFromSearch() {
-    const product = getProductFromQuery(
+    const product = getGameFromQuery(
       this.storageService.retrieve('search-query')
     );
     if (!product) return;

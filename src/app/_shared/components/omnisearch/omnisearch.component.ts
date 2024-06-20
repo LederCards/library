@@ -9,14 +9,14 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { IonSearchbar } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { debounce } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import {
-  getProductFromQuery,
+  getGameFromQuery,
   reformatQueryToJustHaveProduct,
   removeAllButBareTextAndGameFromQuery,
   removeGameFromQuery,
 } from '../../../../../search/search';
-import { CardsService } from '../../../cards.service';
 import { MetaService } from '../../../meta.service';
 import { SearchService } from '../../../search.service';
 
@@ -30,7 +30,6 @@ export class OmnisearchComponent {
   private translateService = inject(TranslateService);
   private searchService = inject(SearchService);
   private storageService = inject(LocalStorageService);
-  private cardsService = inject(CardsService);
   public metaService = inject(MetaService);
 
   @ViewChild(IonSearchbar) searchField!: IonSearchbar;
@@ -49,12 +48,7 @@ export class OmnisearchComponent {
   }
 
   public get searchFieldValue(): string {
-    let baseValue = this.searchField.value ?? '';
-    if (this.chosenProduct && this.chosenProduct !== 'default') {
-      baseValue = `game:"${this.chosenProduct}" ${baseValue}`;
-    }
-
-    return baseValue;
+    return this.searchField.value ?? '';
   }
 
   public get placeholder(): string {
@@ -74,6 +68,12 @@ export class OmnisearchComponent {
     return text;
   }
 
+  private debouncedTypeEmit = debounce(() => {
+    // yes, we need to do this _again_ here, in case the user leaves a game: prompt in their query with a game selected
+    this.tryChangeProductBasedOnQuery(this.query);
+    this.type.emit(this.emittedText());
+  }, 1000);
+
   constructor() {
     effect(() => {
       this.query =
@@ -88,21 +88,47 @@ export class OmnisearchComponent {
         this.query = this.queryString ?? '';
       }
 
-      this.chosenProduct = getProductFromQuery(this.query) ?? 'default';
-
-      this.query = removeGameFromQuery(this.query).trim();
+      this.tryChangeProductBasedOnQuery(this.query);
     });
   }
 
   doEnter(newText: string) {
-    this.enter.emit(newText);
+    this.tryChangeProductBasedOnQuery(newText);
+    this.enter.emit(this.emittedText());
   }
 
   changeText(newText: string) {
-    this.type.emit(newText);
+    if (this.hasFinishedGameThought(newText)) {
+      this.tryChangeProductBasedOnQuery(newText);
+    }
+
+    this.debouncedTypeEmit();
+  }
+
+  hasFinishedGameThought(text: string) {
+    return (text.match(/\bgame:"?([\w,]+)"? /gm)?.length ?? 0) > 0;
+  }
+
+  tryChangeProductBasedOnQuery(text: string) {
+    if (!text.includes('game:')) return;
+
+    const foundGame = getGameFromQuery(text) ?? '';
+    if (this.metaService.getProductNameByProductId(foundGame)) {
+      this.chosenProduct = foundGame;
+    } else {
+      this.chosenProduct = 'default';
+    }
+
+    this.query = removeGameFromQuery(text).trim();
   }
 
   changeProduct(productName: string) {
+    if (
+      productName !== 'default' &&
+      !this.metaService.getProductNameByProductId(productName)
+    )
+      return;
+
     this.chosenProduct = productName;
 
     this.searchField.value = removeAllButBareTextAndGameFromQuery(
@@ -110,5 +136,13 @@ export class OmnisearchComponent {
     );
 
     this.changeText(this.searchFieldValue);
+  }
+
+  private emittedText(): string {
+    const baseText =
+      this.chosenProduct && this.chosenProduct !== 'default'
+        ? `game:${this.chosenProduct}`
+        : '';
+    return `${baseText} ${this.query}`.trim();
   }
 }

@@ -6,9 +6,9 @@
   <ion-icon class="search-dropdown" name="caret-down-outline" color="black"></ion-icon>
 </div>
 
-<ion-searchbar #search class="search themed" [ngClass]="[big() ? 'big' : '']" [debounce]="1000"
-  (ionChange)="changeText(searchFieldValue)" searchIcon="''" (keyup.enter)="doEnter(searchFieldValue)"
-  [(ngModel)]="query" [placeholder]="placeholder"></ion-searchbar>
+<ion-searchbar #search class="search themed" [ngClass]="[big() ? 'big' : '']" searchIcon="''"
+  (ionInput)="changeText(searchFieldValue)" (ionChange)="changeText(searchFieldValue)"
+  (keyup.enter)="doEnter(searchFieldValue)" [(ngModel)]="query" [placeholder]="placeholder"></ion-searchbar>
 
 <ion-popover #popover [dismissOnSelect]="true">
   <ng-template>
