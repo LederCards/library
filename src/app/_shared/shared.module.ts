@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { of, type Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CardTextComponent } from './components/card-text/card-text.component';
 import { CardIconComponent } from './components/cardicon/cardicon.component';
@@ -24,7 +25,18 @@ import { MarkdownPipe } from './pipes/markdown.pipe';
 import { ProductNamePipe } from './pipes/productname.pipe';
 import { StripSpacesPipe } from './pipes/stripspaces.pipe';
 
-export function httpLoaderFactory(http: HttpClient) {
+export class TranslateLocalJSONLoader implements TranslateLoader {
+  getTranslation(lang: string): Observable<unknown> {
+    const locales = environment.overrideData.locale;
+    return of(locales[lang as keyof typeof locales]);
+  }
+}
+
+export function httpOrLocalLoaderFactory(http: HttpClient) {
+  if (environment.ssg) {
+    return new TranslateLocalJSONLoader();
+  }
+
   return new TranslateHttpLoader(http, `${environment.baseUrl}/i18n/`, '.json');
 }
 
@@ -55,7 +67,7 @@ export function httpLoaderFactory(http: HttpClient) {
       defaultLanguage: 'en-US',
       loader: {
         provide: TranslateLoader,
-        useFactory: httpLoaderFactory,
+        useFactory: httpOrLocalLoaderFactory,
         deps: [HttpClient],
       },
     }),

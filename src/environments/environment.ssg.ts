@@ -9,7 +9,7 @@ import * as meta from '../../ssgdata/meta.json';
 export const environment = {
   production: true,
   ssg: true,
-  baseAppUrl: 'http://localhost:4000',
+  baseAppUrl: 'https://cards.ledergames.com',
   baseUrl: 'https://ledercardcdn.seiyria.com',
   overrideData: {
     cardsMin: (cardsMin as any).default ?? cardsMin,
@@ -18,7 +18,7 @@ export const environment = {
     faq: (faq as any).default ?? faq,
     meta: (meta as any).default ?? meta,
     locale: {
-      enUS: (enUS as any).default ?? enUS,
+      'en-US': (enUS as any).default ?? enUS,
     },
   },
 };
