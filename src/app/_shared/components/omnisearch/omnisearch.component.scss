@@ -13,14 +13,19 @@
 
 .search-dropdown-container {
   position: absolute;
-  top: 24px;
-  left: 24px;
+  top: 8px;
+  left: 16px;
   align-items: center;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 12;
   cursor: pointer;
+
+  &.big {
+    top: 24px;
+    left: 24px;
+  }
 }
 
 .search-icon {

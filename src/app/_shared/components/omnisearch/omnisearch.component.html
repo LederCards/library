@@ -1,5 +1,5 @@
-<div class="search-dropdown-container" (click)="popover.present($event)" (keydown.enter)="popover.present()"
-  tabindex="0">
+<div class="search-dropdown-container" [ngClass]="[big() ? 'big' : '']" (click)="popover.present($event)"
+  (keydown.enter)="popover.present()" tabindex="0">
   <ion-img class="search-icon"
     [src]="'https://ledercardcdn.seiyria.com/symbols/product-' + chosenProduct + '.webp'"></ion-img>
 
