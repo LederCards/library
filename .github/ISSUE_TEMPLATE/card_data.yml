@@ -1,0 +1,21 @@
+name: Card Data Issues
+description: File a report for card data issues (images, text, links, etc).
+title: "[Card Data] - "
+labels: [card data, good first issue, help wanted]
+assignees:
+  - ledergamesmatt
+body:
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      description: Please answer the following questions for yourself before submitting an issue.
+      options:
+        - label: I have searched the issue tracker to check if the issue has already been reported.
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Describe the card data issues
+      description: Please provide any and all affected cards, FAQs, erratum, changelog pages, etc. that relate to this issue.
+    validations:
+      required: true
