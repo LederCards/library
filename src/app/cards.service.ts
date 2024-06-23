@@ -9,6 +9,7 @@ import { type ICard, type IProductFilter } from '../../interfaces';
 import { numericalOperator } from '../../search/operators/_helpers';
 import { parseQuery, type ParserOperator } from '../../search/search';
 import { environment } from '../environments/environment';
+import { LocaleService } from './locale.service';
 import { MetaService } from './meta.service';
 
 @Injectable({
@@ -20,6 +21,7 @@ export class CardsService {
   private cardsById: Record<string, ICard> = {};
 
   private http = inject(HttpClient);
+  private localeService = inject(LocaleService);
   private metaService = inject(MetaService);
 
   public get allCards(): ICard[] {
@@ -89,7 +91,9 @@ export class CardsService {
   }
 
   public getCardById(id: string): ICard | undefined {
-    return this.cards.find((c) => c.id === id);
+    return this.cards.find(
+      (c) => c.id === id && c.locale === this.localeService.currentLocale()
+    );
   }
 
   public getAllUniqueAttributes(attribute: keyof ICard): string[] {

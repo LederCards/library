@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 
 import { Meta, Title } from '@angular/platform-browser';
@@ -8,6 +9,11 @@ import { Meta, Title } from '@angular/platform-browser';
 export class SEOService {
   private pageMeta = inject(Meta);
   private title = inject(Title);
+  private document = inject(DOCUMENT);
+
+  public updatePageLanguage(lang: string): void {
+    this.document.documentElement.lang = lang;
+  }
 
   public updateOGTitle(newTitle: string): void {
     this.pageMeta.updateTag({ property: 'og:title', content: newTitle });

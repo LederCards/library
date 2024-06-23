@@ -1,6 +1,7 @@
-import { Component, inject, type OnInit } from '@angular/core';
+import { Component, effect, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs';
+import { LocaleService } from './locale.service';
 import { SEOService } from './seo.service';
 
 @Component({
@@ -12,8 +13,14 @@ export class AppComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private seo = inject(SEOService);
+  private locale = inject(LocaleService);
 
-  constructor() {}
+  constructor() {
+    effect(() => {
+      const currentLocale = this.locale.currentLocale();
+      this.seo.updatePageLanguage(currentLocale);
+    });
+  }
 
   ngOnInit(): void {
     this.router.events

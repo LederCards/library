@@ -1,8 +1,10 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   signal,
+  untracked,
   viewChild,
   type ElementRef,
   type OnDestroy,
@@ -27,6 +29,7 @@ import { environment } from '../../environments/environment';
 import { WINDOW } from '../_shared/helpers';
 import { ErrataService } from '../errata.service';
 import { FAQService } from '../faq.service';
+import { LocaleService } from '../locale.service';
 import { NotifyService } from '../notify.service';
 import { SEOService } from '../seo.service';
 
@@ -46,6 +49,7 @@ export class CardPage implements OnInit, OnDestroy {
   private seo = inject(SEOService);
 
   private translateService = inject(TranslateService);
+  private localeService = inject(LocaleService);
   private cardsService = inject(CardsService);
   private faqService = inject(FAQService);
   private errataService = inject(ErrataService);
@@ -82,6 +86,18 @@ export class CardPage implements OnInit, OnDestroy {
 
     this.nav.back();
   };
+
+  constructor() {
+    effect(() => {
+      if (!this.cardData) return;
+
+      this.localeService.currentLocale();
+
+      untracked(() => {
+        this.loadCardData(this.route.snapshot.paramMap.get('id') ?? '');
+      });
+    });
+  }
 
   ngOnInit() {
     const cardId = this.route.snapshot.paramMap.get('id');

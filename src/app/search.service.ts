@@ -1,10 +1,11 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal, untracked } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { sortBy } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import type { ICard } from '../../interfaces';
 import { queryToText } from '../../search/search';
 import { CardsService } from './cards.service';
+import { LocaleService } from './locale.service';
 
 export type QueryDisplay = 'images' | 'text';
 export type QuerySort = keyof ICard;
@@ -18,6 +19,7 @@ export class SearchService {
   private route = inject(ActivatedRoute);
   private cardsService = inject(CardsService);
   private storageService = inject(LocalStorageService);
+  private localeService = inject(LocaleService);
 
   public visibleCards = signal<ICard[]>([]);
   public queryDesc = signal<string>('');
@@ -41,6 +43,16 @@ export class SearchService {
   public querySortValue: QuerySort = 'name';
   public querySortByValue: QuerySortBy = 'asc';
 
+  constructor() {
+    effect(() => {
+      this.localeService.currentLocale();
+
+      untracked(() => {
+        this.redoCurrentSearch();
+      });
+    });
+  }
+
   search(query: string, changePage = true, setPage = -1) {
     this.isSearching.set(true);
 
@@ -51,7 +63,9 @@ export class SearchService {
     this.displayTotal.set(0);
     this.displayMaximum.set(0);
 
-    this.queriedCards = this.cardsService.searchCards(this.queryValue);
+    this.queriedCards = this.cardsService
+      .searchCards(this.queryValue)
+      .filter((c) => c.locale === this.localeService.currentLocale());
     this.doExtraSorting();
 
     if (changePage) {

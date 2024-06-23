@@ -1,5 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,9 @@ export class LocaleService {
   private validLocales: string[] = [];
 
   public get allLocales() {
+    if (!environment.production) {
+      return [...this.validLocales, 'te-ST'];
+    }
     return this.validLocales;
   }
 
