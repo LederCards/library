@@ -5,6 +5,7 @@ import {
   input,
   output,
   ViewChild,
+  type OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonSearchbar } from '@ionic/angular';
@@ -25,12 +26,14 @@ import { SearchService } from '../../../search.service';
   templateUrl: './omnisearch.component.html',
   styleUrls: ['./omnisearch.component.scss'],
 })
-export class OmnisearchComponent {
+export class OmnisearchComponent implements OnDestroy {
   private route = inject(ActivatedRoute);
   private translateService = inject(TranslateService);
   private searchService = inject(SearchService);
   private storageService = inject(LocalStorageService);
   public metaService = inject(MetaService);
+
+  private isDestroyed = false;
 
   @ViewChild(IonSearchbar) searchField!: IonSearchbar;
 
@@ -69,6 +72,8 @@ export class OmnisearchComponent {
   }
 
   private debouncedTypeEmit = debounce(() => {
+    if (this.isDestroyed) return;
+
     // yes, we need to do this _again_ here, in case the user leaves a game: prompt in their query with a game selected
     this.tryChangeProductBasedOnQuery(this.query);
     this.type.emit(this.emittedText());
@@ -77,11 +82,11 @@ export class OmnisearchComponent {
   constructor() {
     effect(() => {
       this.query =
-        this.initialQuery() ||
-        this.searchService.queryString() ||
+        this.initialQuery() ??
+        this.searchService.queryString() ??
         reformatQueryToJustHaveProduct(
           this.storageService.retrieve('search-query')
-        ) ||
+        ) ??
         '';
 
       if (!this.query) {
@@ -90,6 +95,10 @@ export class OmnisearchComponent {
 
       this.tryChangeProductBasedOnQuery(this.query);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.isDestroyed = true;
   }
 
   doEnter(newText: string) {
