@@ -22,3 +22,4 @@ Check out the [contributing guide](CONTRIBUTING.md) for more information.
 1. Change `https://ledercardcdn.seiyria.com` to your desired URL. At this time, it can't be changed easily in one place, so a find+replace all will be necessary. The `cards` repository will also need a [script update](https://github.com/LederCards/cards/blob/master/scripts/build-card-data.ts#L20) to change the base URL of the images.
 1. If you're me (@seiyria), you're going to want to have two netlify apps set up for deployment. You'll want to configure those, the domains for those, as well as update any URLs in the GitHub actions workflows.
 1. Make sure DNS entries exist for both applications.
+1. Update the `cards` repo action to point to the new `Library` repo for cross-building.
