@@ -11,24 +11,21 @@
   }
 }
 
-.search-icon {
+.search-dropdown-container {
   position: absolute;
+  top: 24px;
+  left: 24px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 12;
   cursor: pointer;
-  top: 50%;
-  transform: translateY(-50%);
-  left: calc(24px);
-  z-index: 10;
-  height: 32px;
-  width: 32px;
 }
 
-.search-dropdown {
-  position: absolute;
-  cursor: pointer;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 60px;
-  z-index: 12;
+.search-icon {
+  height: 32px;
+  width: 32px;
 }
 
 .product-entry {
