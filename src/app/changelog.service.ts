@@ -79,6 +79,6 @@ export class ChangelogService {
     locale: string
   ): IChangelogEntry[] | undefined {
     const changelog = this.changelogByProductIdAndLocale();
-    return changelog?.[productId]?.[locale];
+    return changelog?.[productId]?.[locale].reverse();
   }
 }
