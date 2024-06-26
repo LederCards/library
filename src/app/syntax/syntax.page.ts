@@ -17,6 +17,7 @@ import {
   textDescription,
 } from '../../../search/operators';
 import { navigateTo, tryNavigateToHash } from '../_shared/helpers';
+import { MetaService } from '../meta.service';
 
 @Component({
   selector: 'app-syntax',
@@ -24,6 +25,8 @@ import { navigateTo, tryNavigateToHash } from '../_shared/helpers';
   styleUrls: ['./syntax.page.scss'],
 })
 export class SyntaxPage implements OnInit {
+  public metaService = inject(MetaService);
+
   private domSanitizer = inject(DomSanitizer);
   private translateService = inject(TranslateService);
 
