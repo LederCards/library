@@ -58,17 +58,23 @@
           <div class="map-title">{{ 'Components.BelowTheFold.CategorySupport' | translate }}</div>
           <hr>
 
+          @if(metaService.getSiteConfigProperty('features.faq')) {
           <div class="map-item">
             <a routerLink="/faq">{{ 'Components.BelowTheFold.FAQ' | translate }}</a>
           </div>
+          }
 
+          @if(metaService.getSiteConfigProperty('features.errata')) {
           <div class="map-item">
             <a routerLink="/errata">{{ 'Components.BelowTheFold.Errata' | translate }}</a>
           </div>
+          }
 
+          @if(metaService.getSiteConfigProperty('features.changelog')) {
           <div class="map-item">
             <a routerLink="/changelog">{{ 'Components.BelowTheFold.Changelog' | translate }}</a>
           </div>
+          }
 
           @if(metaService.getSiteConfigProperty('features.askaquestion')) {
           <div class="map-item">
