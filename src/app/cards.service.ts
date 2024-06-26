@@ -92,7 +92,9 @@ export class CardsService {
 
   public getCardById(id: string): ICard | undefined {
     return this.cards.find(
-      (c) => c.id === id && c.locale === this.localeService.currentLocale()
+      (c) =>
+        c.id.toLowerCase() === id.toLowerCase() &&
+        c.locale === this.localeService.currentLocale()
     );
   }
 
