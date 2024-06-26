@@ -15,6 +15,17 @@
   --card-height: var(--size-normal-large);
 
   display: inline-block;
+
+  &.text {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    .card-info {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
 }
 
 .card-image-container {
@@ -63,6 +74,31 @@
 }
 
 .card-text-container {
-  width: var(--card-width);
-  height: var(--card-height);
+  .title-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+
+    ion-button {
+      margin-right: 8px;
+    }
+  }
+
+  hr {
+    border-top: 1px solid var(--ion-color-secondary);
+  }
+
+  ion-card-content {
+    padding-top: 4px;
+    padding-bottom: 12px;
+  }
+
+  ion-list {
+    padding: 0;
+    margin-left: -16px;
+  }
+
+  ion-label {
+    margin: 0;
+  }
 }

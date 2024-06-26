@@ -1,7 +1,8 @@
-@if(card) {
+@if(cardData(); as card) {
 @if(display() === 'images') {
 <div class="card-image-container">
-  <ion-img [src]="card.image" class="card-image" [ngClass]="[size(), card.imageClass ?? '']" [alt]="altText"></ion-img>
+  <ion-img [src]="card.image" class="card-image" [ngClass]="[size(), card.imageClass ?? '']"
+    [alt]="altText()"></ion-img>
 </div>
 }
 
@@ -12,10 +13,45 @@
       <ion-list>
         <ion-item>
           <ion-label text-wrap>
-            <div><strong>{{ card.name }}</strong></div>
-            <br>
+            <div class="title-row">
+              <a [routerLink]="['/card', card.id]" [queryParams]="{ q: queryString }">
+                <strong>{{ card.name }}</strong>
+              </a>
+            </div>
 
             <app-card-text [text]="card.text"></app-card-text>
+
+            @if(faq().length > 0) {
+            <hr>
+
+            <ion-list>
+              @for(entry of faq(); track $index) {
+              <ion-item>
+                <ion-label text-wrap>
+                  <h3 [innerHTML]="'Q: ' + (entry.q | faq:card.game | markdown)"></h3>
+                  <div>
+                    <p [innerHTML]="'A: ' + (entry.a | faq:card.game | markdown)"></p>
+                  </div>
+                </ion-label>
+              </ion-item>
+              }
+            </ion-list>
+            }
+
+
+            @if(errata().length > 0) {
+            <hr>
+
+            <ion-list>
+              @for(entry of errata(); track $index) {
+              <ion-item>
+                <ion-label text-wrap>
+                  <p [innerHTML]="'&bull; ' + entry.text | faq:card.game | markdown"></p>
+                </ion-label>
+              </ion-item>
+              }
+            </ion-list>
+            }
           </ion-label>
         </ion-item>
       </ion-list>

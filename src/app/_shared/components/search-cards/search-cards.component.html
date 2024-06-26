@@ -29,6 +29,8 @@
     <ion-grid class="cards">
       <ion-row>
         @for(card of searchService.visibleCards(); track card.id) {
+
+        @if(searchService.queryDisplayValue === 'images') {
         <ion-col [sizeMd]="3" [sizeSm]="6" [sizeXs]="12">
           <div class="card-container">
             <a [routerLink]="['/card', card.id]" [queryParams]="{ q: queryString }">
@@ -37,6 +39,17 @@
             </a>
           </div>
         </ion-col>
+        }
+
+        @if(searchService.queryDisplayValue === 'text') {
+        <ion-col [sizeXs]="12">
+          <div class="card-container text">
+            <app-card-display class="card text" [cardCode]="card.id"
+              [display]="searchService.queryDisplayValue"></app-card-display>
+          </div>
+        </ion-col>
+        }
+
         }
       </ion-row>
     </ion-grid>
