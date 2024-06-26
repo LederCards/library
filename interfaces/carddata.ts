@@ -13,4 +13,7 @@ export interface ICard {
 
   imageClass?: string;
   meta: Record<string, number>;
+
+  faq?: number;
+  errata?: number;
 }

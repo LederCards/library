@@ -118,6 +118,15 @@ export class AdvancedPage implements OnInit {
       if (this.searchQuery.meta[filter.prop]) return;
 
       if (filter.type === 'number') {
+        if (['FAQ', 'Errata'].includes(filter.name)) {
+          this.searchQuery.meta[filter.prop] = {
+            operator: '>',
+            value: undefined,
+          };
+
+          return;
+        }
+
         this.searchQuery.meta[filter.prop] = {
           operator: '=',
           value: undefined,
@@ -165,6 +174,13 @@ export class AdvancedPage implements OnInit {
       this.visibleFilters = this.metaService.getFiltersByProductId(product);
       this.visibleTags = this.tagsByProduct[product];
     }
+
+    this.visibleFilters.unshift(
+      ...([
+        { name: 'FAQ', prop: 'faq', type: 'number' },
+        { name: 'Errata', prop: 'errata', type: 'number' },
+      ] as IProductFilter[])
+    );
   }
 
   getSearchQuery() {

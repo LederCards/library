@@ -8,6 +8,8 @@ import { type ICardHelp } from '../../../interfaces';
 import { TranslateService } from '@ngx-translate/core';
 import {
   cardDescription,
+  errataDescription,
+  faqDescription,
   nameDescription,
   productDescription,
   subproductDescription,
@@ -28,6 +30,8 @@ export class SyntaxPage implements OnInit {
   public allOperators: ICardHelp[] = [
     cardDescription,
     textDescription,
+    errataDescription,
+    faqDescription,
     nameDescription,
     productDescription,
     subproductDescription,

@@ -9,6 +9,8 @@ import { type ICard, type IProductFilter } from '../../interfaces';
 import { numericalOperator } from '../../search/operators/_helpers';
 import { parseQuery, type ParserOperator } from '../../search/search';
 import { environment } from '../environments/environment';
+import { ErrataService } from './errata.service';
+import { FAQService } from './faq.service';
 import { LocaleService } from './locale.service';
 import { MetaService } from './meta.service';
 
@@ -23,6 +25,8 @@ export class CardsService {
   private http = inject(HttpClient);
   private localeService = inject(LocaleService);
   private metaService = inject(MetaService);
+  private faqService = inject(FAQService);
+  private errataService = inject(ErrataService);
 
   public get allCards(): ICard[] {
     return this.cards;
@@ -59,6 +63,15 @@ export class CardsService {
   }
 
   // card utilities
+  private reformatCardsWithErrataAndFAQ(): ICard[] {
+    return this.cards.map((card) => ({
+      ...card,
+      faq: this.faqService.getCardFAQ(card.game, card.name).length ?? 0,
+      errata:
+        this.errataService.getCardErrata(card.game, card.name).length ?? 0,
+    }));
+  }
+
   public getCardByIdOrName(codeOrName: string): ICard | undefined {
     return (
       this.cardsById[codeOrName] ?? this.cardsByName[codeOrName] ?? undefined
@@ -66,7 +79,8 @@ export class CardsService {
   }
 
   public searchCards(query: string): ICard[] {
-    return parseQuery(this.cards, query, this.getExtraFilterOperators());
+    const formattedCards = this.reformatCardsWithErrataAndFAQ();
+    return parseQuery(formattedCards, query, this.getExtraFilterOperators());
   }
 
   public getExtraFilterOperators() {

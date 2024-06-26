@@ -4,13 +4,25 @@ import * as parser from 'search-query-parser';
 
 import { type ICard } from '../interfaces';
 
-import { bare, card, name, product, subproduct, tag, text } from './operators';
+import {
+  bare,
+  card,
+  errata,
+  faq,
+  name,
+  product,
+  subproduct,
+  tag,
+  text,
+} from './operators';
 
 const allKeywords = [
   ['id'], // exact text
   ['name', 'n'], // loose text
   ['cardtext', 't'], // loose text
   ['game', 'g'], // exact text
+  ['faq', 'f'], // numerical
+  ['errata', 'e'], // numerical
   ['product', 'expansion', 'p', 'e'], // exact text
   ['tag'], // array search
 ];
@@ -24,6 +36,8 @@ const operators: ParserOperator[] = [
   card,
   name,
   text,
+  faq,
+  errata,
   product,
   subproduct,
   tag,
@@ -78,6 +92,24 @@ const allQueryFormatters = [
     formatter: (result: Record<string, any>) => {
       const value = result['cardtext'];
       return `"${value}"`;
+    },
+  },
+  {
+    key: 'errata',
+    includes: 'is',
+    excludes: 'is not',
+    formatter: (result: Record<string, any>) => {
+      const value = result['errata'] ?? 0;
+      return `${value}`;
+    },
+  },
+  {
+    key: 'faq',
+    includes: 'is',
+    excludes: 'is not',
+    formatter: (result: Record<string, any>) => {
+      const value = result['faq'] ?? 0;
+      return `${value}`;
     },
   },
   /*
@@ -138,35 +170,41 @@ export function queryToText(query: string, isPlural = true): string {
 
   const result = properOperatorsInsteadOfAliases(firstResult);
 
-  const text = [];
+  const textArrayEntries = [];
 
   const gameResult = result['game'];
   if (gameResult) {
-    text.push(`in ${gameResult}`);
+    textArrayEntries.push(`in ${gameResult}`);
   }
 
   allQueryFormatters.forEach((queryFormatter) => {
     const { key, includes, excludes, formatter } = queryFormatter;
 
     if (result[key]) {
-      text.push(`${key} ${includes} ${formatter(result)}`);
+      textArrayEntries.push(`${key} ${includes} ${formatter(result)}`);
     }
     if (result.exclude?.[key]) {
-      text.push(`${key} ${excludes} ${formatter(result.exclude)}`);
+      textArrayEntries.push(`${key} ${excludes} ${formatter(result.exclude)}`);
     }
   });
 
   if (result['in']) {
-    text.push(`in ${result['in']}`);
+    textArrayEntries.push(`in ${result['in']}`);
   }
 
   if (result['text']) {
-    text.push(`"${result['text']}" is in name or card id`);
+    textArrayEntries.push(`"${result['text']}" is in name or card id`);
   }
 
-  return `${cardText} ${text[0]} ${text.length > 1 ? 'where' : ''} ${text
-    .slice(1)
-    .join(' and ')}`;
+  if (query.includes('game:')) {
+    return `${cardText} ${textArrayEntries[0]} ${
+      textArrayEntries.length > 1 ? 'where' : ''
+    } ${textArrayEntries.slice(1).join(' and ')}`;
+  }
+
+  return `${cardText} ${
+    textArrayEntries.length > 0 ? 'where' : ''
+  } ${textArrayEntries.join(' and ')}`;
 }
 
 export function getGameFromQuery(query: string): string | undefined {

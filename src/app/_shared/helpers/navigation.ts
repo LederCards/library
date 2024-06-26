@@ -1,5 +1,4 @@
 export function tryNavigateToHash() {
-  console.log(document.location.hash);
   if (!document.location.hash) return;
 
   setTimeout(() => {
