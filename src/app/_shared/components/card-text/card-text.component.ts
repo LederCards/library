@@ -23,6 +23,10 @@ export class CardTextComponent {
   }
 
   private fixText(): string {
+    if (!this.text()) {
+      return `_This card has no text entered._`;
+    }
+
     return (this.text() ?? '')
       .split('\n')
       .join('<br>')
