@@ -118,15 +118,6 @@ export class AdvancedPage implements OnInit {
       if (this.searchQuery.meta[filter.prop]) return;
 
       if (filter.type === 'number') {
-        if (['FAQ', 'Errata'].includes(filter.name)) {
-          this.searchQuery.meta[filter.prop] = {
-            operator: '>',
-            value: undefined,
-          };
-
-          return;
-        }
-
         this.searchQuery.meta[filter.prop] = {
           operator: '=',
           value: undefined,
@@ -174,13 +165,6 @@ export class AdvancedPage implements OnInit {
       this.visibleFilters = this.metaService.getFiltersByProductId(product);
       this.visibleTags = this.tagsByProduct[product];
     }
-
-    this.visibleFilters.unshift(
-      ...([
-        { name: 'FAQ', prop: 'faq', type: 'number' },
-        { name: 'Errata', prop: 'errata', type: 'number' },
-      ] as IProductFilter[])
-    );
   }
 
   getSearchQuery() {
@@ -203,6 +187,14 @@ export class AdvancedPage implements OnInit {
         (e: { value: string }) => `${e.value}`
       );
       queryAttributes.push(`product:"${exactExpansions.join(',')}"`);
+    }
+
+    if (this.searchQuery.hasFAQ) {
+      queryAttributes.push(`faq:>0`);
+    }
+
+    if (this.searchQuery.hasErrata) {
+      queryAttributes.push(`errata:>0`);
     }
 
     if (this.searchQuery.tags.length > 0) {

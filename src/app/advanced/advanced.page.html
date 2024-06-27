@@ -77,6 +77,38 @@
         </ion-col>
       </ion-row>
 
+      <!-- faq -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+
+          @if(metaService.getSiteConfigProperty('icons.advanced.FAQ')) {
+          <ion-icon [name]="metaService.getSiteConfigProperty('icons.advanced.FAQ')" color="primary"></ion-icon>
+          }
+
+          <span>{{ 'Pages.AdvancedSearch.FAQLabel' | translate }}</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-checkbox [(ngModel)]="searchQuery.hasFAQ"></ion-checkbox>
+        </ion-col>
+      </ion-row>
+
+      <!-- errata -->
+      <ion-row>
+        <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
+
+          @if(metaService.getSiteConfigProperty('icons.advanced.Errata')) {
+          <ion-icon [name]="metaService.getSiteConfigProperty('icons.advanced.Errata')" color="primary"></ion-icon>
+          }
+
+          <span>{{ 'Pages.AdvancedSearch.ErrataLabel' | translate }}</span>
+        </ion-col>
+
+        <ion-col class="search" [sizeXs]="12" [sizeMd]="6">
+          <ion-checkbox [(ngModel)]="searchQuery.hasErrata"></ion-checkbox>
+        </ion-col>
+      </ion-row>
+
       <!-- tags -->
       <ion-row>
         <ion-col class="criteria" [sizeXs]="12" [sizeMd]="2" [offsetMd]="2">
