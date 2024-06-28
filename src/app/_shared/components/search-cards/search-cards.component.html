@@ -5,7 +5,7 @@
 }
 
 @if(searchService.displayTotal() === 0 && !searchService.isSearching()) {
-<div class="no-results ion-text-center">
+<div class="no-results ion-text-center print-hide">
   <h2>{{ 'Pages.SearchResults.NoResults.Header' | translate }}</h2>
   <p>{{ 'Pages.SearchResults.NoResults.Subheader' | translate }} <a target="_blank" [routerLink]="['/syntax']">{{
       'Pages.SearchResults.NoResults.HelpGuide' | translate }}</a>.</p>
@@ -16,7 +16,7 @@
 <ng-container>
   <ng-container *ngTemplateOutlet="cardSwitches"></ng-container>
 
-  <ion-grid class="info">
+  <ion-grid class="info print-hide">
     <ion-row>
       <ion-col class="search-descriptor">
         <span>{{ searchService.displayCurrent() | number }} - {{ searchService.displayMaximum() | number }}
@@ -25,7 +25,7 @@
     </ion-row>
   </ion-grid>
 
-  <div class="page-container">
+  <div class="page-container printable">
     <ion-grid class="cards">
       <ion-row>
         @for(card of searchService.visibleCards(); track card.id) {
@@ -62,7 +62,7 @@
 }
 
 <ng-template #cardSwitches>
-  <ion-grid class="switches">
+  <ion-grid class="switches print-hide">
     <ion-row>
       <ion-col [sizeXs]="12" [sizeMd]="6" [sizeLg]="2">
         <div class="text-display">{{ 'Pages.SearchResults.Results.Sorter.As' | translate }}</div>
