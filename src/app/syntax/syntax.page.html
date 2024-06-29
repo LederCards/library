@@ -16,7 +16,7 @@
       <ion-row>
         @for(operator of allOperators; track $index) {
         <ion-col [sizeXs]="12" [sizeMd]="3">
-          <ion-button shape="round" expand="full" fill="outline" (click)="navigateTo(operator.id)">
+          <ion-button shape="round" expand="full" fill="outline" color="secondary" (click)="navigateTo(operator.id)">
             <ion-icon [name]="operator.icon" slot="start"></ion-icon>
             {{ 'Pages.SyntaxHelp.Operators.' + operator.name + '.Name' | translate }}
           </ion-button>
