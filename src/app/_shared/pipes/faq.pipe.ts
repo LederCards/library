@@ -22,7 +22,7 @@ export class FaqPipe implements PipeTransform {
       return `<a href="${rulesUrl}/#${p1}" target="_blank">${p1}</a>`;
     });
 
-    const linkRegex = /\$link:([\w'"\- ]+)\$/gm;
+    const linkRegex = /\$link:([\w'"\-& ]+)\$/gm;
     value = value.replace(linkRegex, (match, p1) => {
       if (!productId) return p1;
 
