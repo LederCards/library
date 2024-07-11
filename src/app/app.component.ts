@@ -1,5 +1,10 @@
 import { Component, effect, inject, type OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  NavigationSkipped,
+  Router,
+} from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs';
 import { LocaleService } from './locale.service';
 import { SEOService } from './seo.service';
@@ -25,7 +30,10 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.router.events
       .pipe(
-        filter((event) => event instanceof NavigationEnd),
+        filter(
+          (event) =>
+            event instanceof NavigationEnd || event instanceof NavigationSkipped
+        ),
         map(() => this.route),
         map((route) => {
           while (route.firstChild) route = route.firstChild;
