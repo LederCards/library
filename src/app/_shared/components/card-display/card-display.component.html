@@ -11,7 +11,7 @@
   <ion-card class="card-info">
     <ion-card-content>
       <ion-list>
-        <ion-item>
+        <ion-item lines="none">
           <ion-label text-wrap>
             <div class="title-row">
               <a [routerLink]="['/card', card.id]" [queryParams]="{ q: queryString }">
@@ -26,7 +26,7 @@
 
             <ion-list>
               @for(entry of faq(); track $index) {
-              <ion-item>
+              <ion-item lines="none" class="faq-item">
                 <ion-label text-wrap>
                   <h3 [innerHTML]="'Q: ' + (entry.q | faq:card.game | markdown)"></h3>
                   <div>
@@ -44,7 +44,7 @@
 
             <ion-list>
               @for(entry of errata(); track $index) {
-              <ion-item>
+              <ion-item lines="none">
                 <ion-label text-wrap>
                   <p [innerHTML]="'&bull; ' + entry.text | faq:card.game | markdown"></p>
                 </ion-label>
