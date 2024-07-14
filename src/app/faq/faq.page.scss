@@ -44,3 +44,7 @@ ion-item-group {
     border: 1px solid var(--ion-color-light);
   }
 }
+
+ion-item-group {
+  break-inside: avoid;
+}
