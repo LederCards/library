@@ -34,7 +34,7 @@
         <ion-col [sizeMd]="3" [sizeSm]="6" [sizeXs]="12">
           <div class="card-container">
             <a [routerLink]="['/card', card.id]" [queryParams]="{ q: queryString }">
-              <app-card-display class="card" [cardCode]="card.id"
+              <app-card-display class="card print-hide" [cardCode]="card.id"
                 [display]="searchService.queryDisplayValue"></app-card-display>
             </a>
           </div>
