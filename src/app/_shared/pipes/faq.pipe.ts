@@ -9,8 +9,9 @@ export class FaqPipe implements PipeTransform {
   private metaService = inject(MetaService);
   private cardsService = inject(CardsService);
 
-  transform(value: string, ...args: string[]): string {
+  transform(value: string, ...args: (string | undefined)[]): string {
     const [productId] = args;
+    if (!productId) return value ?? '';
 
     const ruleRegex = /\$rule:([\d.]+)\$/gm;
     value = value.replace(ruleRegex, (match, p1) => {

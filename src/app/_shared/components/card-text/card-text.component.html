@@ -1,1 +1,1 @@
-<p [innerHtml]="html">{{ text() }}</p>
+<p [innerHtml]="html | faq:product() | markdown">{{ text() }}</p>

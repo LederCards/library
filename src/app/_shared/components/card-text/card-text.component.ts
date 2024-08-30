@@ -9,6 +9,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class CardTextComponent {
   public text = input.required<string>();
+  public product = input<string>();
 
   public html = '';
 

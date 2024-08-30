@@ -32,7 +32,7 @@
               @for(errataEntry of entry.errata; track $index) {
               <ion-item>
                 <ion-label text-wrap>
-                  <p [innerHTML]="errataEntry.text | faq:productId() | markdown"></p>
+                  <app-card-text [text]="errataEntry.text" [product]="productId()"></app-card-text>
                 </ion-label>
               </ion-item>
               }

@@ -114,7 +114,8 @@
                 @for(entry of errata(); track $index) {
                 <ion-item>
                   <ion-label text-wrap>
-                    <p [innerHTML]="'&bull; ' + entry.text | faq:cardData.game | markdown"></p>
+
+                    <app-card-text [text]="'&bull; ' + entry.text" [product]="cardData.game"></app-card-text>
                   </ion-label>
                 </ion-item>
                 }
