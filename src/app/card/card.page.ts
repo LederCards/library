@@ -111,6 +111,14 @@ export class CardPage implements OnInit, OnDestroy {
 
         const href = (evt.target as HTMLAnchorElement)?.href;
         if (!href) return;
+
+        // external links
+        if (new URL(href).origin !== location.origin) {
+          this.window.open(href, '_blank');
+          return;
+        }
+
+        // internal links
         if (href.includes('faq') || href.includes('errata')) return;
 
         const url = new URL(href);
