@@ -5,5 +5,6 @@ export interface ICardFAQEntry {
 
 export interface ICardFAQ {
   card: string;
+  cardDisplay?: string;
   faq: ICardFAQEntry[];
 }

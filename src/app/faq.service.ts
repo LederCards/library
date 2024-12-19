@@ -51,7 +51,7 @@ export class FAQService {
       Object.keys(faqData[productId]).forEach((locale) => {
         baseFAQs[productId][locale] = sortBy(
           faqData[productId][locale],
-          'card'
+          (cardFAQ) => cardFAQ.cardDisplay || cardFAQ.card
         );
 
         faqData[productId][locale].forEach((cardFAQ) => {

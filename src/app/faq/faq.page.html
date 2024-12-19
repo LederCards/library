@@ -25,7 +25,7 @@
             <ion-item-group>
               <ion-item-divider>
                 <ion-label [id]="entry.card | cardid">
-                  <span [innerHTML]="'$link:' + entry.card + '$' | faq:productId()"></span>
+                  <span [innerHTML]="'$link:' + entry.card + '$' | faq:productId():entry.cardDisplay"></span>
                 </ion-label>
               </ion-item-divider>
 

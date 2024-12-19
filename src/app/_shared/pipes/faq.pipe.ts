@@ -10,7 +10,7 @@ export class FaqPipe implements PipeTransform {
   private cardsService = inject(CardsService);
 
   transform(value: string, ...args: (string | undefined)[]): string {
-    const [productId] = args;
+    const [productId, cardDisplay] = args;
     if (!productId) return value ?? '';
 
     const ruleRegex = /\$rule:([\d.]+)\$/gm;
@@ -20,7 +20,9 @@ export class FaqPipe implements PipeTransform {
       const rulesUrl = this.metaService.getRulesByProductId(productId);
       if (!rulesUrl) return p1;
 
-      return `<a href="${rulesUrl}/#${p1}" target="_blank">${p1}</a>`;
+      return `<a href="${rulesUrl}/#${p1}" target="_blank">${
+        cardDisplay || p1
+      }</a>`;
     });
 
     const linkRegex = /\$link:([\w'"\-& ]+)\$/gm;
@@ -32,7 +34,7 @@ export class FaqPipe implements PipeTransform {
 
       return `<a href="card/${encodeURIComponent(
         foundCard.id
-      )}" target="_blank">${foundCard.name}</a>`;
+      )}" target="_blank">${cardDisplay || foundCard.name}</a>`;
     });
 
     value = value.replace('\n', '<br>');
