@@ -66,7 +66,7 @@ export class CardsService {
   private reformatCardsWithErrataAndFAQ(): ICard[] {
     return this.cards.map((card) => ({
       ...card,
-      faq: this.faqService.getCardFAQ(card.game, card.name).length ?? 0,
+      faq: this.faqService.getCardFAQ(card.game, card).length ?? 0,
       errata:
         this.errataService.getCardErrata(card.game, card.name).length ?? 0,
     }));

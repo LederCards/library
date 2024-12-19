@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, type WritableSignal } from '@angular/core';
 import { sortBy } from 'lodash';
 import { of } from 'rxjs';
-import type { ICardFAQ, ICardFAQEntry } from '../../interfaces';
+import type { ICard, ICardFAQ, ICardFAQEntry } from '../../interfaces';
 import { environment } from '../environments/environment';
 import { LocaleService } from './locale.service';
 
@@ -93,10 +93,14 @@ export class FAQService {
     return faq?.[productId]?.[locale];
   }
 
-  public getCardFAQ(productId: string, card: string): ICardFAQEntry[] {
+  public getCardFAQ(productId: string, card: ICard): ICardFAQEntry[] {
     const faq = this.faqByProductLocaleCard();
     const locale = this.localeService.currentLocale();
 
-    return faq[productId]?.[locale]?.[card] ?? [];
+    return (
+      faq[productId]?.[locale]?.[card.id] ??
+      faq[productId]?.[locale]?.[card.name] ??
+      []
+    );
   }
 }

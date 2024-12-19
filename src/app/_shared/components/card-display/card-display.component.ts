@@ -35,7 +35,7 @@ export class CardDisplayComponent {
     const cardData = this.cardData();
     if (!cardData) return [];
 
-    return this.faqService.getCardFAQ(cardData.game, cardData.name);
+    return this.faqService.getCardFAQ(cardData.game, cardData);
   });
 
   public errata: Signal<ICardErrataEntry[]> = computed(() => {
