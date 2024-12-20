@@ -1,7 +1,19 @@
 import { get, isArray } from 'lodash';
 import type * as parser from 'search-query-parser';
 
+import { marked } from 'marked';
 import { type ICard } from '../../interfaces';
+
+function getMarkdownStripRenderer(): marked.Renderer {
+  const renderer = new marked.Renderer();
+
+  renderer.codespan = (text: string) => text;
+  renderer.paragraph = (text: string) => text;
+  renderer.strong = (text: string) => text;
+  renderer.em = (text: string) => text;
+
+  return renderer;
+}
 
 function getValueFromCard<T>(card: ICard, prop: keyof ICard): T {
   return get(card, prop) as T;
@@ -201,6 +213,8 @@ export function partialWithOptionalExactTextOperator(
       return cards;
     }
 
+    const renderer = getMarkdownStripRenderer();
+
     // map all of the aliases (the same alias is an OR)
     return aliases
       .map((alias) => {
@@ -222,11 +236,13 @@ export function partialWithOptionalExactTextOperator(
 
                 const val = getValueFromCard<string>(c, key) ?? '';
 
+                const strippedText = marked.parse(val.toString(), { renderer });
+
                 if (isExact) {
-                  return val.toString().toLowerCase() === searchString;
+                  return strippedText.toLowerCase() === searchString;
                 }
 
-                return val.toString().toLowerCase().includes(i);
+                return strippedText.toLowerCase().includes(i);
               })
             );
           }
