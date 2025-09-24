@@ -89,6 +89,14 @@
           <div class="map-title">{{ 'Components.BelowTheFold.CategoryMore' | translate }}</div>
           <hr>
 
+          @if(metaService.getSiteConfigProperty('features.ruleslibrary')) {
+          <div class="map-item">
+            <a target="_blank" [href]="metaService.getSiteConfigProperty('links.ruleslibrary')">{{
+              'Components.BelowTheFold.Ruleslibrary' | translate
+              }}</a>
+          </div>
+          }
+
           @if(metaService.getSiteConfigProperty('features.github')) {
           <div class="map-item">
             <a target="_blank" [href]="metaService.getSiteConfigProperty('links.github')">{{
