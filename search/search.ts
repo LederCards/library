@@ -141,7 +141,7 @@ const allQueryFormatters = [
       const tags: string[] = isString(value)
         ? [value]
         : (value as unknown as string[]);
-      return `${tags.map((x) => `"${x}"`).join(' or ')}`;
+      return `${tags.map((x) => `"${x}"`).join(' and ')}`;
     },
   },
 ];

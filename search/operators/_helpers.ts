@@ -123,40 +123,38 @@ export function arraySearchOperator(aliases: string[], key: keyof ICard) {
       return cards;
     }
 
-    // map all of the aliases (the same alias is an OR)
-    return aliases
-      .map((alias) => {
+    let foundCards = cards;
+    // map all of the aliases (the same alias is an AND)
+    aliases.forEach((alias) => {
         if (!(results[alias] || results.exclude?.[alias])) {
           // if we have no results for this alias, we return no cards
-          return []
+          return
         }
-
-        let foundCards = cards;
 
         // otherwise we treat it as inclusion, and get those cards
         if (results[alias]) {
-          const search = isArray(results[alias])
-            ? results[alias]
-            : [results[alias]];
+          let search = results[alias];
+          if (!isArray(results[alias])) {
+            search = [search];
+          }
           const validItems = search.map((x: string) =>
             x.toString().toLowerCase()
           );
-          foundCards = foundCards.filter((c) =>
-            validItems.some((i: string) => {
+          foundCards = foundCards.filter((c) => {
               const arr = getValueFromCard<string[]>(c, key);
-
-              if (i === 'none') {
-                return arr.length === 0;
-              }
-
-              const innerSearches = arr.map((x) =>
+              const cardValues = arr.map((x) =>
                 x.toString().toLowerCase()
               );
-              return innerSearches.some(
-                (x) => x.toString().toLowerCase() === i.toLowerCase()
-              );
-            })
-          );
+
+              // Check each tag is present in card
+              for (let i = 0; i < validItems.length; i++) {
+                if (cardValues.indexOf(validItems[i]) == -1) {
+                  return false;
+                }
+              }
+
+              return true;
+          });
         }
 
         // if we have an exclusion rule for the alias (-alias), we ignore those cards
@@ -186,9 +184,10 @@ export function arraySearchOperator(aliases: string[], key: keyof ICard) {
           );
         }
 
-        return foundCards;
-      })
-      .flat();
+        return
+      });
+
+      return foundCards
   };
 }
 
