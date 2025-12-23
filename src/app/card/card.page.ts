@@ -60,7 +60,8 @@ export class CardPage implements OnInit, OnDestroy {
   public template = '';
 
   public get copyText(): string {
-    return this.window?.location?.toString() ?? '';
+    const location = this.window.location;
+    return `${location.origin}${location.pathname}`
   }
 
   public faq: Signal<ICardFAQEntry[]> = computed(() => {
