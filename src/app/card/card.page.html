@@ -48,9 +48,9 @@
                       <app-card-text [text]="cardData.text"></app-card-text>
                     </div>
 
-                    @if(template) {
+                    @if(template()) {
                     <br>
-                    <div [innerHTML]="template"></div>
+                    <div [innerHTML]="template()"></div>
                     }
                   </ion-label>
                 </ion-item>

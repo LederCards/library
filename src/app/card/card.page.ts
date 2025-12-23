@@ -3,20 +3,17 @@ import {
   computed,
   effect,
   inject,
-  signal,
-  untracked,
   viewChild,
   type ElementRef,
   type OnDestroy,
   type OnInit,
   type Signal,
-  type WritableSignal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  type ICard,
-  type ICardErrataEntry,
-  type ICardFAQEntry,
+import type {
+  ICard,
+  ICardErrataEntry,
+  ICardFAQEntry,
 } from '../../../interfaces';
 import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
@@ -29,9 +26,9 @@ import { environment } from '../../environments/environment';
 import { WINDOW } from '../_shared/helpers';
 import { ErrataService } from '../errata.service';
 import { FAQService } from '../faq.service';
-import { LocaleService } from '../locale.service';
 import { NotifyService } from '../notify.service';
 import { SEOService } from '../seo.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-card',
@@ -49,15 +46,26 @@ export class CardPage implements OnInit, OnDestroy {
   private seo = inject(SEOService);
 
   private translateService = inject(TranslateService);
-  private localeService = inject(LocaleService);
   private cardsService = inject(CardsService);
   private faqService = inject(FAQService);
   private errataService = inject(ErrataService);
   public metaService = inject(MetaService);
   public notify = inject(NotifyService);
 
-  public cardData: WritableSignal<ICard | undefined> = signal(undefined);
-  public template = '';
+  private routeParamMap = toSignal(this.route.paramMap, { initialValue: this.route.snapshot.paramMap });
+  public cardData = computed(() => {
+    const id = this.routeParamMap().get('id');
+    return id ? this.cardsService.getCardById(id) : undefined
+  });
+
+  public template = computed(() => {
+    const cardData = this.cardData();
+    if (!cardData) return "";
+
+    const template = this.metaService.getTemplateByProductId(cardData.game);
+    const compiled = Handlebars.compile(template);
+    return compiled(cardData)
+  });
 
   public get copyText(): string {
     return this.window?.location?.toString() ?? '';
@@ -89,20 +97,22 @@ export class CardPage implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      if (!this.cardData) return;
+      const data = this.cardData();
+      if (data) this.updateMeta(data);
+    })
 
-      this.localeService.currentLocale();
-
-      untracked(() => {
-        this.loadCardData(this.route.snapshot.paramMap.get('id') ?? '');
-      });
-    });
+    // Redirect to the home page if this card doesn't exist, but take care
+    // to only do it after the fetch of card data is complete
+    effect(() => {
+      if (this.cardsService.loaded) {
+        if (!this.cardData()) {
+          this.router.navigate(['/']);
+        }
+      }
+    })
   }
 
   ngOnInit() {
-    const cardId = this.route.snapshot.paramMap.get('id');
-    this.loadCardData(cardId ?? '');
-
     this.clickListener = this.cardPage()?.nativeElement.addEventListener(
       'click',
       (evt: Event) => {
@@ -143,38 +153,6 @@ export class CardPage implements OnInit, OnDestroy {
     }
 
     this.document.querySelector('#card-metadata')?.remove();
-  }
-
-  loadCardData(id: string) {
-    const cardData = this.cardsService.getCardById(id);
-
-    if (!cardData) {
-      this.router.navigate(['/']);
-      return;
-    }
-
-    const template = this.metaService.getTemplateByProductId(cardData.game);
-    const compiledTemplate = Handlebars.compile(template ?? '');
-    this.template = compiledTemplate(cardData);
-
-    this.cardData.set(cardData);
-
-    this.updateMeta(cardData);
-
-    /*
-    I might like to do something like one of these, but I want to replace the url without doing a nav.
-    But, they don't currently work right. Either it does a navigation event (latter), or it won't load you load into the page directly (former).
-
-    this.location.replaceState(
-      `/card/${id}`,
-      `q=${this.route.snapshot.queryParamMap.get('q') ?? ''}`
-    );
-
-    this.router.navigate(['/card', id], {
-      queryParams: { q: this.route.snapshot.queryParamMap.get('q') ?? '' },
-      replaceUrl: true,
-    });
-    */
   }
 
   search(query: string) {
