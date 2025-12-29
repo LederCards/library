@@ -40,7 +40,7 @@ export class SearchService {
   private queryValue = '';
 
   public queryDisplayValue: QueryDisplay = 'images';
-  public querySortValue: QuerySort = 'name';
+  public querySortValue: QuerySort = 'id';
   public querySortByValue: QuerySortBy = 'asc';
 
   constructor() {
@@ -118,15 +118,24 @@ export class SearchService {
   }
 
   private updateParams() {
+    const snapshot = this.route.snapshot.queryParamMap;
+    const params: { [key: string]: string | number } = {};
+
+    // Set a parameter only if it's already in the query parameters or if it's
+    // not the default
+    const setParam = <T extends string | number>(key: string, value: T, def: T) => {
+      if (value !== def || snapshot.has(key)) params[key] = value;
+    }
+
+    setParam('q', this.queryValue, "");
+    setParam('d', this.queryDisplayValue, 'images');
+    setParam('s', this.querySortValue, 'id');
+    setParam('b', this.querySortByValue, 'asc');
+    setParam('p', this.pageValue(), 0);
+
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: {
-        q: this.queryValue,
-        d: this.queryDisplayValue,
-        s: this.querySortValue,
-        b: this.querySortByValue,
-        p: this.pageValue(),
-      },
+      queryParams: params,
       queryParamsHandling: 'merge',
       replaceUrl: true,
     });
