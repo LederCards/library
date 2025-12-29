@@ -1,11 +1,11 @@
-import { computed, inject, Injectable, signal, type Signal, type WritableSignal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { decompress } from 'compress-json';
 import { sortBy } from 'lodash';
 
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
-import type { ICard, IProductFilter } from '../../interfaces';
+import { type ICard, type IProductFilter } from '../../interfaces';
 import { numericalOperator } from '../../search/operators/_helpers';
 import { parseQuery, type ParserOperator } from '../../search/search';
 import { environment } from '../environments/environment';
@@ -18,13 +18,9 @@ import { MetaService } from './meta.service';
   providedIn: 'root',
 })
 export class CardsService {
-  private cards: WritableSignal<ICard[] | null> = signal(null);
-  private cardsByName: Signal<Record<string, ICard>> = computed(
-    () => Object.fromEntries((this.allCards).map(card => [card.name, card]))
-  );
-  private cardsById: Signal<Record<string, ICard>> = computed(
-    () => Object.fromEntries((this.allCards).map(card => [card.id, card]))
-  );
+  private cards: ICard[] = [];
+  private cardsByName: Record<string, ICard> = {};
+  private cardsById: Record<string, ICard> = {};
 
   private http = inject(HttpClient);
   private localeService = inject(LocaleService);
@@ -33,19 +29,14 @@ export class CardsService {
   private errataService = inject(ErrataService);
 
   public get allCards(): ICard[] {
-    return this.cards() ?? [];
-  }
-
-  // Returns true if the service has finished the initial fetch of card data.
-  public get loaded(): boolean {
-    return this.cards() !== null
+    return this.cards;
   }
 
   public init() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const finishLoad = (realData: any) => {
       const allCards = decompress(realData);
-      this.cards.set(allCards)
+      this.setCards(allCards);
     };
 
     if (environment.overrideData.cardsMin) {
@@ -62,18 +53,28 @@ export class CardsService {
     return obs;
   }
 
+  private setCards(cards: ICard[]) {
+    this.cards = cards;
+
+    this.cards.forEach((card) => {
+      this.cardsByName[card.name] = card;
+      this.cardsById[card.id] = card;
+    });
+  }
 
   // card utilities
-  private reformatCardsWithErrataAndFAQ: Signal<ICard[]> = computed(() => this.allCards.map(card => ({
-    ...card,
-    faq: this.faqService.getCardFAQ(card.game, card).length ?? 0,
-    errata:
-      this.errataService.getCardErrata(card.game, card.name).length ?? 0,
-  })))
+  private reformatCardsWithErrataAndFAQ(): ICard[] {
+    return this.cards.map((card) => ({
+      ...card,
+      faq: this.faqService.getCardFAQ(card.game, card).length ?? 0,
+      errata:
+        this.errataService.getCardErrata(card.game, card.name).length ?? 0,
+    }));
+  }
 
   public getCardByIdOrName(codeOrName: string): ICard | undefined {
     return (
-      this.cardsById()[codeOrName] ?? this.cardsByName()[codeOrName] ?? undefined
+      this.cardsById[codeOrName] ?? this.cardsByName[codeOrName] ?? undefined
     );
   }
 
@@ -104,7 +105,7 @@ export class CardsService {
   }
 
   public getCardById(id: string): ICard | undefined {
-    return this.allCards.find(
+    return this.cards.find(
       (c) =>
         c.id.toLowerCase() === id.toLowerCase() &&
         c.locale === this.localeService.currentLocale()
@@ -113,7 +114,7 @@ export class CardsService {
 
   public getAllUniqueAttributes(attribute: keyof ICard): string[] {
     return sortBy(
-      Array.from(new Set(this.allCards.map((c) => c[attribute]).flat())),
+      Array.from(new Set(this.cards.map((c) => c[attribute]).flat())),
       (x) => x?.toString().toLowerCase()
     ) as string[];
   }
