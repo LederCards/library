@@ -36,7 +36,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrls: ['./card.page.scss'],
 })
 export class CardPage implements OnInit, OnDestroy {
-  private cardPage = viewChild<ElementRef>('cardPage');
+  private cardPage = viewChild<ElementRef<HTMLElement>>('cardPage');
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -86,15 +86,7 @@ export class CardPage implements OnInit, OnDestroy {
     return this.errataService.getCardErrata(cardData.game, cardData.name);
   });
 
-  private clickListener!: () => void;
-
-  private backListener = (evt: KeyboardEvent) => {
-    const key = evt.key;
-    if (!['Backspace', 'Escape'].includes(key)) return;
-    if (this.document.activeElement?.tagName === 'INPUT') return;
-
-    this.nav.back();
-  };
+  private destroySignal?: AbortController;
 
   constructor() {
     effect(() => {
@@ -114,17 +106,22 @@ export class CardPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.clickListener = this.cardPage()?.nativeElement.addEventListener(
+    const abort = new AbortController();
+    this.destroySignal = abort;
+
+    this.cardPage()?.nativeElement.addEventListener(
       'click',
-      (evt: Event) => {
+      (evt) => {
         evt.stopPropagation();
         evt.preventDefault();
 
-        const href = (evt.target as HTMLAnchorElement)?.href;
+        const href = (evt.target as HTMLAnchorElement | null)?.href;
         if (!href) return;
 
+        const dest = new URL(href, location.origin);
+
         // external links
-        if (new URL(href).origin !== location.origin) {
+        if (dest.origin !== location.origin) {
           this.window.open(href, '_blank');
           return;
         }
@@ -132,27 +129,27 @@ export class CardPage implements OnInit, OnDestroy {
         // internal links
         if (href.includes('faq') || href.includes('errata')) return;
 
-        const url = new URL(href);
-        const [, , cardId] = url.pathname.split('/');
+        const [, , cardId] = dest.pathname.split('/');
         this.router.navigate(['/card', decodeURIComponent(cardId)]);
-      }
+      },
+      {signal: abort.signal},
     );
 
-    this.document.body.addEventListener('keydown', this.backListener);
+    this.document.body.addEventListener(
+      'keydown',
+      (evt) => {
+        const key = evt.key;
+        if (!['Backspace', 'Escape'].includes(key)) return;
+        if (this.document.activeElement?.tagName === 'INPUT') return;
+
+        this.nav.back();
+      },
+      { signal: abort.signal }
+    );
   }
 
   ngOnDestroy() {
-    if (this.clickListener) {
-      this.cardPage()?.nativeElement.removeEventListener(
-        'click',
-        this.clickListener
-      );
-    }
-
-    if (this.backListener) {
-      this.document.body.removeEventListener('keydown', this.backListener);
-    }
-
+    this.destroySignal?.abort();
     this.document.querySelector('#card-metadata')?.remove();
   }
 
