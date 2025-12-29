@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal, type Signal, type WritableSignal } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { get } from 'lodash';
@@ -15,30 +15,40 @@ export class MetaService {
   private localeService = inject(LocaleService);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private siteConfig: any = {};
+  private siteConfig: WritableSignal<Record<string, string | undefined>> = signal({});
 
-  private allProducts: IProduct[] = [];
+  private allProducts: WritableSignal<IProduct[]> = signal([]);
+  private groupByProductId<T>(getField: (product: IProduct) => T): Record<string, T> {
+    return Object.fromEntries(this.allProducts().map(product => [product.id, getField(product)]))
+  }
 
-  private productNamesByProductId: Record<string, string> = {};
-  private templatesByProductId: Record<string, Record<string, string>> = {};
-  private rulesByProductId: Record<string, string> = {};
-  private filtersByProductId: Record<string, IProductFilter[]> = {};
-  private faqByProductId: Record<string, Record<string, string>> = {};
+  private productNamesByProductId: Signal<Record<string, string>> = computed(
+    () => ({
+      ...this.groupByProductId(product => product.name),
+      ...Object.fromEntries(this.allProducts().flatMap(product => product.subproducts.map(sub => [sub.id, sub.name]))),
+    })
+  );
+  private templatesByProductId: Signal<Record<string, Record<string, string>>> = computed(
+    () => this.groupByProductId(product => product.cardTemplate)
+  );
+  private rulesByProductId: Signal<Record<string, string>> = computed(
+    () => this.groupByProductId(product => product.external?.rules ?? '')
+  );
+  private filtersByProductId: Signal<Record<string, IProductFilter[]>> = computed(
+    () => this.groupByProductId(product => product.filters)
+  );
+  private faqByProductId: Signal<Record<string, Record<string, string>>> = computed(() => ({}));
 
   public get products() {
-    return this.allProducts;
+    return this.allProducts();
   }
 
   public init() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const finishLoad = (realData: any) => {
-      this.siteConfig = realData.config;
-
-      this.allProducts = realData.products;
-
+      this.siteConfig.set(realData.config);
+      this.allProducts.set(realData.products);
       this.localeService.setLocales(realData.locales);
-
-      this.loadExternals();
     };
 
     if (environment.overrideData.meta) {
@@ -55,43 +65,28 @@ export class MetaService {
     return obs;
   }
 
-  private loadExternals() {
-    this.allProducts.forEach((product) => {
-      this.productNamesByProductId[product.id] = product.name;
-      this.templatesByProductId[product.id] = product.cardTemplate;
-      this.rulesByProductId[product.id] = product.external?.rules ?? '';
-      this.filtersByProductId[product.id] = product.filters;
-
-      product.subproducts.forEach((sub) => {
-        this.productNamesByProductId[sub.id] = sub.name;
-      });
-    });
-  }
-
   public getProductNameByProductId(productId: string): string {
-    return this.productNamesByProductId[productId];
+    return this.productNamesByProductId()[productId] ?? "";
   }
 
   public getTemplateByProductId(productId: string): string {
-    return this.templatesByProductId[productId][
-      this.localeService.currentLocale()
-    ];
+    return this.templatesByProductId()[productId]?.[this.localeService.currentLocale()] ?? '';
   }
 
   public getRulesByProductId(productId: string): string {
-    return this.rulesByProductId[productId];
+    return this.rulesByProductId()[productId] ?? '';
   }
 
   public getFiltersByProductId(productId: string): IProductFilter[] {
-    return this.filtersByProductId[productId] ?? [];
+    return this.filtersByProductId()[productId] ?? [];
   }
 
   public getFAQByProductId(productId: string): Record<string, string> {
-    return this.faqByProductId[productId] ?? {};
+    return this.faqByProductId()[productId] ?? {};
   }
 
   public getAllFilters(): IProductFilter[] {
-    return Object.values(this.filtersByProductId).flat();
+    return Object.values(this.filtersByProductId()).flat();
   }
 
   public getSiteConfigProperty(prop: string): string | undefined {

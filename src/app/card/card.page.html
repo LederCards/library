@@ -17,7 +17,7 @@
           @if(cardData.flipSide) {
           <ion-row>
             <ion-col class="flip-col">
-              <ion-button color="secondary" (click)="loadCardData(cardData.flipSide)">Flip Card</ion-button>
+              <ion-button color="secondary" [routerLink]="['/card', cardData.flipSide]">Flip Card</ion-button>
             </ion-col>
           </ion-row>
           }
@@ -48,9 +48,9 @@
                       <app-card-text [text]="cardData.text"></app-card-text>
                     </div>
 
-                    @if(template) {
+                    @if(template()) {
                     <br>
-                    <div [innerHTML]="template"></div>
+                    <div [innerHTML]="template()"></div>
                     }
                   </ion-label>
                 </ion-item>

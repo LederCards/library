@@ -3,20 +3,17 @@ import {
   computed,
   effect,
   inject,
-  signal,
-  untracked,
   viewChild,
   type ElementRef,
   type OnDestroy,
   type OnInit,
   type Signal,
-  type WritableSignal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  type ICard,
-  type ICardErrataEntry,
-  type ICardFAQEntry,
+import type {
+  ICard,
+  ICardErrataEntry,
+  ICardFAQEntry,
 } from '../../../interfaces';
 import { CardsService } from '../cards.service';
 import { MetaService } from '../meta.service';
@@ -29,9 +26,9 @@ import { environment } from '../../environments/environment';
 import { WINDOW } from '../_shared/helpers';
 import { ErrataService } from '../errata.service';
 import { FAQService } from '../faq.service';
-import { LocaleService } from '../locale.service';
 import { NotifyService } from '../notify.service';
 import { SEOService } from '../seo.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-card',
@@ -39,7 +36,7 @@ import { SEOService } from '../seo.service';
   styleUrls: ['./card.page.scss'],
 })
 export class CardPage implements OnInit, OnDestroy {
-  private cardPage = viewChild<ElementRef>('cardPage');
+  private cardPage = viewChild<ElementRef<HTMLElement>>('cardPage');
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -49,15 +46,26 @@ export class CardPage implements OnInit, OnDestroy {
   private seo = inject(SEOService);
 
   private translateService = inject(TranslateService);
-  private localeService = inject(LocaleService);
   private cardsService = inject(CardsService);
   private faqService = inject(FAQService);
   private errataService = inject(ErrataService);
   public metaService = inject(MetaService);
   public notify = inject(NotifyService);
 
-  public cardData: WritableSignal<ICard | undefined> = signal(undefined);
-  public template = '';
+  private routeParamMap = toSignal(this.route.paramMap, { initialValue: this.route.snapshot.paramMap });
+  public cardData = computed(() => {
+    const id = this.routeParamMap().get('id');
+    return id ? this.cardsService.getCardById(id) : undefined
+  });
+
+  public template = computed(() => {
+    const cardData = this.cardData();
+    if (!cardData) return "";
+
+    const template = this.metaService.getTemplateByProductId(cardData.game);
+    const compiled = Handlebars.compile(template);
+    return compiled(cardData)
+  });
 
   public get copyText(): string {
     const location = this.window.location;
@@ -78,43 +86,42 @@ export class CardPage implements OnInit, OnDestroy {
     return this.errataService.getCardErrata(cardData.game, cardData.name);
   });
 
-  private clickListener!: () => void;
-
-  private backListener = (evt: KeyboardEvent) => {
-    const key = evt.key;
-    if (!['Backspace', 'Escape'].includes(key)) return;
-    if (this.document.activeElement?.tagName === 'INPUT') return;
-
-    this.nav.back();
-  };
+  private destroySignal?: AbortController;
 
   constructor() {
     effect(() => {
-      if (!this.cardData) return;
+      const data = this.cardData();
+      if (data) this.updateMeta(data);
+    })
 
-      this.localeService.currentLocale();
-
-      untracked(() => {
-        this.loadCardData(this.route.snapshot.paramMap.get('id') ?? '');
-      });
-    });
+    // Redirect to the home page if this card doesn't exist, but take care
+    // to only do it after the fetch of card data is complete
+    effect(() => {
+      if (this.cardsService.loaded) {
+        if (!this.cardData()) {
+          this.router.navigate(['/']);
+        }
+      }
+    })
   }
 
   ngOnInit() {
-    const cardId = this.route.snapshot.paramMap.get('id');
-    this.loadCardData(cardId ?? '');
+    const abort = new AbortController();
+    this.destroySignal = abort;
 
-    this.clickListener = this.cardPage()?.nativeElement.addEventListener(
+    this.cardPage()?.nativeElement.addEventListener(
       'click',
-      (evt: Event) => {
+      (evt) => {
         evt.stopPropagation();
         evt.preventDefault();
 
-        const href = (evt.target as HTMLAnchorElement)?.href;
+        const href = (evt.target as HTMLAnchorElement | null)?.href;
         if (!href) return;
 
+        const dest = new URL(href, location.origin);
+
         // external links
-        if (new URL(href).origin !== location.origin) {
+        if (dest.origin !== location.origin) {
           this.window.open(href, '_blank');
           return;
         }
@@ -122,60 +129,28 @@ export class CardPage implements OnInit, OnDestroy {
         // internal links
         if (href.includes('faq') || href.includes('errata')) return;
 
-        const url = new URL(href);
-        const [, , cardId] = url.pathname.split('/');
+        const [, , cardId] = dest.pathname.split('/');
         this.router.navigate(['/card', decodeURIComponent(cardId)]);
-      }
+      },
+      {signal: abort.signal},
     );
 
-    this.document.body.addEventListener('keydown', this.backListener);
+    this.document.body.addEventListener(
+      'keydown',
+      (evt) => {
+        const key = evt.key;
+        if (!['Backspace', 'Escape'].includes(key)) return;
+        if (this.document.activeElement?.tagName === 'INPUT') return;
+
+        this.nav.back();
+      },
+      { signal: abort.signal }
+    );
   }
 
   ngOnDestroy() {
-    if (this.clickListener) {
-      this.cardPage()?.nativeElement.removeEventListener(
-        'click',
-        this.clickListener
-      );
-    }
-
-    if (this.backListener) {
-      this.document.body.removeEventListener('keydown', this.backListener);
-    }
-
+    this.destroySignal?.abort();
     this.document.querySelector('#card-metadata')?.remove();
-  }
-
-  loadCardData(id: string) {
-    const cardData = this.cardsService.getCardById(id);
-
-    if (!cardData) {
-      this.router.navigate(['/']);
-      return;
-    }
-
-    const template = this.metaService.getTemplateByProductId(cardData.game);
-    const compiledTemplate = Handlebars.compile(template ?? '');
-    this.template = compiledTemplate(cardData);
-
-    this.cardData.set(cardData);
-
-    this.updateMeta(cardData);
-
-    /*
-    I might like to do something like one of these, but I want to replace the url without doing a nav.
-    But, they don't currently work right. Either it does a navigation event (latter), or it won't load you load into the page directly (former).
-
-    this.location.replaceState(
-      `/card/${id}`,
-      `q=${this.route.snapshot.queryParamMap.get('q') ?? ''}`
-    );
-
-    this.router.navigate(['/card', id], {
-      queryParams: { q: this.route.snapshot.queryParamMap.get('q') ?? '' },
-      replaceUrl: true,
-    });
-    */
   }
 
   search(query: string) {
