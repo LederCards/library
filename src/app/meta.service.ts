@@ -90,6 +90,6 @@ export class MetaService {
   }
 
   public getSiteConfigProperty(prop: string): string | undefined {
-    return get(this.siteConfig, prop);
+    return get(this.siteConfig(), prop);
   }
 }
