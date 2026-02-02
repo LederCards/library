@@ -13,9 +13,14 @@ const fs = require('fs-extra');
     'errata',
     'i18n/en-US',
   ].forEach(async (type) => {
-    const res = await fetch(`https://ledercards.netlify.app/${type}.json`);
-    const data = await res.json();
+    try {
+      const res = await fetch(`https://ledercards.netlify.app/${type}.json`);
+      const data = await res.json();
 
-    fs.writeJsonSync(`ssgdata/${type}.json`, data);
+      fs.writeJsonSync(`ssgdata/${type}.json`, data);
+    } catch(e) {
+      console.error(`failed to fetch ${type}`);
+      console.error(e);
+    }
   });
 })();
