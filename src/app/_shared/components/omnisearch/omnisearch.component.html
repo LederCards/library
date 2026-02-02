@@ -1,7 +1,7 @@
 <div class="search-dropdown-container" [ngClass]="[big() ? 'big' : '']" (click)="popover.present($event)"
   (keydown.enter)="popover.present()" tabindex="0">
   <ion-img class="search-icon"
-    [src]="'https://ledercardcdn.seiyria.com/symbols/product-' + chosenProduct + '.webp'"></ion-img>
+    [src]="'https://ledercards.netlify.app/symbols/product-' + chosenProduct + '.webp'"></ion-img>
 
   <ion-icon class="search-dropdown" name="caret-down-outline" color="black"></ion-icon>
 </div>
@@ -16,7 +16,7 @@
       <ion-list>
         <ion-item class="product-entry" (click)="changeProduct('default')">
           <ion-img slot="start" class="product-icon"
-            [src]="'https://ledercardcdn.seiyria.com/symbols/product-default.webp'"></ion-img>
+            [src]="'https://ledercards.netlify.app/symbols/product-default.webp'"></ion-img>
 
           <ion-label>
             {{ 'Common.Company' | translate }}
@@ -26,7 +26,7 @@
         @for(product of metaService.products; track product.id) {
         <ion-item class="product-entry" (click)="changeProduct(product.id)">
           <ion-img slot="start" class="product-icon"
-            [src]="'https://ledercardcdn.seiyria.com/symbols/product-' + product.id + '.webp'"></ion-img>
+            [src]="'https://ledercards.netlify.app/symbols/product-' + product.id + '.webp'"></ion-img>
 
           <ion-label>
             {{ 'Common.Products.' + (product.name | titlecase) | translate }}

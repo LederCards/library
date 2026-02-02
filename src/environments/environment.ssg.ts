@@ -10,7 +10,7 @@ export const environment = {
   production: true,
   ssg: true,
   baseAppUrl: 'https://cards.ledergames.com',
-  baseUrl: 'https://ledercardcdn.seiyria.com',
+  baseUrl: 'https://ledercards.netlify.app',
   overrideData: {
     cardsMin: (cardsMin as any).default ?? cardsMin,
     changelog: (changelog as any).default ?? changelog,

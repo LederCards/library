@@ -15,11 +15,11 @@
         ],
         "urls": [
           "https://fonts.googleapis.com/css2?family=Montserrat&amp;display=swap",
-          "https://ledercardcdn.seiyria.com/cards.min.json",
-          "https://ledercardcdn.seiyria.com/meta.json",
-          "https://ledercardcdn.seiyria.com/changelog.json",
-          "https://ledercardcdn.seiyria.com/faq.json",
-          "https://ledercardcdn.seiyria.com/errata.json"
+          "https://ledercards.netlify.app/cards.min.json",
+          "https://ledercards.netlify.app/meta.json",
+          "https://ledercards.netlify.app/changelog.json",
+          "https://ledercards.netlify.app/faq.json",
+          "https://ledercards.netlify.app/errata.json"
         ]
       }
     },
