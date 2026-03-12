@@ -19,16 +19,16 @@ This operator is special, you may also search without using the operator.
 
   examples: [
     {
-      example: '`OATH/1`',
-      explanation: 'Find specifically the card matching OATH/1',
+      example: '`ROOT/1`',
+      explanation: 'Find specifically the card matching ROOT/1',
     },
     {
-      example: '`id:=OATH/1`',
-      explanation: 'Find specifically the card matching OATH/1.',
+      example: '`id:=ROOT/1`',
+      explanation: 'Find specifically the card matching ROOT/1.',
     },
     {
-      example: '`-id:OATH`',
-      explanation: 'Exclude the cards matching OATH.',
+      example: '`-id:ROOT/1`',
+      explanation: 'Exclude the cards matching ROOT/1.',
     },
   ],
 };

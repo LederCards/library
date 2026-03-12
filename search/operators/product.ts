@@ -17,8 +17,8 @@ You can find cards that are associated with a certain product/game by using the 
 
   examples: [
     {
-      example: '`product:oath`',
-      explanation: 'Find cards belonging to Oath.',
+      example: '`product:root`',
+      explanation: 'Find cards belonging to Root.',
     },
     {
       example: '`-product:root`',
