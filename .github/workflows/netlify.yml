@@ -32,7 +32,7 @@ jobs:
       - run: npm run build:netlify
 
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v3
         with:
           publish-dir: "./dist/app/browser"
           production-deploy: ${{ github.ref_name == 'master' }}
